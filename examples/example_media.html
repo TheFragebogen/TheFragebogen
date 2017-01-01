@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title></title>
+<link rel="stylesheet" type="text/css" href="example.css">
+<script src="../thefragebogen.js">
+</script>
+<script>
+    var screens = [];
+
+    screens.push(
+        new ScreenUIElements(
+            new UIElementHTML(undefined, "Welcome to the demo version of TheFragebogen!"),
+            new UIElementHTML(undefined, "This example shows how to use media elements, such as images, audio files, and video files."),
+            new UIElementHTML(undefined, "When you are ready, please press 'Next'.")
+        )
+    );
+
+    screens.push(
+        new ScreenUIElements(
+            new UIElementHTML(undefined, "Showing an image."),
+            new QuestionnaireItemMediaImage(undefined, "The TLX scale:", false, "../svg_scales/nasa_tlx_scale.svg")
+        )
+    );
+
+    screens.push(
+        new ScreenUIElements(
+            new UIElementHTML(undefined, "Presenting audio."),
+            new QuestionnaireItemMediaAudio(undefined, "The Big Buck Bunny trailer (audio-only):", false, "http://download.blender.org/peach/trailer/trailer_400p.ogg")
+        )
+    );
+
+    screens.push(
+        new ScreenUIElements(
+            new UIElementHTML(undefined, "Presenting a video incl. audio."),
+            new QuestionnaireItemMediaVideo(undefined, "The Big Buck Bunny trailer:", false, "http://download.blender.org/peach/trailer/trailer_480p.mov")
+        )
+    );
+
+    screens.push(
+        new ScreenUIElements(
+            new UIElementHTML(undefined, "The End.")
+        )
+    );
+
+    var screenController = new ScreenController(screens);
+</script>
+<script type="text/javascript">
+    document.oncontextmenu = new Function("return false;") //Disable context menu (right click)
+
+    //Having the start()-function in an extra script-tag makes sure that it will be executed even if there are errors in the script-tag configuring TheFragebogen.
+    function start() {
+        document.body.innerHTML += "TheFragebogen loaded.";
+        if (typeof(screenController) === "undefined") {
+            document.body.innerHTML += "<br><i>Something went wrong:<\/i> Please check that thefragebogen.js was loaded and that the configuration is ok.";
+            return;
+        }
+        screenController.init(document.body);
+        screenController.preload("<br><b>Preloading media files<br><progress><\/progress>");
+    }
+</script>
+</head>
+<body onload="start()">
+<p>
+TheFragebogen will be shown here.<br>
+If something fails while starting, an error message will be shown here.
+</p>
+<p>
+Please note that this demo uses preloading of all media files.<br>
+This questionnaire will only start if <i>all</i> media files finished loading or failed to load.
+</p>
+</body>
+</html>

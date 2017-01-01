@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title></title>
+<link rel="stylesheet" type="text/css" href="example.css">
+<script src="../thefragebogen.js">
+</script>
+<style>
+      @media print {
+          body {
+              counter-reset: page;
+          }
+
+          body > div::after {
+              counter-increment: page;
+              content: "Page " counter(page);
+          }
+
+          body > div:first-of-type{
+              page-break-before:avoid;
+          }
+          body > div {
+              page-break-before: always;
+          }
+          body > div > input[type="button"]:last-of-type { /* Omit next button of ScreenUIElements */
+              display: none;
+          }
+      }
+</style>
+<script>
+    //This array stores all screens that will be shown.
+    var screens = [];
+
+    screens.push(
+        new ScreenUIElements(
+            new UIElementHTML(undefined, "Welcome to the demo version of TheFragebogen!<br><br>This demo has provides CSS to be printed.<br>Just try to print this web page."),
+            new QuestionnaireItemDefinedOne(undefined, "Are you ready?", true, ["Yes"])
+        )
+    );
+    screens.push(
+        new ScreenUIElements(
+            new UIElementHTML(undefined, "Just some basic questions.<br>The 2nd must be answered."),
+            new QuestionnaireItemDefinedOne(undefined, "QuestionnaireItemDefinedOne: Question with a defined set of options, where only one option can be selected.", false, ["Option 1", "Option 2", "Option 3"]),
+            new QuestionnaireItemDefinedMulti(undefined, "QuestionnaireItemDefinedMulti: Question with a defined set of options, where multiple options can be selected.", true, ["Option 1", "Option 2", "Option 3"])
+        )
+    );
+</script>
+<script type="text/javascript">
+    document.oncontextmenu = new Function("return false;") //Disable context menu (right click)
+
+    function start() {
+        document.body.innerHTML += "TheFragebogen loaded.";
+        if (typeof(screens) === "undefined") {
+              document.body.innerHTML += "<i>Something went wrong:<\/i> Please check the configuration.";
+              return;
+        }
+        document.body.innerHTML = "";
+        for (var i = 0; i < screens.length; i++) {
+            document.body.appendChild(screens[i].createUI());
+        }
+    }
+    window.print();
+</script>
+</head>
+<body onload="start()">
+<p>
+TheFragebogen will be shown here.<br>
+If something fails while starting, an error message will be shown here.
+</p>
+</body>
+</html>

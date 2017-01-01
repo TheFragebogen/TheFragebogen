@@ -1,0 +1,2 @@
+This grunt tasks creates a dependency graph (class structure) and concatenates the JavaScript files accordingly.
+It is a modified version of [concat_in_order](https://www.npmjs.com/package/grunt-concat-in-order), but uses the [JSDoc](http://usejsdoc.org/) annotations `@class` and `@augments`.

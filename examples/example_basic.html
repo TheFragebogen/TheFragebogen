@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title></title>
+<link rel="stylesheet" type="text/css" href="example.css">
+<style>
+    .undefinedRequired {
+      outline: none;
+      border-color: red;
+      box-shadow: 0 0 1em red;
+    }
+
+    .screenPreview table {
+        width: 100%;
+        border-collapse: collapse;
+        word-break: break-all;
+    }
+
+    .screenPreview table td, .screenPreview table th {
+        font-size: 1em;
+        border: 1px solid #98bf21;
+        padding: 3px 7px 2px 7px;
+    }
+
+    .screenPreview table th {
+        font-size: 1.1em;
+        text-align: left;
+        padding-top: 5px;
+        padding-bottom: 4px;
+        background-color: #A7C942;
+        color: #ffffff;
+    }
+
+    .screenPreview table tr.alt td {
+        color: #000000;
+        background-color: #EAF2D3;
+    }
+</style>
+<script src="../thefragebogen.js">
+</script>
+<script>
+    //This array stores all screens that will be shown.
+    var screens = [];
+
+    //The welcome screen of this questionnaire with some text and a standard question.
+    var screen1 = new ScreenUIElements(
+        new UIElementHTML(undefined, "Welcome to the demo version of TheFragebogen!<br><br>This demo gives you an overview of the available features.<br>When you are ready, please press 'Next'."),
+        new QuestionnaireItemDefinedOne(undefined, "Are you ready?", true, ["Yes"])
+    );
+    screens.push(screen1);
+
+    //This screen shows some questions.
+    var screen2 = new ScreenUIElements(
+        new UIElementHTML(undefined, "Just some basic questions.<br>The 2nd must be answered."),
+        new QuestionnaireItemDefinedOne(undefined, "QuestionnaireItemDefinedOne: Question with a defined set of options, where only one option can be selected.", false, ["Option 1", "Option 2", "Option 3"]),
+        new QuestionnaireItemDefinedMulti(undefined, "QuestionnaireItemDefinedMulti: Question with a defined set of options, where multiple options can be selected.", true, ["Option 1", "Option 2", "Option 3"])
+    );
+    screens.push(screen2);
+
+    //This screen that just waits for a defined time (in seconds).
+    var screen3 = new ScreenWait(undefined, 3, 'Just wait 3 seconds.');
+    screens.push(screen3);
+
+    //This screen "shows" questions that are answered automatically (and are not visible to the user).
+    var screen4 = new ScreenUIElements(
+        new UIElementHTML(undefined, "This screen stores data like the current data, the duration the screen was shown and the URL."),
+        new QuestionnaireItemSystemURL(),
+        new QuestionnaireItemSystemScreenDateTime(),
+        new QuestionnaireItemSystemScreenDuration(),
+        new QuestionnaireItemSystemConst("Default text", "Some stuff")
+    );
+    screens.push(screen4);
+
+    //This screen shows a preview of the collected data.
+    screens.push(new ScreenDataPreview("screenPreview"));
+
+    //This screen triggers the download all collected data (CSV).
+    screens.push(new ScreenWaitDataDownload(undefined, "The End<br>All data should now be downloaded."));
+
+    //Most important: create the ScreenController
+    var screenController = new ScreenController(screens);
+</script>
+<script type="text/javascript">
+    document.oncontextmenu = new Function("return false;") //Disable context menu (right click)
+
+    //Having the start()-function in an extra script-tag makes sure that it will be executed even if there are errors in the script-tag configuring TheFragebogen.
+    function start() {
+        document.body.innerHTML += "TheFragebogen loaded.";
+        if (typeof(screenController) === "undefined") {
+            document.body.innerHTML += "<br><i>Something went wrong:<\/i> Please check that thefragebogen.js was loaded and that the configuration is ok.";
+            return;
+        }
+        screenController.init(document.body);
+        screenController.start();
+    }
+</script>
+</head>
+<body onload="start()">
+<p>
+TheFragebogen will be shown here.<br>
+If something fails while starting, an error message will be shown here.
+</p>
+</body>
+</html>

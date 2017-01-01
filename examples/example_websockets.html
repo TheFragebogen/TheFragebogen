@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title></title>
+<link rel="stylesheet" type="text/css" href="example.css">
+<script src="../thefragebogen.js">
+</script>
+<style>
+    .undefinedConnecting {
+       background-color: gray;
+       width: 5em;
+       height: 5em;
+       margin: auto;
+    }
+    .undefinedConnected {
+       background-color: yellow;
+       width: 5em;
+       height: 5em;
+       margin: auto;
+    }
+    .undefinedReady {
+       background-color: green;
+       width: 5em;
+       height: 5em;
+       margin: auto;
+    }
+    .undefinedReconnecting {
+       background-color: #FF00FF;
+       width: 5em;
+       height: 5em;
+       margin: auto;
+    }
+</style>
+<script>
+    var screenController = new ScreenController(
+        new ScreenUIElements(
+            new UIElementHTML(undefined, "Welcome!<br><br>This demo demonstrates the interaction with other systems via Websockets."),
+            new UIElementHTML(undefined, "<p>Opening the next screen will connect to a Websocket server, send a message, and wait for the reply (echo, delay 2.5s).<\/p>"),
+            new UIElementHTML(undefined, "<p><strong>Important:<\/strong> The websocket echo server must be running on localhost:8080:<br>start <code>nodejs example_websockets_nodejs_server_echo.js<\/code>.<br>Server requires <code>npm install ws<\/code>.<\/p>")
+        ),
+        new ScreenUIElements(
+            new UIElementHTML(undefined, "On connect message is send and reply is delayed by 2.5s."),
+            new UIElementHTML(undefined, "The image shows the current connection state: <br>gray: connecting<br>yellow: connected and message send<br>green: got reply<br>magenta: lost connection and trying to reconnect."),
+            new QuestionnaireItemWaitWebsocket(undefined, "ws://localhost:8080", "HelloWorld", "HelloWorld")
+        ),
+        new ScreenUIElements(
+           new UIElementHTML(undefined, "Received correct reply."),
+           new UIElementHTML(undefined, "The End.")
+        )
+    );
+</script>
+<script type="text/javascript">
+    document.oncontextmenu = new Function("return false;") //Disable context menu (right click)
+
+    function start() {
+        document.body.innerHTML += "TheFragebogen loaded.";
+        if (typeof(screenController) === "undefined") {
+            document.body.innerHTML += "<br><i>Something went wrong:<\/i> Please check the configuration.";
+            return;
+        }
+
+        screenController.init(document.body);
+        screenController.start();
+    }
+</script>
+</head>
+<body onload="start()">
+<p>
+TheFragebogen will be shown here.<br>
+If something fails while starting, an error message will be shown here.
+</p>
+</body>
+</html>

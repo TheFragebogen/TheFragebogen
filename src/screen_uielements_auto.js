@@ -1,0 +1,35 @@
+/**
+A screen that presents one or more UIElements and reports ready _automatically_ when all UIElements are ready.
+All UIElements are visible and enabled by default.
+
+@class ScreenUIElements
+@augments Screen
+@param {string} [className] CSS class
+@param {array} arguments an array containing the UIElements of the screen
+*/
+function ScreenUIElementsAuto() {
+    ScreenUIElements.apply(this, arguments);
+}
+ScreenUIElementsAuto.prototype = Object.create(ScreenUIElements.prototype);
+ScreenUIElementsAuto.prototype.constructor = ScreenUIElementsAuto;
+
+ScreenUIElementsAuto.prototype.createUI = function() {
+    this.node = document.createElement("div");
+    this.node.className = this.className;
+
+    for (var index in this.uiElements) {
+        if (this.uiElements[index].createUI === undefined) {
+            TheFragebogen.logger.warn(this.constructor.name + ".createUI():", "Element[" + index + "] has no 'createUI' method");
+            continue;
+        }
+        var node = this.uiElements[index].createUI();
+        if (node !== undefined && node !== null) {
+            this.node.appendChild(node);
+        }
+        if (this.uiElements[index].setOnReadyStateChangedCallback instanceof Function) {
+            this.uiElements[index].setOnReadyStateChangedCallback((this._sendReadyStateChangedCallback).bind(this));
+        }
+    }
+
+    return this.node;
+};
