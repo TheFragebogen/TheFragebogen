@@ -104,14 +104,6 @@ UIElement.prototype.isReady = function() {
     return true;
 };
 /**
-@abstract
-@return {boolean} Is the element ready?
-*/
-UIElement.prototype.isReady = function() {
-    TheFragebogen.logger.debug(this.constructor.name + ".isReady()", "This method might need to be overridden.");
-    return true;
-};
-/**
 Starts preloading external media.
 Default implementation immedately sends callback `Screen._sendOnScreenPreloadedCallback()`.
 @abstract
