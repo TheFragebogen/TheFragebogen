@@ -252,7 +252,6 @@ Go to screen by screenId.
 @return {boolean} Success.
 */
 ScreenController.prototype.goToScreen = function(screenId) {
-    this.screenContainerNode.setAttribute("class", "screenContainer");
     if (this.screenContainerNode === null) {
         TheFragebogen.logger.error(this.constructor.name + ".goToScreen()", "Please call init() before.");
         return false;
