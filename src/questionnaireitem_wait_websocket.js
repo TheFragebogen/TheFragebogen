@@ -41,7 +41,7 @@ function QuestionnaireItemWaitWebsocket(className, url, messageSend, messageRece
         TheFragebogen.logger.error("QuestionnaireItemWaitWebsocket():", "messageSend and messageReceive are undefined; this component will not do anything.");
     }
 
-    this.reconnectAttempts = !isNaN(reconnectAttempts) ?  reconnectAttempts : -1;
+    this.reconnectAttempts = !isNaN(reconnectAttempts) ? reconnectAttempts : -1;
     this.timeout = !isNaN(timeout) ? Math.abs(timeout) * 1000 : 0;
     this.timeoutHandle;
 
