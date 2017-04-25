@@ -28,10 +28,29 @@ module.exports = function(grunt) {
             }
         },
         jsbeautifier: {
-            files: ['src/*.js', 'examples/*.js', 'Gruntfile.js', 'package.json'],
+            files: ['src/*.js', 'examples/*', 'tests', 'Gruntfile.js', 'package.json'],
             options: {
-                indentSize: 2,
-                preserve_newlines: true
+                js: {
+                    indent_size: 4,
+                    preserve_newlines: true,
+                    wrap_line_length: 0,
+                    end_with_newline: true
+                },
+                css: {
+                    indent_size: 4,
+                    preserve_newlines: false,
+                    max_preserve_newlines: 2,
+                    end_with_newline: true
+                },
+                html: {
+                    indent_size: 4,
+                    preserve_newlines: true,
+                    max_preserve_newlines: 2,
+                    end_with_newline: true,
+                    indent_inner_html: true,
+                    indent_scripts: "keep",
+                    extra_liners: ["head", "body", "/html", "script", "style"]
+                }
             }
         },
         qunit: {
@@ -47,9 +66,6 @@ module.exports = function(grunt) {
         run: {
             jsdoc: {
                 exec: 'jsdoc -d=doc thefragebogen.js'
-            },
-            htmltidy: {
-                exec: 'tidy -m -quiet -config tidy.config examples/*.html tests/*.html'
             },
             help: {
                 exec: 'grunt --help'
@@ -81,7 +97,7 @@ module.exports = function(grunt) {
     grunt.registerTask('default', ['includereplace', 'revision', 'concat_in_order_jsdoc', 'uglify']);
 
     grunt.registerTask('doc', ['includereplace', 'revision', 'concat_in_order_jsdoc', 'uglify', 'run:jsdoc']);
-    grunt.registerTask('format', ['jsbeautifier', 'run:htmltidy'])
+    grunt.registerTask('format', ['jsbeautifier'])
     grunt.registerTask('help', ['run:help'])
     grunt.registerTask('precommit', ['format', 'default', 'test'])
     grunt.registerTask('test', ['default', 'qunit'])
