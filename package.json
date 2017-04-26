@@ -9,6 +9,7 @@
         "grunt-contrib-qunit": "^1.2.0",
         "grunt-contrib-uglify": "^2.0.0",
         "grunt-git-revision": "0.0.1",
+        "grunt-githooks": "^0.6.0",
         "grunt-include-replace": "^5.0.0",
         "grunt-jsbeautifier": "^0.2.13",
         "grunt-run": "^0.6.0",
