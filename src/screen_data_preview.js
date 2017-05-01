@@ -3,6 +3,9 @@ A screen that shows all data that is _currently_ stored by the ScreenController.
 
 Reports nothing.
 
+Supports _pagination_.
+Default paginator is `PaginateUIButton`.
+
 @class ScreenDataPreview
 @augments Screen
 
@@ -15,10 +18,21 @@ function ScreenDataPreview(className) {
     this.className = className;
 
     this.getDataFromScreencontroller = null;
+
+    this.paginateUI = new PaginateUIButton();
 }
 
 ScreenDataPreview.prototype = Object.create(Screen.prototype);
 ScreenDataPreview.prototype.constructor = ScreenDataPreview;
+
+ScreenDataPreview.prototype.setPaginateUI = function(paginateUI) {
+    if (this.isUIcreated()) return false;
+    if (!(paginateUI instanceof PaginateUI || paginateUI === null)) return false;
+
+    this.paginateUI = paginateUI;
+    TheFragebogen.logger.debug(this.constructor.name + ".setPaginateUI()", "Set paginateUI.");
+    return true;
+};
 
 ScreenDataPreview.prototype.createUI = function() {
     //Request data
@@ -48,12 +62,10 @@ ScreenDataPreview.prototype.createUI = function() {
     tbl.appendChild(tblBody);
     this.node.appendChild(tbl);
 
-    var button = document.createElement("input");
-    button.type = "button";
-    button.value = "Next";
-    button.onclick = (this._sendReadyStateChangedCallback).bind(this);
-
-    this.node.appendChild(button);
+    if (this.paginateUI != null) {
+        this.paginateUI.setPaginateCallback(this._sendReadyStateChangedCallback.bind(this));
+        this.node.appendChild(this.paginateUI.createUI());
+    }
 
     return this.node;
 };
