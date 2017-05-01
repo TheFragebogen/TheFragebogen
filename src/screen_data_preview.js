@@ -15,8 +15,6 @@ function ScreenDataPreview(className) {
     this.className = className;
 
     this.getDataFromScreencontroller = null;
-
-    this.node = null;
 }
 
 ScreenDataPreview.prototype = Object.create(Screen.prototype);

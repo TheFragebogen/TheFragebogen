@@ -29,8 +29,6 @@ function ScreenIFrame(className, url, urlChangesToReady) {
     this.urlChanges = -1;
     this.urlChangesToReady = !isNaN(urlChangesToReady) && urlChangesToReady > 1 ? urlChangesToReady : 1;
 
-    this.node = null;
-
     TheFragebogen.logger.debug(this.constructor.name + "()", "Set: url as " + this.urlStart + ", urlChangesToReady as" + this.urlChangesToReady);
 }
 ScreenIFrame.prototype = Object.create(Screen.prototype);

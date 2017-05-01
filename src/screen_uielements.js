@@ -35,8 +35,6 @@ function ScreenUIElements(className) {
     if (this.uiElements.length < 1) {
         TheFragebogen.logger.error(this.constructor.name + "():", "No UIElements were passed to constructor.");
     }
-
-    this.node = null;
 }
 ScreenUIElements.prototype = Object.create(Screen.prototype);
 ScreenUIElements.prototype.constructor = ScreenUIElements;
