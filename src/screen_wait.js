@@ -12,8 +12,6 @@ Fancy animation(s) can be shown using CSS.
 function ScreenWait(className, time, html) {
     Screen.call(this);
 
-    this.node = null;
-
     this.className = className;
     this.time = !isNaN(time) ? Math.abs(time) * 1000 : 2;
     this.html = typeof(html) === "string" ? html : "Please wait...";

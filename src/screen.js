@@ -10,8 +10,15 @@ function Screen() {
     this.readyCallback = null;
     this.preloadedCallback = null;
     this.preloaded = true;
+    this.node = null;
 }
 Screen.prototype.constructor = Screen;
+/**
+@returns {boolean} true if the UI is created, false if not
+*/
+Screen.prototype.isUIcreated = function() {
+    return this.node !== null;
+};
 /**
 Creates the UI.
 @abstract
