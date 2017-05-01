@@ -3,7 +3,6 @@ A QuestionnaireItem that gives a _constant_ answer.
 Useful for store information that are useful in the data to be exported.
 
 @class QuestionnaireItemSystemConst
-
 @augments UIElement
 @augments UIElementInteractive
 @augments QuestionnaireItem

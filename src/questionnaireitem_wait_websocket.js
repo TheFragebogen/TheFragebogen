@@ -21,7 +21,10 @@ Uses CSS classes:
 * NOT this.className + "Required" via `Questionnaire.markRequired()`
 
 @class QuestionnaireItemWaitWebsocket
+@augments UIElement
+@augments UIElementInteractive
 @augments QuestionnaireItem
+
 @param {string} [className] CSS class
 
 @param {string} url The websocket URL, eg., ws://localhost:8080/someLocation.

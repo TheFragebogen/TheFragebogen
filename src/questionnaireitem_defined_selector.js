@@ -3,7 +3,6 @@ A QuestionnaireItem that has a predefined set of answer and one of these can be 
 A HTML select-element is used.
 
 @class QuestionnaireItemDefinedSelector
-
 @augments UIElement
 @augments UIElementInteractive
 @augments QuestionnaireItem

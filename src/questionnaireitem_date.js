@@ -1,6 +1,7 @@
 /**
 A QuestionnaireItem with a HTML5 date selector.
 
+@class QuestionnaireItemDate
 @augments UIElement
 @augments UIElementInteractive
 @augments QuestionnaireItem

@@ -2,9 +2,10 @@
 A QuestionnaireItem presenting a Visual Analogue Scale (100pt).
 
 @class QuestionnaireItemSVGVisualAnalogueScale
-
-@augments QuestionnaireItemSVG
+@augments UIElement
+@augments UIElementInteractive
 @augments QuestionnaireItem
+@augments QuestionnaireItemSVG
 
 @param {string} [className] CSS class
 @param {string} question

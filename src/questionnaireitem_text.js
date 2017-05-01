@@ -3,7 +3,6 @@ A QuestionnaireItem for one line text input.
 This item uses a HTML input field.
 
 @class QuestionnaireItemText
-
 @augments UIElement
 @augments UIElementInteractive
 @augments QuestionnaireItem

@@ -2,10 +2,10 @@
 A QuestionnaireItem presenting the 7pt Quality scale as defined in ITU-T P.851 p. 19.
 
 @class QuestionnaireItemSVGQuality7pt
-
 @augments UIElement
 @augments UIElementInteractive
 @augments QuestionnaireItem
+@augments QuestionnaireItemSVG
 
 @param {string} [className] CSS class
 @param {string} question

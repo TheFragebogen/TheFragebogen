@@ -3,9 +3,10 @@ A QuestionnaireItem presenting the NASA Task Load Index, cf. http://humansystems
 See also the manual at http://humansystems.arc.nasa.gov/groups/tlx/downloads/TLX_pappen_manual.pdf
 
 @class QuestionnaireItemSVGNASATLX
-
-@augments QuestionnaireItemSVG
+@augments UIElement
+@augments UIElementInteractive
 @augments QuestionnaireItem
+@augments QuestionnaireItemSVG
 
 @param {string} [className] CSS class
 @param {string} question
