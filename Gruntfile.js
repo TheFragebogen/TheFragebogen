@@ -52,7 +52,7 @@ module.exports = function(grunt) {
         },
         uglify: {
             options: {
-                banner: '/*! <%= pkg.name %>, <$= meta.revision %> <%= grunt.template.today("dd-mm-yyyy") %> */\n'
+                banner: '/*!\n<%= pkg.name %>\n<%= pkg.homepage %>\n<%= pkg.repository %>: <%= meta.revision %>\n<%= pkg.license %>\n<%= grunt.template.today() %>\n*/\n'
             },
             dist: {
                 files: {

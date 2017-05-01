@@ -1,7 +1,8 @@
 {
     "name": "TheFragebogen",
-    "license": "MIT",
+    "license": "MIT License",
     "repository": "https://github.com/TheFragebogen/TheFragebogen",
+    "homepage": "http://thefragebogen.de",
     "devDependencies": {
         "grunt": "^0.4.5",
         "grunt-cli": "^1.2.0",
