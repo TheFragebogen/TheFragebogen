@@ -14,6 +14,8 @@ function UIElementHTML(className, html) {
     this.className = className;
     this.html = html;
 
+    this.node = null;
+
     TheFragebogen.logger.debug(this.constructor.name + "()", "className as " + this.className + " and html as " + this.html);
 }
 UIElementHTML.prototype = Object.create(UIElement.prototype);

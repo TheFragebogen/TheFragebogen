@@ -45,6 +45,11 @@ ScreenWaitDataUpload.prototype.createUI = function() {
     span.innerHTML = this.html;
     this.node.appendChild(span);
 
+    if (this.paginateUI != null) {
+        this.paginateUI.setPaginateCallback(this._sendReadyStateChangedCallback.bind(this));
+        this.node.appendChild(this.paginateUI.createUI());
+    }
+
     return this.node;
 };
 /**

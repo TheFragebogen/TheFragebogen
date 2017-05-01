@@ -35,3 +35,7 @@ ScreenUIElementsAuto.prototype.createUI = function() {
 
     return this.node;
 };
+Screen.prototype.setPaginateUI = function(paginateUI) {
+    TheFragebogen.logger.warn(this.constructor.name + ".setPaginateUI()", "Does not support pagination.");
+    return false;
+};

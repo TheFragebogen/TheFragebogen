@@ -73,6 +73,19 @@ Screen.prototype.isReady = function() {
     return true;
 };
 /**
+Sets the `PaginateUI` for the screen.
+NOTE: Can only be called successfully if `screen.createUI()` is `false`.
+NOTE: This function is _only_ implemented by screens that provide _manual_ pagination.
+
+@abstract
+@param {function} [paginateUI] Set the `PaginateUI` to be used. Set `null` for no `paginateUI`.
+@returns {boolean} Setting the PaginateUI was successful?
+*/
+Screen.prototype.setPaginateUI = function(paginateUI) {
+    TheFragebogen.logger.warn(this.constructor.name + ".setPaginateUI()", "This method might need to be overridden.");
+    return false;
+};
+/**
 Starts preloading external media.
 Default implementation immediately sends callback `Screen._sendOnPreloadedCallback()`.
 @abstract

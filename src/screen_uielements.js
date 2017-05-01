@@ -5,6 +5,9 @@ Ready is reported when all UIElements reported ready AND the user pressed the pr
 
 DEVERLOPER: To inherit this class, `ScreenUIElements.apply(this, arguments)` MUST be used instead of `ScreenUIElements.call(this, arguments)`.
 
+Supports _pagination_.
+Default paginator is `PaginateUIButton`.
+
 @class ScreenUIElements
 @augments Screen
 
@@ -35,9 +38,20 @@ function ScreenUIElements(className) {
     if (this.uiElements.length < 1) {
         TheFragebogen.logger.error(this.constructor.name + "():", "No UIElements were passed to constructor.");
     }
+
+    this.paginateUI = new PaginateUIButton();
 }
 ScreenUIElements.prototype = Object.create(Screen.prototype);
 ScreenUIElements.prototype.constructor = ScreenUIElements;
+
+ScreenUIElements.prototype.setPaginateUI = function(paginateUI) {
+    if (this.isUIcreated()) return false;
+    if (!(paginateUI instanceof PaginateUI || paginateUI === null)) return false;
+
+    this.paginateUI = paginateUI;
+    TheFragebogen.logger.debug(this.constructor.name + ".setPaginateUI()", "Set paginateUI.");
+    return true;
+};
 
 ScreenUIElements.prototype.createUI = function() {
     this.node = document.createElement("div");
@@ -55,12 +69,10 @@ ScreenUIElements.prototype.createUI = function() {
         }
     }
 
-    var button = document.createElement("input");
-    button.type = "button";
-    button.value = "Next";
-    button.onclick = (this._sendReadyStateChangedCallback).bind(this);
-
-    this.node.appendChild(button);
+    if (this.paginateUI != null) {
+        this.paginateUI.setPaginateCallback(this._sendReadyStateChangedCallback.bind(this));
+        this.node.appendChild(this.paginateUI.createUI());
+    }
 
     return this.node;
 };
