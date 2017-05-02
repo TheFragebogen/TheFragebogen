@@ -25,7 +25,9 @@ QuestionnaireItemSVGQuality7pt.prototype._setupSVG = function() {
     this.scaleImage.setAttribute("viewBox", "0 2 136.76 21.39");
     this.scaleImage.innerHTML = '@@include("../svg_scales/quality7pt_scale_include.svg")';
 
-    if (this.labels instanceof Array && this.labels.length == 7) {
+    if (!(this.labels instanceof Array && this.labels.length === 7)) {
+        TheFragebogen.logger.warn(this.constructor.name + "._setupSVG()", "Exactly 7 labels are required as array. Got: " + this.labels);
+    } else {
         TheFragebogen.logger.debug(this.constructor.name + "._setupSVG()", "Using custom labels: " + this.labels);
 
         this.scaleImage.getElementById("label10").textContent = this.labels[0];
