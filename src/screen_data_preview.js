@@ -19,7 +19,7 @@ function ScreenDataPreview(className) {
 
     this.getDataFromScreencontroller = null;
 
-    this.paginateUI = new PaginateUIButton();
+    this.paginateUI = new PaginateUIButton(undefined, undefined, 1);
 }
 
 ScreenDataPreview.prototype = Object.create(Screen.prototype);

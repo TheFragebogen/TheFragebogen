@@ -39,7 +39,7 @@ function ScreenUIElements(className) {
         TheFragebogen.logger.error(this.constructor.name + "():", "No UIElements were passed to constructor.");
     }
 
-    this.paginateUI = new PaginateUIButton();
+    this.paginateUI = new PaginateUIButton(undefined, undefined, 1);
 }
 ScreenUIElements.prototype = Object.create(Screen.prototype);
 ScreenUIElements.prototype.constructor = ScreenUIElements;
