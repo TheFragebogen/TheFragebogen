@@ -3,7 +3,6 @@ QuestionnaireItems that have a predefined set of answer and one of these can be 
 A group of radiobuttons is used.
 
 @class QuestionnaireItemDefinedOne
-
 @augments UIElement
 @augments UIElementInteractive
 @augments QuestionnaireItem

@@ -7,6 +7,7 @@ Default timeout: 300s; should not be relevant.
 @augments Screen
 @augments ScreenWait
 @augments ScreenWaitData
+
 @param {string} [className] CSS class
 @param {string} [message="Downloading data"] Message to be displayed.
 @param {string} [filename="TheFragebogen.csv"] Name of the file to be downloaded

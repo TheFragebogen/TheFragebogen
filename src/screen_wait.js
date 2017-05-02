@@ -4,6 +4,7 @@ Fancy animation(s) can be shown using CSS.
 
 @class ScreenWait
 @augments Screen
+
 @param {string} [className] CSS class
 @param {number} [time=2] The time to wait in seconds
 @param {string} [html="Please wait..."] The HTML content to be presented.

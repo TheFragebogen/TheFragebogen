@@ -3,7 +3,6 @@ A QuestionnaireItem for text input.
 This item uses a HTML textarea.
 
 @class QuestionnaireItemTextArea
-
 @augments UIElement
 @augments UIElementInteractive
 @augments QuestionnaireItem

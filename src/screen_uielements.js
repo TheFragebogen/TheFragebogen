@@ -7,6 +7,7 @@ DEVERLOPER: To inherit this class, `ScreenUIElements.apply(this, arguments)` MUS
 
 @class ScreenUIElements
 @augments Screen
+
 @param {string} [className] CSS class
 @param {array} arguments an array containing the UIElements of the screen
 */

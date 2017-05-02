@@ -21,7 +21,10 @@ Uses CSS classes:
 * NOT this.className + "Required" via `Questionnaire.markRequired()`
 
 @class QuestionnaireItemWaitWebsocket
+@augments UIElement
+@augments UIElementInteractive
 @augments QuestionnaireItem
+
 @param {string} [className] CSS class
 
 @param {string} url The websocket URL, eg., ws://localhost:8080/someLocation.
@@ -41,7 +44,7 @@ function QuestionnaireItemWaitWebsocket(className, url, messageSend, messageRece
         TheFragebogen.logger.error("QuestionnaireItemWaitWebsocket():", "messageSend and messageReceive are undefined; this component will not do anything.");
     }
 
-    this.reconnectAttempts = !isNaN(reconnectAttempts) ?  reconnectAttempts : -1;
+    this.reconnectAttempts = !isNaN(reconnectAttempts) ? reconnectAttempts : -1;
     this.timeout = !isNaN(timeout) ? Math.abs(timeout) * 1000 : 0;
     this.timeoutHandle;
 

@@ -7,7 +7,6 @@ USER: Be aware of Cross-site origin policy: http://en.wikipedia.org/wiki/Cross-o
 The web server must be configured accordingly if upload URL is different than the URL the questionnaire was loaded from.
 
 @class ScreenWaitDataUpload
-
 @augments Screen
 @augments ScreenWait
 @augments ScreenWaitData

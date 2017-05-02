@@ -10,6 +10,7 @@ DEVERLOPER: Subclasses need to override `_createAnswerNode()`.
 @class QuestionnaireItem
 @augments UIElement
 @augments UIElementInteractive
+
 @param {string} [className] CSS class
 @param {string} question question
 @param {boolean} [required=false] Is this QuestionnaireItem required to be answered?

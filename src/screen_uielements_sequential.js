@@ -4,6 +4,7 @@ All UIElements are visible by default.
 UIElements are enabled one after another, i.e., if its predecessing UIElement reported to be ready the next one is enabled.
 
 @class ScreenUIElementsSequential
+@augments Screen
 @augments ScreenUIElements
 
 @param {string} [className] CSS class

@@ -5,7 +5,6 @@ Displays a HTML message.
 
 @abstract
 @class ScreenWaitData
-
 @augments Screen
 @augments ScreenWait
 

@@ -2,8 +2,10 @@
 A screen that presents one or more UIElements and reports ready _automatically_ when all UIElements are ready.
 All UIElements are visible and enabled by default.
 
-@class ScreenUIElements
+@class ScreenUIElementsAudo
 @augments Screen
+@augments ScreenUIElements
+
 @param {string} [className] CSS class
 @param {array} arguments an array containing the UIElements of the screen
 */

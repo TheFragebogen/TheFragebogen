@@ -3,7 +3,6 @@ A QuestionnaireItem that has a predefined set of answer and multiple of these ca
 A group of checkboxes is used.
 
 @class QuestionnaireItemDefinedMulti
-
 @augments UIElement
 @augments UIElementInteractive
 @augments QuestionnaireItem

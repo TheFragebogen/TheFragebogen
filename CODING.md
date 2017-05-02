@@ -67,18 +67,7 @@ Formatting
 
 For formatting, a Grunt task is provided: `grunt format`
 
-###JavaScript: `js_beautify` [manpage](http://manpages.ubuntu.com/manpages/wily/man1/js_beautify.1p.html).
-
-```bash
-for FILENAME in `ls *.js`; do
-  js_beautify --preserve_newlines --indent_size 4 -o $FILENAME;
-done
-```
-
-###HTML: [Tidy](http://www.html-tidy.org/)
-
-Usage:
-`tidy -m -config tidy.config *.html`
+It applies [js-beautify](https://github.com/beautify-web/js-beautify) via [grunt-jsbeautifier](https://www.npmjs.com/package/grunt-jsbeautifier) on all JavaScript/HTML/CSS files (incl. configuration files).
 
 Documentation
 ---

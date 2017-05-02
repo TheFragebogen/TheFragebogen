@@ -38,8 +38,9 @@ Getting started (commands for [Ubuntu 16.10](http://releases.ubuntu.com/16.10/))
 3. Install [npm](https://www.npmjs.com/): `sudo apt install npm`
 4. Install [grunt](http://gruntjs.com/): `sudo npm install -g grunt-cli`
 5. Install dependencies of the project: `npm install`
-6. Build the library: `grunt`.
+6. Build the library: `grunt`
 7. Check out the provided examples (see [`examples/`](examples/)).
+8. Install GIT hooks: `grunt githooks`
 
 ### Build the documentation:
 

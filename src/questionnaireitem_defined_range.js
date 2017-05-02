@@ -3,7 +3,6 @@ A QuestionnaireItem that can be used to input number ranges.
 Uses the HTML input type="range".
 
 @class QuestionnaireItemDefinedRange
-
 @augments UIElement
 @augments UIElementInteractive
 @augments QuestionnaireItem
