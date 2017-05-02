@@ -54,15 +54,25 @@ Screen.prototype.setPaginateCallback = function(callback) {
     return true;
 };
 /**
-Call onReadyStateChanged-callback
+Call this.paginateCallback().
+
+@param {boolean} [isReadyRequired=true] Only send the event if `this.isReady() === true`.
 */
-Screen.prototype._sendPaginateCallback = function() {
+Screen.prototype._sendPaginateCallback = function(isReadyRequired) {
+    isReadyRequired = isReadyRequired === undefined ? true : isReadyRequired;
+
     if (!(this.paginateCallback instanceof Function)) {
         TheFragebogen.logger.error(this.constructor.name + "._sendPaginateCallback()", "called, but no paginateCallback set.");
         return;
     }
+
+    if (isReadyRequired && !this.isReady()) {
+        TheFragebogen.logger.info(this.constructor.name + "._sendPaginateCallback()", "called while screen is not ready but isReadyRequired is set.");
+        return;
+    }
+
     TheFragebogen.logger.debug(this.constructor.name + "._sendPaginateCallback()", "called");
-    this.paginateCallback();
+    this.paginateCallback(this);
 };
 /**
 Is the screen ready and TheFragebogen can continue to the next one?
