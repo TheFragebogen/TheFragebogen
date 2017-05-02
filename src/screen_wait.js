@@ -43,7 +43,7 @@ ScreenWait.prototype.start = function() {
     this._startTimer();
 };
 ScreenWait.prototype._onWaitTimeReached = function() {
-    this._sendReadyStateChangedCallback();
+    this._sendPaginateCallback();
 };
 ScreenWait.prototype.releaseUI = function() {
     clearTimeout(this.timeoutHandle);

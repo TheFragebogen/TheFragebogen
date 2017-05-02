@@ -54,8 +54,8 @@ ScreenController.prototype.init = function(parentNode) {
         if (this.screen[i].setGetRawDataCallback instanceof Function) {
             this.screen[i].setGetRawDataCallback((this.requestDataArray).bind(this));
         }
-        if (this.screen[i].setOnReadyStateChangedCallback instanceof Function) {
-            this.screen[i].setOnReadyStateChangedCallback((this.nextScreen).bind(this));
+        if (this.screen[i].setPaginateCallback instanceof Function) {
+            this.screen[i].setPaginateCallback((this.nextScreen).bind(this));
         }
     }
 
@@ -89,8 +89,8 @@ ScreenController.prototype.addScreen = function(screen) {
     if (screen.setGetRawDataCallback instanceof Function) {
         screen.setGetRawDataCallback((this.requestDataArray).bind(this));
     }
-    if (screen.setOnReadyStateChangedCallback instanceof Function) {
-        screen.setOnReadyStateChangedCallback((this.nextScreen).bind(this));
+    if (screen.setPaginateCallback instanceof Function) {
+        screen.setPaginateCallback((this.nextScreen).bind(this));
     }
 
     return this.screen.length - 1;

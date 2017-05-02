@@ -48,5 +48,5 @@ Callback to download data.
 ScreenWaitDataDownload.prototype.callbackDownload = function(data) {
     TheFragebogen.logger.info(this.constructor.name + ".callbackDownload()", data);
     downloadData(this.filename, data);
-    this._sendReadyStateChangedCallback();
+    this._sendPaginateCallback();
 };

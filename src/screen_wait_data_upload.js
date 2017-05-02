@@ -46,7 +46,7 @@ ScreenWaitDataUpload.prototype.createUI = function() {
     this.node.appendChild(span);
 
     if (this.paginateUI != null) {
-        this.paginateUI.setPaginateCallback(this._sendReadyStateChangedCallback.bind(this));
+        this.paginateUI.setPaginateCallback(this._sendPaginateCallback.bind(this));
         this.node.appendChild(this.paginateUI.createUI());
     }
 
@@ -92,7 +92,7 @@ ScreenWaitDataUpload.prototype._onload = function() {
             TheFragebogen.logger.info(this.constructor.name + "._onload()", this.request.responseText);
         }
 
-        this._sendReadyStateChangedCallback();
+        this._sendPaginateCallback();
     } else {
         TheFragebogen.logger.error(this.constructor.name + "._onload()", "Request to " + this.url + " failed with status code " + this.request.status);
         this.retryCount = 4;

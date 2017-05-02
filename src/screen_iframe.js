@@ -55,7 +55,7 @@ ScreenIFrame.prototype.createUI = function() {
                 TheFragebogen.logger.warn(this.constructor.name + ".iframe.onload()", "TheFragebogen-Error: Could not get urlFinal from iFrame. Security limitation?");
                 this.urlFinal = "TheFragebogen-Error: Could not get urlFinal of the iframe. Security limitation?";
             }
-            this._sendReadyStateChangedCallback();
+            this._sendPaginateCallback();
         }
     }.bind(this);
 
