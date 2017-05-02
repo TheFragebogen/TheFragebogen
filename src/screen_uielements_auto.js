@@ -29,7 +29,7 @@ ScreenUIElementsAuto.prototype.createUI = function() {
             this.node.appendChild(node);
         }
         if (this.uiElements[index].setOnReadyStateChangedCallback instanceof Function) {
-            this.uiElements[index].setOnReadyStateChangedCallback((this._sendReadyStateChangedCallback).bind(this));
+            this.uiElements[index].setOnReadyStateChangedCallback((this._sendPaginateCallback).bind(this));
         }
     }
 

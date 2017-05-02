@@ -63,7 +63,7 @@ ScreenDataPreview.prototype.createUI = function() {
     this.node.appendChild(tbl);
 
     if (this.paginateUI != null) {
-        this.paginateUI.setPaginateCallback(this._sendReadyStateChangedCallback.bind(this));
+        this.paginateUI.setPaginateCallback(this._sendPaginateCallback.bind(this));
         this.node.appendChild(this.paginateUI.createUI());
     }
 

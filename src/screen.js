@@ -7,7 +7,7 @@ In TheFragebogen only one screen is shown at a time.
 @class Screen
 */
 function Screen() {
-    this.readyCallback = null;
+    this.paginateCallback = null;
     this.preloadedCallback = null;
     this.preloaded = true;
     this.node = null;
@@ -43,26 +43,26 @@ Screen.prototype.getDataCSV = function() {};
 Set the callback for ready-state changed.
 @param {function} [callback]
 */
-Screen.prototype.setOnReadyStateChangedCallback = function(callback) {
+Screen.prototype.setPaginateCallback = function(callback) {
     if (!(callback instanceof Function)) {
-        TheFragebogen.logger.error(this.constructor.name + ".setOnReadyStateChangedCallback()", "Provided callback ist not a function.");
+        TheFragebogen.logger.error(this.constructor.name + ".setPaginateCallback()", "Provided callback ist not a function.");
         return false;
     }
 
-    TheFragebogen.logger.debug(this.constructor.name + ".setOnReadyStateChangedCallback()", "called.");
-    this.readyCallback = callback;
+    TheFragebogen.logger.debug(this.constructor.name + ".setPaginateCallback()", "called.");
+    this.paginateCallback = callback;
     return true;
 };
 /**
 Call onReadyStateChanged-callback
 */
-Screen.prototype._sendReadyStateChangedCallback = function() {
-    if (!(this.readyCallback instanceof Function)) {
-        TheFragebogen.logger.error(this.constructor.name + "._sendReadyStateChangedCallback()", "called, but no readyCallback set.");
+Screen.prototype._sendPaginateCallback = function() {
+    if (!(this.paginateCallback instanceof Function)) {
+        TheFragebogen.logger.error(this.constructor.name + "._sendPaginateCallback()", "called, but no paginateCallback set.");
         return;
     }
-    TheFragebogen.logger.debug(this.constructor.name + "._sendReadyStateChangedCallback()", "called");
-    this.readyCallback();
+    TheFragebogen.logger.debug(this.constructor.name + "._sendPaginateCallback()", "called");
+    this.paginateCallback();
 };
 /**
 Is the screen ready and TheFragebogen can continue to the next one?
