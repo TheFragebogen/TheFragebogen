@@ -56,9 +56,11 @@ Screen.prototype.setPaginateCallback = function(callback) {
 /**
 Call this.paginateCallback().
 
+@param {number} [relativeScreenId=1] The relative id of the next screen.
 @param {boolean} [isReadyRequired=true] Only send the event if `this.isReady() === true`.
 */
-Screen.prototype._sendPaginateCallback = function(isReadyRequired) {
+Screen.prototype._sendPaginateCallback = function(relativeScreenId, isReadyRequired) {
+    relativeScreenId = relativeScreenId === undefined ? 1 : relativeScreenId;
     isReadyRequired = isReadyRequired === undefined ? true : isReadyRequired;
 
     if (!(this.paginateCallback instanceof Function)) {
@@ -72,7 +74,7 @@ Screen.prototype._sendPaginateCallback = function(isReadyRequired) {
     }
 
     TheFragebogen.logger.debug(this.constructor.name + "._sendPaginateCallback()", "called");
-    this.paginateCallback(this);
+    this.paginateCallback(this, relativeScreenId);
 };
 /**
 Is the screen ready and TheFragebogen can continue to the next one?

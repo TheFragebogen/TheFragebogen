@@ -106,8 +106,9 @@ ScreenController.prototype.start = function() {
 Proceeds to the next screen if the current screen reports ready.
 
 @param {Screen} screen The screen that send the callback.
+@param {number} [relativeScreenId=1]
 */
-ScreenController.prototype.nextScreen = function(screen) {
+ScreenController.prototype.nextScreen = function(screen, relativeScreenId) {
     if (this.screenContainerNode === null) {
         TheFragebogen.logger.error(this.constructor.name + ".nextScreen()", "Please call init() before.");
         return;
@@ -123,11 +124,12 @@ ScreenController.prototype.nextScreen = function(screen) {
         return;
     }
 
-    if (this.callbackScreenFinished instanceof Function && !this.callbackScreenFinished()) { //Should we proceed to the next screen or is this handled by external command?
+    if (this.callbackScreenFinished instanceof Function && !this.callbackScreenFinished(relativeScreenId)) { //Should we proceed to the next screen or is this handled by external command?
         return;
     }
 
-    this.goToScreenRelative(1);
+    relativeScreenId = relativeScreenId === undefined ? 1 : relativeScreenId;
+    this.goToScreenRelative(relativeScreenId);
 };
 ScreenController.prototype._displayUI = function() {
     if (this.currentScreenIndex >= this.screen.length) {
