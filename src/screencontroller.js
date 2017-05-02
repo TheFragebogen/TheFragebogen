@@ -103,31 +103,31 @@ ScreenController.prototype.start = function() {
     this._displayUI();
 };
 /**
-Proceeds to the next Screen if the current reported ready.
+Proceeds to the next screen if the current screen reports ready.
+
+@param {Screen} screen The screen that send the callback.
 */
-ScreenController.prototype.nextScreen = function() {
+ScreenController.prototype.nextScreen = function(screen) {
     if (this.screenContainerNode === null) {
         TheFragebogen.logger.error(this.constructor.name + ".nextScreen()", "Please call init() before.");
         return;
     }
 
-    if (this.screen[this.currentScreenIndex].isReady instanceof Function && this.screen[this.currentScreenIndex].isReady()) {
-
-        if (this.callbackScreenFinished instanceof Function && !this.callbackScreenFinished()) { //Should we proceed to the next screen or is this handled by external command?
-            return;
-        }
-
-        if (this.isLastScreen()) {
-            TheFragebogen.logger.warn(this.constructor.name + ".nextScreen()", "No further screen available.");
-            return;
-        }
-
-        this.screen[this.currentScreenIndex].releaseUI();
-        this.screenContainerNode.innerHTML = '';
-
-        this.currentScreenIndex++;
-        this._displayUI();
+    if (!(screen instanceof Screen)) {
+        TheFragebogen.logger.error(this.constructor.name + ".nextScreen()", "Got a callback without a screen.");
+        return;
     }
+
+    if (screen !== this.screen[this.currentScreenIndex]) {
+        TheFragebogen.logger.error(this.constructor.name + ".nextScreen()", "Got a callback from a different screen than the current one.");
+        return;
+    }
+
+    if (this.callbackScreenFinished instanceof Function && !this.callbackScreenFinished()) { //Should we proceed to the next screen or is this handled by external command?
+        return;
+    }
+
+    this.goToScreenRelative(1);
 };
 ScreenController.prototype._displayUI = function() {
     if (this.currentScreenIndex >= this.screen.length) {
@@ -247,18 +247,20 @@ ScreenController.prototype.getCurrentScreen = function() {
     return this.screen[this.getCurrentScreenIndex()];
 };
 /**
-Go to screen by screenId.
-@argument {number} screenId The id of the screen that should be displayed.
+Go to screen by screenId (relative).
+@argument {number} relativeScreenId The screenId (relative) of the screen that should be displayed.
 @return {boolean} Success.
 */
-ScreenController.prototype.goToScreen = function(screenId) {
+ScreenController.prototype.goToScreenRelative = function(relativeScreenId) {
     if (this.screenContainerNode === null) {
-        TheFragebogen.logger.error(this.constructor.name + ".goToScreen()", "Please call init() before.");
+        TheFragebogen.logger.error(this.constructor.name + ".goToScreenRelative()", "Please call init() before.");
         return false;
     }
 
+    var screenId = this.getCurrentScreenIndex() + relativeScreenId;
+
     if (!(0 <= screenId && screenId < this.screen.length)) {
-        TheFragebogen.logger.error(this.constructor.name + ".goToScreen()", "There is not screen with id: " + screenId);
+        TheFragebogen.logger.error(this.constructor.name + ".goToScreenRelative()", "There is no screen with id: " + screenId);
         return false;
     }
 
@@ -269,7 +271,14 @@ ScreenController.prototype.goToScreen = function(screenId) {
     this._displayUI();
     return true;
 };
-
+/**
+Go to screen by screenId (absolute).
+@argument {number} screenId The screenId (relative) of the screen that should be displayed.
+@return {boolean} Success.
+*/
+ScreenController.prototype.goToScreenAbsolute = function(screenId) {
+    return this.goToScreenRelative(screenId - this.getCurrentScreenIndex());
+};
 /**
 Initiates preloading of external media, i.e., informs all `Screens` to start loading external media and report when ready/fail.
 While preloading, `screenController.start()` can be called.
