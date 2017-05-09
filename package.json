@@ -1,6 +1,6 @@
 {
     "name": "TheFragebogen",
-    "license": "MIT License",
+    "license": "MIT",
     "repository": "https://github.com/TheFragebogen/TheFragebogen",
     "homepage": "http://thefragebogen.de",
     "devDependencies": {
