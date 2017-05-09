@@ -29,22 +29,26 @@ Requirements are:
 
 __ATTENTION:__ Some features might not be available/usable depending on the web browser features.
 
-Getting started (commands for [Ubuntu 16.10](http://releases.ubuntu.com/16.10/))
+Getting started
 ---
+### Install required software:
+
+1. Install [NodeJS](https://nodejs.org/) to get [npm](https://www.npmjs.com/): [https://nodejs.org/en/download/](https://nodejs.org/en/download/)
+2. Install [grunt](http://gruntjs.com/) via [npm](https://www.npmjs.com/): `npm install -g grunt-cli`
+3. Install [git](https://git-scm.com) as command-line interface: [https://git-scm.com/download/](https://git-scm.com/download/)
+
 ### Build TheFragebogen:
 
-1. Get source code from [git](https://git-scm.com/) repository: `git clone https://github.com/TheFragebogen/TheFragebogen`
+1. Clone [git](https://git-scm.com/) repository: `git clone https://github.com/TheFragebogen/TheFragebogen`
 2. Enter repository: `cd TheFragebogen`
-3. Install [npm](https://www.npmjs.com/): `sudo apt install npm`
-4. Install [grunt](http://gruntjs.com/): `sudo npm install -g grunt-cli`
-5. Install dependencies of the project: `npm install`
-6. Build the library: `grunt`
-7. Check out the provided examples (see [`examples/`](examples/)).
-8. Install GIT hooks: `grunt githooks`
+3. Install dependencies via [npm](https://www.npmjs.com/): `npm install`
+4. Build TheFragebogen: `grunt`
+5. Check out the provided examples (see [`examples/`](examples/)).
+6. Install GIT hooks: `grunt githooks`
 
 ### Build the documentation:
 
-1. Install [JSdoc](usejsdoc.org): `sudo apt install jsdoc-toolkit`.
+1. Install [JSdoc](usejsdoc.org): `npm install -g jsdoc`.
 2. Build documentation: `grunt doc`.
 3. Open documentation in your favorite web browser `doc/index.html`.
 
