@@ -46,6 +46,7 @@ QuestionnaireItemDefinedSelector.prototype._createAnswerNode = function() {
 };
 QuestionnaireItemDefinedSelector.prototype._handleChange = function(event) {
     this.answer = this.select.value;
+    this._sendReadyStateChanged();
 };
 
 QuestionnaireItemDefinedSelector.prototype._applyAnswerToUI = function() {

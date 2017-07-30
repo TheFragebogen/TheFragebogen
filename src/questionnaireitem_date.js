@@ -50,6 +50,7 @@ QuestionnaireItemDate.prototype._createAnswerNode = function() {
 
 QuestionnaireItemDate.prototype._handleChange = function(event) {
     this.answer = this.input.value;
+    this._sendReadyStateChanged();
 };
 
 QuestionnaireItemDate.prototype._applyAnswerToUI = function() {

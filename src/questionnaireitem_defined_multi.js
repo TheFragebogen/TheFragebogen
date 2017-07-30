@@ -50,7 +50,7 @@ QuestionnaireItemDefinedMulti.prototype._createAnswerNode = function() {
 QuestionnaireItemDefinedMulti.prototype._handleChange = function(event) {
     this.answer[event.target.value] = event.target.checked;
     this.markRequired();
-
+    this._sendReadyStateChanged();
     TheFragebogen.logger.info(this.constructor.name + "._handleChange()", this.getAnswer() + ".");
 };
 

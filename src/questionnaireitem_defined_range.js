@@ -44,6 +44,7 @@ QuestionnaireItemDefinedRange.prototype._createAnswerNode = function() {
 
 QuestionnaireItemDefinedRange.prototype._handleChange = function(event) {
     this.answer = this.input.value;
+    this._sendReadyStateChanged();
 };
 
 QuestionnaireItemDefinedRange.prototype._applyAnswerToUI = function() {
