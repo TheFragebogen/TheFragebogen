@@ -7,7 +7,7 @@ Encapulates some browser-specific API differences.
 @returns {undefined}
 */
 function downloadData(filename, data) {
-    if (navigator.appName === "Microsoft Internet Explorer") {
+    if (typeof(window.navigator.msSaveBlob) === "function") {
         var blob = new Blob([data], {
             type: "text/plain"
         });
