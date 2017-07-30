@@ -25,8 +25,16 @@ ScreenUIElementsSequential.prototype.start = function() {
         this.uiElements[index].setEnabled(false);
     }
 
-    this.currentElementIndex = 0;
-    this.uiElements[this.currentElementIndex].setEnabled(true);
+    for (var i = 0; i < this.uiElements.length; i++) {
+        if (this.uiElements[i] instanceof UIElementInteractive) {
+            this.currentElementIndex = i;
+            this.uiElements[this.currentElementIndex].setEnabled(true);
+            break;
+        }
+    }
+    if (this.currentElementIndex == undefined) {
+      TheFragebogen.logger.error(this.constructor.name + ":", "One UIElementInteractive is at least required.");
+    }
 };
 /**
 Callback to enable the following UIElementInteractive.
@@ -44,7 +52,7 @@ ScreenUIElementsSequential.prototype._onUIElementReady = function() {
     }
 
     if (nextElementIndex == -1) {
-        TheFragebogen.logger.error(this.constructor.name + +"._onUIElementReady()", "There is no next UIElement to enable left.");
+        TheFragebogen.logger.warn(this.constructor.name + "._onUIElementReady()", "There is no next UIElement to enable left.");
         return;
     }
 

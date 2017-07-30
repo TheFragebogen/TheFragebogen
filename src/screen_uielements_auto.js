@@ -2,7 +2,9 @@
 A screen that presents one or more UIElements and reports ready _automatically_ when all UIElements are ready.
 All UIElements are visible and enabled by default.
 
-@class ScreenUIElementsAudo
+NOTE: UIElementsInteractive should be marked as REQUIRED.
+
+@class ScreenUIElementsAuto
 @augments Screen
 @augments ScreenUIElements
 
@@ -20,7 +22,7 @@ ScreenUIElementsAuto.prototype.createUI = function() {
     this.node.className = this.className;
 
     for (var index in this.uiElements) {
-        if (this.uiElements[index].createUI === undefined) {
+        if (!this.uiElements[index] instanceof UIElement) {
             TheFragebogen.logger.warn(this.constructor.name + ".createUI():", "Element[" + index + "] has no 'createUI' method");
             continue;
         }
@@ -29,11 +31,16 @@ ScreenUIElementsAuto.prototype.createUI = function() {
             this.node.appendChild(node);
         }
         if (this.uiElements[index].setOnReadyStateChangedCallback instanceof Function) {
-            this.uiElements[index].setOnReadyStateChangedCallback((this._sendPaginateCallback).bind(this));
+            this.uiElements[index].setOnReadyStateChangedCallback(this._onUIElementReady.bind(this));
         }
     }
 
     return this.node;
+};
+Screen.prototype._onUIElementReady = function() {
+    if (this.isReady()) {
+        this._sendPaginateCallback();
+    }
 };
 Screen.prototype.setPaginateUI = function(paginateUI) {
     TheFragebogen.logger.warn(this.constructor.name + ".setPaginateUI()", "Does not support pagination.");
