@@ -1,9 +1,18 @@
 module.exports = function(grunt) {
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
-        concat_in_order_jsdoc: {
+        concat_in_order: {
             your_target: {
-                options: {},
+                options: {
+                    extractRequired: function (filepath, filecontent) {
+                        var augments = this.getMatches(/@augments[\s]+([^\s]+)/g, filecontent);
+                        var requires = this.getMatches(/@requires[\s]+([^\s]+)/g, filecontent);
+                        return augments.concat(requires);
+                    },
+                    extractDeclared: function (filepath, filecontent) {
+                        return this.getMatches(/@class[\s]+([^\s]+)/g, filecontent);
+                    }
+                },
                 files: {
                     'thefragebogen.js': ['build/*.js']
                 }
@@ -83,8 +92,7 @@ module.exports = function(grunt) {
         }
     });
 
-    grunt.loadTasks("third_party/concat_in_order_jsdoc/");
-
+    grunt.loadNpmTasks('grunt-concat-in-order');
     grunt.loadNpmTasks('grunt-contrib-qunit');
     grunt.loadNpmTasks("grunt-contrib-uglify");
     grunt.loadNpmTasks('grunt-githooks');
@@ -94,9 +102,9 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-run');
 
     //Task(s)
-    grunt.registerTask('default', ['includereplace', 'revision', 'concat_in_order_jsdoc', 'uglify']);
+    grunt.registerTask('default', ['includereplace', 'revision', 'concat_in_order', 'uglify']);
 
-    grunt.registerTask('doc', ['includereplace', 'revision', 'concat_in_order_jsdoc', 'uglify', 'run:jsdoc']);
+    grunt.registerTask('doc', ['includereplace', 'revision', 'concat_in_order', 'uglify', 'run:jsdoc']);
     grunt.registerTask('format', ['jsbeautifier'])
     grunt.registerTask('help', ['run:help'])
     grunt.registerTask('precommit', ['format', 'default', 'test'])
