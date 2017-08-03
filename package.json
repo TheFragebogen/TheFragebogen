@@ -6,6 +6,7 @@
     "devDependencies": {
         "grunt": "^0.4.5",
         "grunt-cli": "^1.2.0",
+        "grunt-concat-in-order": "^0.3.0",
         "grunt-contrib-qunit": "^1.2.0",
         "grunt-contrib-uglify": "^2.0.0",
         "grunt-git-revision": "0.0.1",
