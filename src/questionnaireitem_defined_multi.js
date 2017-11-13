@@ -82,7 +82,7 @@ QuestionnaireItemDefinedMulti.prototype.getAnswer = function() {
     });
 };
 /**
-@param {string|array[string]} answer
+@param {(string|string[])} answer
 @returns {boolean}
 */
 QuestionnaireItemDefinedMulti.prototype.setAnswer = function(answer) {
