@@ -75,7 +75,7 @@ module.exports = function(grunt) {
         },
         run: {
             jsdoc: {
-                exec: 'jsdoc --private -d=doc thefragebogen.js'
+                exec: 'jsdoc --private -d doc thefragebogen.js'
             },
             help: {
                 exec: 'grunt --help'
