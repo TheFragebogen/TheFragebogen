@@ -45,9 +45,9 @@ ScreenIFrame.prototype.createUI = function() {
 
         TheFragebogen.logger.debug(this.constructor.name + ".iframe.onload():", this.urlStartChanges + " of " + this.maxUrlChanges + " viewed.");
 
-        if (this.urlStartChanges >= this.urlChangesToReady) {
+        if (this.urlChanges >= this.urlChangesToReady) {
             this.duration = Date.now() - this.startTime;
-            this.urlStartChanges = 0;
+            this.urlChanges = 0;
 
             try {
                 this.urlFinal = event.target.contentWindow.location.href;
