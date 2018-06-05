@@ -4,7 +4,7 @@ module.exports = function(grunt) {
         concat_in_order: {
             your_target: {
                 options: {
-                    banner: '/*!\n<%= pkg.name %>\n<%= pkg.homepage %>\nGIT: <%= pkg.repository %>/commit/<%= meta.revision %>\nLicense: <%= pkg.license %>\n<%= grunt.template.today("UTC:dddd, mmmm dS, yyyy, h:MM:ss TT Z", true) %>\n*/\n',
+                  banner: '/*!\n<%= pkg.name %>\nVersion: <%= pkg.version %>\n<%= pkg.homepage %>\nGIT: <%= pkg.repository %>/commit/<%= meta.revision %>\nLicense: <%= pkg.license %>\n<%= grunt.template.today("UTC:dddd, mmmm dS, yyyy, h:MM:ss TT Z", true) %>\n*/\n',
                     extractRequired: function (filepath, filecontent) {
                         var augments = this.getMatches(/@augments[\s]+([^\s]+)/g, filecontent);
                         var requires = this.getMatches(/@requires[\s]+([^\s]+)/g, filecontent);
@@ -83,7 +83,7 @@ module.exports = function(grunt) {
         },
         uglify: {
             options: {
-                banner: '/*!\n<%= pkg.name %>\n<%= pkg.homepage %>\nGIT: <%= pkg.repository %>/commit/<%= meta.revision %>\nLicense: <%= pkg.license %>\n<%= grunt.template.today("UTC:dddd, mmmm dS, yyyy, h:MM:ss TT Z", true) %>\n*/\n',
+                  banner: '/*!\n<%= pkg.name %>\nVersion: <%= pkg.version %>\n<%= pkg.homepage %>\nGIT: <%= pkg.repository %>/commit/<%= meta.revision %>\nLicense: <%= pkg.license %>\n<%= grunt.template.today("UTC:dddd, mmmm dS, yyyy, h:MM:ss TT Z", true) %>\n*/\n',
             },
             dist: {
                 files: {
