@@ -44,7 +44,6 @@ Getting started
 3. Install dependencies via [npm](https://www.npmjs.com/): `npm install`
 4. Build TheFragebogen: `grunt`
 5. Check out the provided examples (see [`examples/`](examples/)).
-6. Install GIT hooks: `grunt githooks`
 
 ### Build the documentation:
 

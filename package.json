@@ -1,21 +1,23 @@
 {
     "name": "TheFragebogen",
-    "version": "v2018-06",
+    "version": "2018.07.00",
     "license": "MIT",
     "repository": "https://github.com/TheFragebogen/TheFragebogen",
     "homepage": "http://thefragebogen.de",
     "devDependencies": {
-        "grunt": ">=1.0.1",
+        "grunt": ">=1.0.3",
         "grunt-cli": ">=1.2.0",
         "grunt-concat-in-order": ">=0.3.0",
         "grunt-contrib-qunit": ">=2.0.0",
-        "grunt-contrib-uglify": ">=2.0.0",
+        "grunt-contrib-uglify": ">=3.3.0",
         "grunt-git-revision": ">=0.0.1",
-        "grunt-githooks": ">=0.6.0",
         "grunt-include-replace": ">=5.0.0",
         "grunt-jsbeautifier": ">=0.2.13",
-        "grunt-run": ">=0.7.0",
-        "phantomjs-prebuilt": ">=2.1.14",
-        "qunitjs": ">=2.4.0"
+        "grunt-run": ">=0.8.1",
+        "phantomjs-prebuilt": ">=2.1.16",
+        "qunit": ">=2.6.1"
+    },
+    "dependencies": {
+        "npm": ">=6.1.0"
     }
 }

@@ -32,11 +32,6 @@ module.exports = function(grunt) {
                 }, ]
             }
         },
-        githooks: {
-            all: {
-                'pre-commit': 'precommit'
-            }
-        },
         jsbeautifier: {
             files: ['src/*.js', 'examples/*', 'tests', 'Gruntfile.js', 'package.json'],
             options: {
@@ -108,6 +103,5 @@ module.exports = function(grunt) {
     grunt.registerTask('doc', ['includereplace', 'revision', 'concat_in_order', 'uglify', 'run:jsdoc']);
     grunt.registerTask('format', ['jsbeautifier'])
     grunt.registerTask('help', ['run:help'])
-    grunt.registerTask('precommit', ['format', 'default', 'test'])
     grunt.registerTask('test', ['default', 'qunit'])
 };
