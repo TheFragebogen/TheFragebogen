@@ -36,7 +36,7 @@ QuestionnaireItemSVGQuality7pt.prototype._setupSVG = function() {
         this.scaleImage.getElementById("label60").textContent = this.labels[5];
         this.scaleImage.getElementById("label70").textContent = this.labels[6];
     } else {
-      TheFragebogen.logger.info(this.constructor.name + "._setupSVG()", "Using default scale labels.");
+        TheFragebogen.logger.info(this.constructor.name + "._setupSVG()", "Using default scale labels.");
     }
 };
 QuestionnaireItemSVGQuality7pt.prototype._getAnswerElements = function() {

@@ -4,15 +4,16 @@ module.exports = function(grunt) {
         concat_in_order: {
             your_target: {
                 options: {
-                  banner: '/*!\n<%= pkg.name %>\nVersion: <%= pkg.version %>\n<%= pkg.homepage %>\nGIT: <%= pkg.repository %>/commit/<%= meta.revision %>\nLicense: <%= pkg.license %>\n<%= grunt.template.today("UTC:dddd, mmmm dS, yyyy, h:MM:ss TT Z", true) %>\n*/\n',
-                    extractRequired: function (filepath, filecontent) {
+                    banner: '/*!\n<%= pkg.name %>\nVersion: <%= pkg.version %>\n<%= pkg.homepage %>\nGIT: <%= pkg.repository %>/commit/<%= meta.revision %>\nLicense: <%= pkg.license %>\n<%= grunt.template.today("UTC:dddd, mmmm dS, yyyy, h:MM:ss TT Z", true) %>\n*/\n',
+                    extractRequired: function(filepath, filecontent) {
                         var augments = this.getMatches(/@augments[\s]+([^\s]+)/g, filecontent);
                         var requires = this.getMatches(/@requires[\s]+([^\s]+)/g, filecontent);
                         return augments.concat(requires);
                     },
-                    extractDeclared: function (filepath, filecontent) {
+                    extractDeclared: function(filepath, filecontent) {
                         return this.getMatches(/@class[\s]+([^\s]+)/g, filecontent);
-                    }
+                    },
+                    exportConcatenationOrder: 'concatOrder'
                 },
                 files: {
                     'thefragebogen.js': ['build/*.js']
@@ -78,7 +79,7 @@ module.exports = function(grunt) {
         },
         uglify: {
             options: {
-                  banner: '/*!\n<%= pkg.name %>\nVersion: <%= pkg.version %>\n<%= pkg.homepage %>\nGIT: <%= pkg.repository %>/commit/<%= meta.revision %>\nLicense: <%= pkg.license %>\n<%= grunt.template.today("UTC:dddd, mmmm dS, yyyy, h:MM:ss TT Z", true) %>\n*/\n',
+                banner: '/*!\n<%= pkg.name %>\nVersion: <%= pkg.version %>\n<%= pkg.homepage %>\nGIT: <%= pkg.repository %>/commit/<%= meta.revision %>\nLicense: <%= pkg.license %>\n<%= grunt.template.today("UTC:dddd, mmmm dS, yyyy, h:MM:ss TT Z", true) %>\n*/\n',
             },
             dist: {
                 files: {
