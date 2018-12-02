@@ -59,6 +59,12 @@ module.exports = function(grunt) {
                 }
             }
         },
+        jshint: {
+            all: ['Gruntfile.js', 'src/*.js'],
+            options: {
+                esversion: 6
+            }
+        },
         qunit: {
             all: ['tests/qunit*.html']
         },
@@ -95,13 +101,15 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-git-revision');
     grunt.loadNpmTasks('grunt-include-replace');
     grunt.loadNpmTasks("grunt-jsbeautifier");
+    grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-run');
 
     //Task(s)
     grunt.registerTask('default', ['includereplace', 'revision', 'concat_in_order', 'uglify']);
 
     grunt.registerTask('doc', ['includereplace', 'revision', 'concat_in_order', 'uglify', 'run:jsdoc']);
-    grunt.registerTask('format', ['jsbeautifier'])
-    grunt.registerTask('help', ['run:help'])
-    grunt.registerTask('test', ['default', 'qunit'])
+    grunt.registerTask('format', ['jsbeautifier']);
+    grunt.registerTask('help', ['run:help']);
+    grunt.registerTask('lint', ['jshint']);
+    grunt.registerTask('test', ['default', 'qunit']);
 };
