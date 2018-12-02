@@ -23,6 +23,6 @@ function downloadData(filename, data) {
         downloadLink.click();
         window.URL.revokeObjectURL(downloadLink.href); //Release object: https://developer.mozilla.org/en-US/docs/Web/API/URL.revokeObjectURL
         return;
-    };
+    }
     window.location.href = "data:application/x-download;charset=utf-8," + encodeURIComponent(data);
 }

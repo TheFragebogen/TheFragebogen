@@ -121,7 +121,12 @@ ScreenUIElements.prototype.isReady = function() {
  @returns {array}
  */
 ScreenUIElements.prototype.getDataCSV = function() {
-    var data = [new Array(), new Array(), new Array(), new Array()];
+    var data = [
+        [],
+        [],
+        [],
+        []
+    ];
 
     for (var index in this.uiElements) {
         if ((this.uiElements[index] instanceof QuestionnaireItem)) {

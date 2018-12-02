@@ -46,7 +46,6 @@ function QuestionnaireItemWaitWebsocket(className, url, messageSend, messageRece
 
     this.reconnectAttempts = !isNaN(reconnectAttempts) ? reconnectAttempts : -1;
     this.timeout = !isNaN(timeout) ? Math.abs(timeout) * 1000 : 0;
-    this.timeoutHandle;
 
     this.node = null;
     this.websocketConnection = null;
@@ -150,7 +149,7 @@ QuestionnaireItemWaitWebsocket.prototype.releaseUI = function() {
     if (this.websocketConnection !== null && (this.websocketConnection.readyState == WebSocket.CONNECTING || this.websocketConnection.readyState == WebSocket.OPEN)) {
         this.websocketConnection.onclose = function() {
             TheFragebogen.logger.info(this.constructor.name + ".connection.onclose()", "Connection closed.");
-        }
+        };
         this.websocketConnection.close();
     }
     this.websocketConnection = null;

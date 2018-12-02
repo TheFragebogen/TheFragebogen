@@ -6,7 +6,7 @@ The messages _should_ be subdivided in five types according to their relevance:
 3. Warn
 4. Info
 5. Debug
- 
+
 DEVELOPER: This class is used internally by LogConsole and should not be accessed directly.
 
 @class LogMessage
@@ -28,7 +28,7 @@ DEVELOPER: All the messages (instances of class `LogMessage`) are saved in an ar
 @class LogConsole
 */
 function LogConsole() {
-    this.logMessages = new Array();
+    this.logMessages = [];
     this.debug("LogConsole.constructor()", "Start");
 }
 

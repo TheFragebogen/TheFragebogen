@@ -100,7 +100,7 @@ QuestionnaireItemDefinedMulti.prototype.setAnswer = function(answer) {
         this.answer = [];
 
         if (answer.length > this.optionList.length) {
-            TheFragebogen.logger.warn(this.constructor.name + ".setAnswer()", "use only an array.")
+            TheFragebogen.logger.warn(this.constructor.name + ".setAnswer()", "use only an array.");
             return false;
         }
 

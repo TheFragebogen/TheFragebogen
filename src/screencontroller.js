@@ -62,7 +62,7 @@ ScreenController.prototype.init = function(parentNode) {
     this.currentScreenIndex = 0;
 };
 ScreenController.prototype.setCallbackScreenFinished = function(callback) {
-    if (!callback instanceof Function) {
+    if (!(callback instanceof Function)) {
         TheFragebogen.logger.warn(this.constructor.name + ".setCallbackScreenFinished()", "Callback is not a function. Ignoring it.");
         return;
     }
@@ -75,7 +75,7 @@ Add an additional screen at the end.Appends a screen and returns the index.
 @returns {number} The index of the just added screen; in case of failure -1.
 */
 ScreenController.prototype.addScreen = function(screen) {
-    if (!screen instanceof Screen) {
+    if (!(screen instanceof Screen)) {
         TheFragebogen.logger.warn(this.constructor.name + ".addScreen()", "This screen is not a screen. Ignoring it.");
         return -1;
     }
@@ -190,7 +190,7 @@ ScreenController.prototype.requestDataArray = function() {
     var options = ["Answer options"];
     var answers = ["Answer"];
 
-    for (var i = 0; i <= this.currentScreenIndex; i++) {
+    for (let i = 0; i <= this.currentScreenIndex; i++) {
         var currentData = this.screen[i].getDataCSV();
 
         if (currentData instanceof Array && currentData[0] instanceof Array && currentData[1] instanceof Array && currentData[2] instanceof Array && currentData[3] instanceof Array) {
@@ -213,7 +213,7 @@ ScreenController.prototype.requestDataArray = function() {
     }
 
     var result = [];
-    for (var i in screenIndeces) {
+    for (let i in screenIndeces) {
         result[i] = [];
         result[i][0] = screenIndeces[i];
         result[i][1] = questionType[i];
@@ -226,7 +226,7 @@ ScreenController.prototype.requestDataArray = function() {
     result = result.map(function(line) {
         return line.map(function(cell) {
             return (typeof(cell) === "string") ? cell.replace(/\n/g, '\\n') : cell;
-        })
+        });
     });
     return result;
 };
@@ -234,7 +234,7 @@ ScreenController.prototype.requestDataArray = function() {
 @return {boolean}
 */
 ScreenController.prototype.isLastScreen = function() {
-    return !(this.currentScreenIndex < this.screen.length - 1);
+    return this.currentScreenIndex === this.screen.length - 1;
 };
 /*
 @return {number}
@@ -286,8 +286,8 @@ Initiates preloading of external media, i.e., informs all `Screens` to start loa
 While preloading, `screenController.start()` can be called.
 
 @see ScreenController._onPreloadedScreenFinished()
-@see _onScreenPreloaded()
-@see ._finishedPreload()
+@see ScreenController._onScreenPreloaded()
+@see ScreenController._finishedPreload()
 
 @param innerHTML The HTML to be shown while preloading.
 */

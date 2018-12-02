@@ -138,7 +138,7 @@ QuestionnaireItemMedia.prototype._onended = function() {
 };
 
 QuestionnaireItemMedia.prototype.setAnswer = function(answer) {
-    this.answer == answer;
+    this.answer = answer;
 };
 
 QuestionnaireItemMedia.prototype.getData = function() {

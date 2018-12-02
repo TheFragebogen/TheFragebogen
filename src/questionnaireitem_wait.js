@@ -35,7 +35,7 @@ QuestionnaireItemSystemWait.prototype._waitTimeCallback = function() {
 QuestionnaireItemSystemWait.prototype.releaseUI = function() {
     if (this.timeoutHandle !== null) {
         clearTimeout(this.timeoutHandle);
-        this.timeoutHandle === null;
+        this.timeoutHandle = null;
     }
 };
 
