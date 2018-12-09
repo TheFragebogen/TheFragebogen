@@ -190,7 +190,7 @@ ScreenController.prototype.requestDataArray = function() {
     var options = ["Answer options"];
     var answers = ["Answer"];
 
-    for (let i = 0; i <= this.currentScreenIndex; i++) {
+    for (var i = 0; i <= this.currentScreenIndex; i++) {
         var currentData = this.screen[i].getDataCSV();
 
         if (currentData instanceof Array && currentData[0] instanceof Array && currentData[1] instanceof Array && currentData[2] instanceof Array && currentData[3] instanceof Array) {
@@ -213,7 +213,7 @@ ScreenController.prototype.requestDataArray = function() {
     }
 
     var result = [];
-    for (let i in screenIndeces) {
+    for (i in screenIndeces) {
         result[i] = [];
         result[i][0] = screenIndeces[i];
         result[i][1] = questionType[i];
