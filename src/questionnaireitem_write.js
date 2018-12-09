@@ -28,7 +28,7 @@ function QuestionnaireItemWrite(className, question, required, backgroundImg, wi
     QuestionnaireItem.call(this, className, question, required);
 
     this.className = className;
-    this.backgroundImg = typeof(backgroundImg) !== "undefined" ? backgroundImg : "";
+    this.backgroundImg = backgroundImg !== undefined ? backgroundImg : "";
     this.height = !isNaN(height) && height > 0 ? height : 240;
     this.width = !isNaN(width) && width > 0 ? width : 320;
 
