@@ -56,7 +56,9 @@
 
         </script>
         <script type="text/javascript">
-        document.oncontextmenu = new Function("return false;") //Disable context menu (right click)
+        document.oncontextmenu = function() {
+            return false;
+        }; //Disable context menu (right click)
 
         function start() {
             document.body.innerHTML += "TheFragebogen loaded.";
