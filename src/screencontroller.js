@@ -259,6 +259,11 @@ ScreenController.prototype.goToScreenRelative = function(relativeScreenId) {
         return false;
     }
 
+    if (this.getCurrentScreenIndex() == this.screen.length - 1 && relativeScreenId == 1) {
+        TheFragebogen.logger.warn(this.constructor.name + ".goToScreenRelative()", "Reached the last screen and there is no next screen to proceed to.");
+        return false;
+    }
+
     var screenId = this.getCurrentScreenIndex() + relativeScreenId;
 
     if (!(0 <= screenId && screenId < this.screen.length)) {
