@@ -33,7 +33,7 @@ ScreenUIElementsSequential.prototype.start = function() {
         }
     }
     if (this.currentElementIndex == undefined) {
-        TheFragebogen.logger.error(this.constructor.name + ":", "One UIElementInteractive is at least required.");
+        TheFragebogen.logger.error(this.constructor.name + "", "One UIElementInteractive is at least required.");
     }
 };
 /**

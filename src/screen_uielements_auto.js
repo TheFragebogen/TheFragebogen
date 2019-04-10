@@ -23,7 +23,7 @@ ScreenUIElementsAuto.prototype.createUI = function() {
 
     for (var index in this.uiElements) {
         if (!(this.uiElements[index] instanceof UIElement)) {
-            TheFragebogen.logger.warn(this.constructor.name + ".createUI():", "Element[" + index + "] has no 'createUI' method");
+            TheFragebogen.logger.warn(this.constructor.name + ".createUI()", "Element[" + index + "] has no 'createUI' method");
             continue;
         }
         var node = this.uiElements[index].createUI();

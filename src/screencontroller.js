@@ -18,7 +18,7 @@ function ScreenController() {
 
     var localArguments = [].concat.apply([], arguments); //Flatten the potential array.
     for (var i in localArguments) {
-        if (!(localArguments[i] instanceof Screen)) TheFragebogen.logger.error(this.constructor.name + "():", "This argument (index " + i + " is not a Screen: " + localArguments[i] + " and will be ignored.");
+        if (!(localArguments[i] instanceof Screen)) TheFragebogen.logger.error(this.constructor.name + "()", "This argument (index " + i + " is not a Screen: " + localArguments[i] + " and will be ignored.");
     }
     this.screen = localArguments.filter(function(element) {
         return element instanceof Screen;

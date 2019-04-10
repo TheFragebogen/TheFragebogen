@@ -28,7 +28,7 @@ function ScreenUIElements(className) {
 
     for (var i in localArguments) {
         if (!(localArguments[i] instanceof UIElement)) {
-            TheFragebogen.logger.error(this.constructor.name + "():", "This argument (index " + i + " is not an UIElement: " + localArguments[i]);
+            TheFragebogen.logger.error(this.constructor.name + "()", "This argument (index " + i + " is not an UIElement: " + localArguments[i]);
         }
     }
     this.uiElements = localArguments.filter(function(element) {
@@ -36,7 +36,7 @@ function ScreenUIElements(className) {
     });
 
     if (this.uiElements.length < 1) {
-        TheFragebogen.logger.error(this.constructor.name + "():", "No UIElements were passed to constructor.");
+        TheFragebogen.logger.error(this.constructor.name + "()", "No UIElements were passed to constructor.");
     }
 
     this.paginateUI = new PaginateUIButton(undefined, undefined, 1);
@@ -59,7 +59,7 @@ ScreenUIElements.prototype.createUI = function() {
 
     for (var index in this.uiElements) {
         if (this.uiElements[index].createUI === undefined) {
-            TheFragebogen.logger.warn(this.constructor.name + ".createUI():", "Element[" + index + "] has no 'createUI' method");
+            TheFragebogen.logger.warn(this.constructor.name + ".createUI()", "Element[" + index + "] has no 'createUI' method");
             continue;
         }
 
@@ -78,7 +78,7 @@ ScreenUIElements.prototype.createUI = function() {
 };
 
 ScreenUIElements.prototype.releaseUI = function() {
-    TheFragebogen.logger.info(this.constructor.name + ".release():", "");
+    TheFragebogen.logger.info(this.constructor.name + ".release()", "");
     this.node = null;
     for (var index in this.uiElements) {
         this.uiElements[index].releaseUI();

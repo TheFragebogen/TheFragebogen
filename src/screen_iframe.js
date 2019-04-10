@@ -43,7 +43,7 @@ ScreenIFrame.prototype.createUI = function() {
     this.node.onload = function(event) {
         this.urlChanges += 1;
 
-        TheFragebogen.logger.debug(this.constructor.name + ".iframe.onload():", this.urlStartChanges + " of " + this.maxUrlChanges + " viewed.");
+        TheFragebogen.logger.debug(this.constructor.name + ".iframe.onload()", this.urlStartChanges + " of " + this.maxUrlChanges + " viewed.");
 
         if (this.urlChanges >= this.urlChangesToReady) {
             this.duration = Date.now() - this.startTime;

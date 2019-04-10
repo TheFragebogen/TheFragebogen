@@ -41,7 +41,7 @@ function QuestionnaireItemWaitWebsocket(className, url, messageSend, messageRece
     this.messageReceive = messageReceive;
 
     if (this.messageSend === undefined && this.messageReceive === undefined) {
-        TheFragebogen.logger.error("QuestionnaireItemWaitWebsocket():", "messageSend and messageReceive are undefined; this component will not do anything.");
+        TheFragebogen.logger.error("QuestionnaireItemWaitWebsocket()", "messageSend and messageReceive are undefined; this component will not do anything.");
     }
 
     this.reconnectAttempts = !isNaN(reconnectAttempts) ? reconnectAttempts : -1;
@@ -51,7 +51,7 @@ function QuestionnaireItemWaitWebsocket(className, url, messageSend, messageRece
     this.websocketConnection = null;
     this.connectionFailures = 0;
 
-    TheFragebogen.logger.warn("QuestionnaireItemWaitWebsocket():", "Set: url as " + this.url + ", messageSend as" + this.messageSend + ", messageReceive as " + this.messageReceive + "and timeout as " + this.timeout);
+    TheFragebogen.logger.warn("QuestionnaireItemWaitWebsocket()", "Set: url as " + this.url + ", messageSend as" + this.messageSend + ", messageReceive as " + this.messageReceive + "and timeout as " + this.timeout);
 }
 QuestionnaireItemWaitWebsocket.prototype = Object.create(QuestionnaireItem.prototype);
 QuestionnaireItemWaitWebsocket.prototype.constructor = QuestionnaireItemWaitWebsocket;
