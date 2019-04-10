@@ -11,7 +11,7 @@ Default paginator is `PaginateUIButton`.
 @class ScreenUIElements
 @augments Screen
 
-@param {string} [className] CSS class
+@param {string} [className=] CSS class
 @param {array} arguments an array containing the UIElements of the screen
 */
 function ScreenUIElements(className) {
