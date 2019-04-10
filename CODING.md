@@ -58,10 +58,11 @@ JavaScript with Style
 
    Although this is not enforced by JavaScript, please respect it - if something is marked as private somebody had a reason to do so.
 
-7. To check if a variable or attribute was not defined use: `type(variable) === "undefined"`.
+7. To check if a variable was not defined (i.e., mainly not passed as a parameter): `variable === undefined`.
 
-   Please note that `typeof` always returns a `string`: `(typeof(undefined) === "undefined")` => `true`
-   This statement is `true` while `typeof(undefined) === undefined` evaluates to `false`.
+8. To check if a _variable name_ was not yet defined use: `type(variable) === "undefined"`.
+
+   Please note that `typeof` always returns a `string`: `(typeof(undefined) === "undefined")` => `true` while `typeof(undefined) === undefined` => `false`.
 
 Formatting
 ---

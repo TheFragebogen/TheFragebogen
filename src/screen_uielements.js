@@ -19,7 +19,7 @@ function ScreenUIElements(className) {
 
     var localArguments = Array.prototype.slice.call(arguments);
 
-    if (typeof(className) !== "string" || typeof(className) === "undefined" || className === null) {
+    if (typeof(className) !== "string" || className === undefined || className === null) {
         this.className = "";
     } else {
         this.className = className;
