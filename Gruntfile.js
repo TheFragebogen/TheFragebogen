@@ -34,7 +34,7 @@ module.exports = function(grunt) {
             }
         },
         jsbeautifier: {
-            files: ['src/*.js', 'examples/*', 'tests/*', 'Gruntfile.js', 'package.json'],
+            files: ['src/*.js', 'examples/*', 'examples_feasibility/*/src/*.js', 'examples_feasibility/*/*.html', 'tests/*', 'Gruntfile.js', 'package.json'],
             options: {
                 js: {
                     indent_size: 4,
@@ -60,7 +60,7 @@ module.exports = function(grunt) {
             }
         },
         jshint: {
-            all: ['src/*.js', 'examples/*.js', 'Gruntfile.js', 'package.json'],
+            all: ['src/*.js', 'examples/*.js', 'examples-feasibility/*/src/*.js', 'Gruntfile.js', 'package.json'],
             options: {
                 esversion: 6
             }
