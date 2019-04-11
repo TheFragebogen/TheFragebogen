@@ -5,22 +5,28 @@
         <meta charset="utf-8">
         <title></title>
         <link rel="stylesheet" type="text/css" href="example.css">
+
         <script src="../thefragebogen.js"></script>
+
         <style>
         @media print {
             body {
                 counter-reset: page;
             }
+
             body>div::after {
                 counter-increment: page;
-                content: "Page " counter(page);
+                content: "Page "counter(page);
             }
+
             body>div:first-of-type {
                 page-break-before: avoid;
             }
+
             body>div {
                 page-break-before: always;
             }
+
             body>div>input[type="button"]:last-of-type {
                 /* Omit next button of ScreenUIElements */
                 display: none;
@@ -28,6 +34,7 @@
         }
 
         </style>
+
         <script>
         //This array stores all screens that will be shown.
         var screens = [];
@@ -47,6 +54,7 @@
         );
 
         </script>
+
         <script type="text/javascript">
         document.oncontextmenu = function() {
             return false;
