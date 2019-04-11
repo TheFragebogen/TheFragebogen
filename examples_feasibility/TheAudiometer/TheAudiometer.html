@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <meta charset="utf-8">
+        <title></title>
+        <link rel="stylesheet" type="text/css" href="../../examples/example.css">
+
+        <style>
+        .audiometerScreen {
+            position: fixed;
+            padding: 0;
+            top: 0;
+            bottom: 0;
+            width: 100%;
+            height: 100%;
+            transition: background-color 200ms linear;
+        }
+
+        .audiometerScreen:active {
+            background-color: lightgray;
+        }
+
+        </style>
+
+        <script src="../../thefragebogen.js"></script>
+
+        <script type="text/javascript" src="src/theaudiometer_beepgenerator.js"></script>
+
+        <script type="text/javascript" src="src/theaudiometer_calibration.js"></script>
+
+        <script type="text/javascript" src="src/theaudiometer_screen.js"></script>
+
+        <script>
+        /**
+        Calibration data for the audiometer (i.e., mapping of hearing level to gain by frequency and channel).
+        Only the values provided here can be later used.
+        */
+        var audiometerCalibrationData = {
+            //channel: left ear
+            0: {
+                //frequency
+                500: {
+                    //hearing level dbHL to gain
+                    "-20": 0.00001,
+                    "-15": 0.00002,
+                    "-10": 0.00003,
+                    "-5": 0.00004,
+                    "0": 0.00005,
+                    "5": 0.00006,
+                    "10": 0.00007,
+                    "15": 0.00008,
+                    "20": 0.00009,
+                    "30": 0.00010,
+                    "40": 0.00011,
+                    "45": 0.00012,
+                    "50": 0.00013,
+                    "55": 0.00014,
+                }
+            },
+            //channel: right ear
+            1: {
+                //frequency
+                500: {
+                    //hearing level dbHL to gain
+                    "-20": 0.00001,
+                    "-15": 0.00002,
+                    "-10": 0.00003,
+                    "-5": 0.00004,
+                    "0": 0.00005,
+                    "5": 0.00006,
+                    "10": 0.00007,
+                    "15": 0.00008,
+                    "20": 0.00009,
+                    "30": 0.00010,
+                    "40": 0.00011,
+                    "45": 0.00012,
+                    "50": 0.00013,
+                    "55": 0.00014,
+                }
+            }
+        };
+
+        //This array stores all screens that will be shown.
+        var screens = [];
+
+        screens.push(new ScreenUIElements(
+            new UIElementHTML(undefined, "Welcome to TheAudiometer.<br>This is a proof-of-concept implementation of an audiometer (<a href='https://en.wikipedia.org/wiki/Audiometer'>Wiki</a>) for TheFragebogen.<br><p><b>ATTENTION:</b> This software is working while using work-in-progress web standards (Web Audio API).<br>Moreover, for real use, the software needs to be precisely calibrated to the audio equipment.<p>")
+        ));
+
+        screens.push(new ScreenUIElements(
+            new UIElementHTML(undefined, "<i>Instructions:</i><br><p>A series of beeps is played (one ear at one frequency).<br>If you hear the beeps, please press your left mouse button and keep it until you do not hear the beeps anymore.<br>Please release the mouse button, when you cannot hear the beeps anymore.</p>" +
+                "<br><p><i>Note:</i> Please use a pair of headphones.</p><br><p><b>WARNING:</b> Please be careful not hurting your ears.<br>Do not put the pair of headphones directly onto your ears without testing the produced sound volume!")
+        ));
+
+        screens.push(new ScreenUIElements(
+            new UIElementHTML(undefined, "Ear: <b>left</b><br>Frequency: <b>500Hz</b>"),
+            new UIElementHTML(undefined, "If you hear the beeps, please press your left mouse button and keep it until you do not hear the beeps anymore.<br>Please release the mouse button, when you cannot hear the beeps anymore.</p>")
+        ));
+        screens.push(new TheAudiometerScreen("audiometerScreen", new TheAudiometerCalibration(audiometerCalibrationData), 500, 0, -10, 15));
+        screens.push(new ScreenUIElements(
+            new UIElementHTML(undefined, "Audiometry for the left ear finished.")
+        ));
+
+        screens.push(new ScreenUIElements(
+            new UIElementHTML(undefined, "Ear: <b>right</b><br>Frequency: <b>500Hz</b>"),
+            new UIElementHTML(undefined, "If you hear the beeps, please press your left mouse button and keep it until you do not hear the beeps anymore.<br>Please release the mouse button, when you cannot hear the beeps anymore.</p>")
+        ));
+        screens.push(new TheAudiometerScreen("audiometerScreen", new TheAudiometerCalibration(audiometerCalibrationData), 500, 1, -10, 15));
+        screens.push(new ScreenUIElements(
+            new UIElementHTML(undefined, "Audiometry for the right ear finished.")
+        ));
+
+        screens.push(new ScreenDataPreview(undefined));
+
+        screens.push(new ScreenWaitDataDownload(undefined, "The End<br>All data should now be downloaded."));
+
+        var screenController = new ScreenController(screens);
+
+        </script>
+
+        <script>
+        document.oncontextmenu = function() {
+            return false;
+        }; //Disable context menu (right click)
+
+        //Having the start()-function in an extra script-tag makes sure that it will be executed even if there are errors in the script-tag configuring TheFragebogen.
+        function start() {
+            document.body.innerHTML += "TheFragebogen loaded.";
+            if (typeof(screenController) === "undefined") {
+                document.body.innerHTML += "<br><i>Something went wrong:<\/i> Please check that thefragebogen.js was loaded and that the configuration is ok.";
+                return;
+            }
+            screenController.init(document.body);
+            screenController.start();
+        }
+
+        </script>
+    </head>
+
+    <body class="bodySpecial" onload="start()">
+        <p>
+            TheFragebogen will be shown here.<br> If something fails while starting, an error message will be shown here.
+        </p>
+    </body>
+
+</html>

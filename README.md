@@ -5,7 +5,7 @@ TheFragebogen
 ![TheFragebogen: logo](img/TheFragebogen-logo.svg)
 
 [TheFragebogen](http://www.thefragebogen.de) is a [HTML5](https://de.wikipedia.org/wiki/HTML5) framework for creating stand-alone questionnaires, i.e., running a web browser alone.  
-Implemented questionnaires can be loaded from a local file or from a web server.
+Questionnaires are implemented as _single-page applications_ and thus can be loaded from a local file or from a web server.
 The collected data can be downloaded to the executing machine or uploaded to a web server.
 
 The Features
@@ -45,13 +45,15 @@ Getting started
 2. Enter repository: `cd TheFragebogen`
 3. Install dependencies via [npm](https://www.npmjs.com/): `npm install`
 4. Build TheFragebogen: `grunt`
-5. Check out the provided examples (see [`examples/`](examples/)).
+5. Check out the included _examples_ to see how to get started using TheFragebogen: see [`examples/`](examples/).
+6. Check out the included _feasibility studies_ that show how TheFragebogen could be extended: see [`examples_feasibility/`](examples_feasibility/).
+   __ATTENTION:__ Please note that the feasibility studies are not ready for use.
 
 ### Build the documentation:
 
 1. Install [JSdoc](usejsdoc.org): `npm install -g jsdoc`.
 2. Build documentation: `grunt doc`.
-3. Open documentation in your favorite web browser `doc/index.html`.
+3. Open documentation in your favorite web browser [`doc/index.html`](doc/index.html).
 
 The Concept
 ---
