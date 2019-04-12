@@ -2,6 +2,8 @@
 TheFragebogen
 ===
 
+![TheFragebogen: logo](img/TheFragebogen-logo.svg)
+
 [TheFragebogen](http://www.thefragebogen.de) is a [HTML5](https://de.wikipedia.org/wiki/HTML5) framework for creating stand-alone questionnaires, i.e., running a web browser alone.  
 Implemented questionnaires can be loaded from a local file or from a web server.
 The collected data can be downloaded to the executing machine or uploaded to a web server.
