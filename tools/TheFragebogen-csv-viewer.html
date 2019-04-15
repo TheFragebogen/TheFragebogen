@@ -1,0 +1,168 @@
+<html>
+
+    <head>
+        <meta charset="utf-8">
+        <title>TheFragebogen: CSV-Data Viewer</title>
+
+        <script src="http://papaparse.com/resources/js/papaparse.js"></script>
+
+        <style>
+        body {
+            text-align: center;
+        }
+
+        #dropArea {
+            height: 30em;
+            width: 30em;
+            margin-top: 1em;
+            margin-left: auto;
+            margin-right: auto;
+            border-style: dotted;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        #csvContent {
+            margin-top: 2em;
+            margin-left: auto;
+            margin-right: auto;
+
+            border-collapse: collapse;
+            border-style: hidden;
+        }
+
+        #csvContent > tr:first-child {
+            font-weight: bold;
+            color: white;
+            background-color: black;
+        }
+
+        #csvContent > tr  {
+            background-color: WhiteSmoke;
+            min-height: 2em;
+            text-align: center;
+        }
+
+        #csvContent > tr:nth-child(2n)  {
+            background-color: FloralWhite;
+        }
+
+        #csvContent > tr:hover {
+            background-color: lightgray;
+        }
+
+        td, th {
+            border: 1px solid black;
+        }
+        </style>
+
+        <script>
+        function loadAllowDrop(event) {
+            event.stopPropagation();
+            event.preventDefault();
+            event.dataTransfer.dropEffect = 'copy'; // Explicitly show this is a copy.
+        }
+
+        /**
+        Read a dropped CSV file.
+        No error check is done.
+        */
+        function loadDrop(event) {
+            loadAllowDrop(event);
+
+            console.log("LoadDrop: we are loading now.");
+
+            if (event.dataTransfer.types.indexOf("Files") == 0) {
+                console.warn("No file dropped.");
+                return;
+            }
+            if (event.dataTransfer.types.indexOf("Files") > 1) {
+                console.warn("More than one file dropped. Loading only the first.");
+            }
+
+            const file = event.dataTransfer.files[0];
+            console.log("Loading " + file);
+            const reader = new FileReader();
+            reader.onload = function() {
+                content = reader.result;
+                write(content);
+                console.log(content);
+            }
+            reader.onerror = function() {
+                console.error("Error during reading: " + reader.error);
+            }
+            reader.readAsText(file);
+        }
+
+        /**
+        Parses the content of the dropped file and prints the content.
+        */
+        function write(content) {
+            const contentParsed = Papa.parse(content).data;
+
+            //Check Data.
+            if (contentParsed.length == 0) {
+                console.error("This does not look like a CSV.");
+                return;
+            }
+
+            let csvContentElement = document.getElementById("csvContent");
+            csvContentElement.innerHTML = "";
+
+            ///Write file content to table
+            for (let i = 0; i < contentParsed.length; i++) { //Row
+                const row = contentParsed[i];
+
+                const rowElement = document.createElement("tr");
+                for (let j = 0; j < row.length; j++) {
+                    const td = document.createElement("td");
+
+                    if (row[j].indexOf("data:image/png;base64,") === 0) { //Answer is an image
+                        const link = document.createElement("a");
+                        link.href = row[j];
+                        link.target = "_blank";
+                        td.appendChild(link);
+
+                        const image = new Image();
+                        link.appendChild(image);
+
+                        const canvas = document.createElement("canvas");
+                        const context = canvas.getContext("2d");
+                        //This is required, because the callback-function otherwise would access the context directly when called, which may happen AFTER the loop.
+                        const callback = function(context) {
+                            return function() {
+                                context.drawImage(this, 0, 0);
+                            };
+                        };
+                        image.onload = callback(context);
+                        image.src = row[j];
+                    } else {
+                        td.innerHTML = row[j];
+                    }
+                    rowElement.appendChild(td);
+                }
+                csvContentElement.appendChild(rowElement);
+            }
+        }
+
+        </script>
+
+    </head>
+
+    <body>
+        <h1>TheFragebogen: CSV-Data Viewer</h1>
+        <p>
+            This is a generic data viewer for CSV-files. <br />
+            It also parses DataURI-encoded images.
+
+            <br />
+            <b>NOTE:</b> If something goes wrong nothing will be shown. In such a case, please check the developer console of your browser.
+        </p>
+
+        <div id="dropArea" ondragover="loadAllowDrop(event)" ondrop="loadDrop(event)">Drop your TheFragebogen result file (csv) here.</div>
+
+        <table id="csvContent"></table>
+    </body>
+
+</html>

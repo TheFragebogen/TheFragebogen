@@ -80,6 +80,10 @@ For each row:
 * Column *3* contains the question (might be empty or a generic identifier).
 * Column *4* contains the answer options (might be empty).
 * Column *5* contains the answer(s) (might contain an array).
+  Might contain *text/numbers*, *JSON*, or a [*data URI*](https://en.wikipedia.org/wiki/Data_URI_scheme) (i.e., multimedia content).
+
+The data files can be opened using any compatible program (e.g., text editor, spreadsheet editor).
+`TheFragebogen-csv-viewer.html` is a viewer application that also decodes images encoded as *data URI*.
 
 License
 ---
