@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <meta charset="UTF-8">
+        <title></title>
+        <link rel="stylesheet" type="text/css" href="example.css">
+
+        <style>
+        .screen {
+            margin: 0.5em 0px 0.5em 0px;
+            padding: 0.2em;
+        }
+
+        .delayedImage,
+        .delayedImageNoCSS {
+            display: inline-block;
+            vertical-align: top;
+            white-space: nowrap;
+
+            width: 10em;
+            height: 10em;
+            padding: 1em;
+
+            margin-bottom: 4em;
+        }
+
+        .delayedImage>img {
+            width: 100%;
+            height: 100%;
+            display: inline-block;
+
+            border: 3px solid transparent;
+
+            padding: 1em;
+            box-sizing: border-box;
+        }
+
+        .delayedImageNoCSS>img {
+            width: 100%;
+            height: 100%;
+            display: inline-block;
+        }
+
+        .delayedImage>input {
+            display: none;
+        }
+
+        .delayedImage>input:checked+img {
+            border: 3px solid #0033cc;
+            outline: none;
+            box-shadow: 1px 1px 5px #0066ff;
+
+            padding: 1em;
+        }
+
+        </style>
+
+        <script src="../thefragebogen.js"></script>
+
+        <script>
+        var loadAnimationURI = "data:image/svg+xml,%3C!-- By Sam Herbert (@sherb), for everyone. More @ http://goo.gl/7AJzbL --%3E%3Csvg width='44' height='44' viewBox='0 0 44 44' xmlns='http://www.w3.org/2000/svg' stroke='%23000'%3E%3Cg fill='none' fill-rule='evenodd' stroke-width='2'%3E%3Ccircle cx='22' cy='22' r='1'%3E%3Canimate attributeName='r' begin='0s' dur='1.8s' values='1; 20' calcMode='spline' keyTimes='0; 1' keySplines='0.165, 0.84, 0.44, 1' repeatCount='indefinite' /%3E%3Canimate attributeName='stroke-opacity' begin='0s' dur='1.8s' values='1; 0' calcMode='spline' keyTimes='0; 1' keySplines='0.3, 0.61, 0.355, 1' repeatCount='indefinite' /%3E%3C/circle%3E%3Ccircle cx='22' cy='22' r='1'%3E%3Canimate attributeName='r' begin='-0.9s' dur='1.8s' values='1; 20' calcMode='spline' keyTimes='0; 1' keySplines='0.165, 0.84, 0.44, 1' repeatCount='indefinite' /%3E%3Canimate attributeName='stroke-opacity' begin='-0.9s' dur='1.8s' values='1; 0' calcMode='spline' keyTimes='0; 1' keySplines='0.3, 0.61, 0.355, 1' repeatCount='indefinite' /%3E%3C/circle%3E%3C/g%3E%3C/svg%3E";
+
+        var screens = [];
+
+        screens.push(
+            new ScreenUIElements(
+                new UIElementHTML(undefined, "Welcome to the demo version of TheFragebogen!<br><br>This demo shows UI components that simulate load delay for images.<br>When you are ready, please press 'Next'."),
+                new UIElementHTML(undefined, "This demo uses icons from <a href='https://creativecommons.org/about/downloads/'>Creative Commons</a>.<br>These icons are encoded as Data URI in this example.")
+            ));
+
+        screens.push(
+            new ScreenUIElements("screen",
+                new UIElementHTML(undefined, "This image loads after 1s.<br>This image needs to be selected."),
+                new UIElementInteractiveDelayedImageSelectable("delayedImage", loadAnimationURI,
+                    "data:image/svg+xml,%3C%3Fxml version='1.0' encoding='utf-8'%3F%3E%3C!-- Generator: Adobe Illustrator 13.0.2, SVG Export Plug-In . SVG Version: 6.00 Build 14948) --%3E%3C!DOCTYPE svg PUBLIC '-//W3C//DTD SVG 1.0//EN' 'http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd'%3E%3Csvg version='1.0' id='Layer_1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' x='0px' y='0px' width='64px' height='64px' viewBox='5.5 -3.5 64 64' enable-background='new 5.5 -3.5 64 64' xml:space='preserve'%3E%3Cg%3E%3Ccircle fill='%23FFFFFF' cx='37.946' cy='28.887' r='29.704'/%3E%3Cg%3E%3Cpath d='M37.443-3.5c8.951,0,16.531,3.105,22.742,9.315C66.393,11.987,69.5,19.548,69.5,28.5c0,8.954-3.049,16.457-9.145,22.514 C53.918,57.338,46.279,60.5,37.443,60.5c-8.649,0-16.153-3.143-22.514-9.429C8.644,44.786,5.5,37.264,5.5,28.501 c0-8.723,3.144-16.285,9.429-22.685C21.138-0.395,28.643-3.5,37.443-3.5z M37.557,2.272c-7.276,0-13.428,2.572-18.457,7.715 c-5.22,5.296-7.829,11.467-7.829,18.513c0,7.125,2.59,13.257,7.77,18.4c5.181,5.182,11.352,7.771,18.514,7.771 c7.123,0,13.334-2.609,18.629-7.828c5.029-4.876,7.543-10.99,7.543-18.343c0-7.313-2.553-13.485-7.656-18.513 C51.004,4.842,44.832,2.272,37.557,2.272z M50.586,19.357c0.494,0,0.914,0.171,1.256,0.513c0.344,0.343,0.516,0.763,0.516,1.258 v23.542c0,0.495-0.172,0.914-0.516,1.256c-0.342,0.343-0.762,0.516-1.256,0.516H33.157c-0.496,0-0.914-0.171-1.258-0.516 c-0.344-0.343-0.514-0.761-0.514-1.256v-6.973h-6.971c-0.497,0-0.915-0.17-1.258-0.513c-0.342-0.342-0.514-0.761-0.514-1.258 V12.386c0-0.458,0.151-0.848,0.458-1.171c0.303-0.323,0.685-0.523,1.142-0.6h0.171h17.428c0.494,0,0.914,0.171,1.258,0.514 c0.342,0.342,0.514,0.763,0.514,1.258v6.972H50.586z M26.128,34.214h5.257V21.128c0-0.457,0.151-0.847,0.458-1.171 c0.304-0.322,0.667-0.523,1.085-0.6h0.228h6.972v-5.2h-14V34.214z M48.871,22.842h-14v20.058h14V22.842z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E%0A",
+                    "Creative Commons: share", 1000, 1)
+            ));
+
+        screens.push(
+            new ScreenUIElements("screen",
+                new UIElementHTML(undefined, "This image loads after 3s.<br>After load finished, this image needs to be selected"),
+                new UIElementInteractiveDelayedImageSelectable("delayedImage", loadAnimationURI,
+                    "data:image/svg+xml,%3C%3Fxml version='1.0' encoding='utf-8'%3F%3E%3C!-- Generator: Adobe Illustrator 13.0.2, SVG Export Plug-In . SVG Version: 6.00 Build 14948) --%3E%3C!DOCTYPE svg PUBLIC '-//W3C//DTD SVG 1.0//EN' 'http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd'%3E%3Csvg version='1.0' id='Layer_1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' x='0px' y='0px' width='64px' height='64px' viewBox='5.5 -3.5 64 64' enable-background='new 5.5 -3.5 64 64' xml:space='preserve'%3E%3Cg%3E%3Ccircle fill='%23FFFFFF' cx='37.834' cy='28' r='28.834'/%3E%3Cg%3E%3Cpath d='M37.443-3.5c8.951,0,16.531,3.105,22.742,9.315C66.393,11.987,69.5,19.548,69.5,28.5c0,8.954-3.049,16.457-9.145,22.514 C53.918,57.338,46.279,60.5,37.443,60.5c-8.649,0-16.153-3.143-22.514-9.429C8.644,44.786,5.5,37.264,5.5,28.501 c0-8.723,3.144-16.285,9.429-22.685C21.138-0.395,28.643-3.5,37.443-3.5z M37.557,2.272c-7.276,0-13.428,2.572-18.457,7.715 c-5.22,5.296-7.829,11.467-7.829,18.513c0,7.125,2.59,13.257,7.77,18.4c5.181,5.182,11.352,7.771,18.514,7.771 c7.123,0,13.334-2.609,18.629-7.828c5.029-4.876,7.543-10.99,7.543-18.343c0-7.313-2.553-13.485-7.656-18.513 C51.004,4.842,44.832,2.272,37.557,2.272z M58.414,29.072l0.629,0.286v9.028l-0.572,0.284l-7.771,3.315L50.357,42.1l-0.4-0.114 l-16.743-6.914l-0.572-0.229l-8.285,3.429l-8.171-3.544V26.5l7.657-3.201l-0.057-0.057v-9.029l8.686-3.828l19.6,8.114v7.943 L58.414,29.072z M49.328,39.584v-5.655h-0.057v-0.229l-14.686-6v5.83l14.686,6.058v-0.058L49.328,39.584z M50.299,32.157 l5.145-2.114l-4.744-2l-5.029,2.114L50.299,32.157z M57.043,37.072V31.53l-5.715,2.4v5.6L57.043,37.072z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E%0A",
+                    "Creative Commons: remix", 3000, 4)
+            ));
+
+        screens.push(
+            new ScreenUIElements("screen",
+                new UIElementHTML(undefined, "This image loads after 3s (no CSS).<br>This image may be selected."),
+                new UIElementInteractiveDelayedImageSelectable("delayedImageNoCSS", loadAnimationURI,
+                    "data:image/svg+xml,%3C%3Fxml version='1.0' encoding='utf-8'%3F%3E%3C!-- Generator: Adobe Illustrator 13.0.2, SVG Export Plug-In . SVG Version: 6.00 Build 14948) --%3E%3C!DOCTYPE svg PUBLIC '-//W3C//DTD SVG 1.1//EN' 'http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd'%3E%3Csvg version='1.1' id='Layer_1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' x='0px' y='0px' width='384px' height='384.017px' viewBox='0 0 384 384.017' enable-background='new 0 0 384 384.017' xml:space='preserve'%3E%3Cpath d='M192,0.017c-106.036,0-192,85.964-192,192c0,106.024,85.964,192,192,192c106.036,0,192-85.976,192-192 C384,85.98,298.036,0.017,192,0.017z M192,348.015c-86.023,0-156.004-69.987-156.004-155.998c0-18.007,3.103-35.299,8.746-51.394 l61.013,27.169c-1.643,8.165-2.534,16.682-2.534,25.479c0,76.65,57.212,98.247,93.208,98.247c21.227,0,39.598-6.852,53.979-16.904 c2.733-1.959,5.209-3.93,7.484-5.936l-27.99-34.009c-0.821,0.938-1.678,1.83-2.557,2.628 c-10.887,10.323-22.853,10.323-25.527,10.323c-29.286,0-41.545-30.899-41.709-55.651l168.157,74.867 c0.199,0.035,0.363,0.035,0.527,0.07C302.259,315.215,250.89,348.015,192,348.015z M342.332,231.878l-173.436-77.412 c6.258-11.332,16.218-19.849,31.122-19.849c8.64,0,15.491,2.862,20.887,6.476c2.24,1.619,4.188,3.237,5.83,4.868l31.263-32.178 c-20.998-18.054-44.871-21.28-60.484-21.28c-36.688,0-62.649,15.86-77.952,39.944L61.564,106.58 C89.478,64.114,137.51,36.007,192,36.007c86.022,0,156.01,69.976,156.01,156.01c0,13.925-1.865,27.403-5.303,40.261 C342.566,232.137,342.473,232.019,342.332,231.878z'/%3E%3C/svg%3E%0A",
+                    "Creative Commons: public domain", 2000, 0)
+            ));
+
+        screens.push(
+            new ScreenUIElements("screen",
+                new UIElementHTML(undefined, "This image fails to load after 5s.<br>This image should not be selected."),
+                new UIElementInteractiveDelayedImageSelectable("delayedImage", loadAnimationURI, undefined, "Load failed", 2500, 5)
+            ));
+
+        var theEnd = new ScreenUIElements(
+            new UIElementHTML(undefined, "The End.")
+        );
+        theEnd.setPaginateUI(null);
+        screens.push(theEnd);
+
+        var screenController = new ScreenController(screens);
+
+        </script>
+
+        <script>
+        function start() {
+            document.body.innerHTML += "TheFragebogen loaded.";
+            if (typeof(screenController) === "undefined") {
+                document.body.innerHTML += "<br><i>Something went wrong:<\/i> Please check the configuration.";
+                return;
+            }
+
+            screenController.init(document.body);
+
+            screenController.start();
+        }
+
+        </script>
+    </head>
+
+    <body onload="start()" draggable="false">
+        <p>
+            TheFragebogen will be shown here.<br> If something fails while starting, an error message will be shown here.
+        </p>
+    </body>
+
+</html>
