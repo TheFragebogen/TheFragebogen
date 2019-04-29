@@ -15,7 +15,7 @@
         "grunt-concat-in-order": "^0.3.0",
         "grunt-contrib-jshint": "^2.1.0",
         "grunt-contrib-qunit": "^3.1.0",
-        "grunt-contrib-uglify": "^4.0.0",
+        "grunt-contrib-uglify": "^4.0.1",
         "grunt-git-revision": "0.0.1",
         "grunt-include-replace": "^5.0.0",
         "grunt-jsbeautifier": "^0.2.13",
