@@ -30,4 +30,4 @@ QuestionnaireItemSystemScreenSize.prototype.getAnswer = function() {
     var height = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
 
     return [width, height];
-}
+};
