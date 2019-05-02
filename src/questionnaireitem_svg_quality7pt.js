@@ -40,7 +40,14 @@ QuestionnaireItemSVGQuality7pt.prototype._setupSVG = function() {
     }
 };
 QuestionnaireItemSVGQuality7pt.prototype._getAnswerElements = function() {
-    return this.scaleImage.getElementsByTagName("ellipse");
+    rects = this.scaleImage.getElementsByTagName("rect");
+    elements = [];
+    for (var i = 0; i < rects.length; i++) {
+        if (rects[i].id.length == 2) {
+            elements.push(rects[i]);
+        }
+    }
+    return elements;
 };
 QuestionnaireItemSVGQuality7pt.prototype.getAnswerOptions = function() {
     return "10-70";
