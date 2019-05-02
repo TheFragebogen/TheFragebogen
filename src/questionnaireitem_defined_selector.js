@@ -45,7 +45,8 @@ QuestionnaireItemDefinedSelector.prototype._createAnswerNode = function() {
     return node;
 };
 QuestionnaireItemDefinedSelector.prototype._handleChange = function(event) {
-    this.answer = this.select.value;
+    // It is possible to select the optionNull field again to circumvent mandatory questions.
+    this.answer = this.select.value === "" ? null : this.select.value;
     this._sendReadyStateChanged();
 };
 
