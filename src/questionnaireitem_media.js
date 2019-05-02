@@ -100,8 +100,10 @@ QuestionnaireItemMedia.prototype._onloading = function() {
 QuestionnaireItemMedia.prototype._onloaded = function() {
     TheFragebogen.logger.info(this.constructor.name + "._onloaded()", "Loading done for " + this.getURL() + ".");
 
-    this.isContentLoaded = true;
-    this._sendOnPreloadedCallback();
+    if (!this.isContentLoaded) {
+        this.isContentLoaded = true;
+        this._sendOnPreloadedCallback();
+    }
 
     //Autostart playback?
     if (this.isUIcreated()) {
