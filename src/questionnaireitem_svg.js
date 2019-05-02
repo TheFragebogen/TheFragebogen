@@ -62,6 +62,10 @@ QuestionnaireItemSVG.prototype._createAnswerNode = function() {
     this._setupSVG();
 
     this.crossImage = this.scaleImage.getElementById("cross");
+    if (this.crossImage == null) {
+        this.crossImage = this.scaleImage.querySelector("#cross");
+    }
+
     //Problem identified here by the tests while using Safari 7.0.6 --- this.crossImage === null
     if (this.crossImage === null) {
         node.innerHTML = '"QuestionnaireItemSVG" feature not available in this browser or SVG is not compatible.';
