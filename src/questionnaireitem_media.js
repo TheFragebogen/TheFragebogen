@@ -13,13 +13,14 @@ Playable media start playing automatically if loaded (canplaythrough=true) and `
 @param {string} [question]
 @param {boolean} [required=false]
 @param {string} url The URL of the media element to be loaded; if supported by the browser also data URI.
+@param {string|array} url The URL of the media element to be loaded; if supported by the browser also data URI. A single resource can be provided as string or multiple resources of different formats as an array.
 @param {boolean} required Element must report ready before continue.
 @param {boolean} [readyOnError] Set `ready=true` if an error occures.
 */
 function QuestionnaireItemMedia(className, question, required, url, readyOnError) {
     QuestionnaireItem.call(this, className, question, required);
 
-    this.url = url;
+    this.url = Array.isArray(url) ? url : [url];
     this.isContentLoaded = false;
     this.stallingCount = 0;
     this.wasSuccessfullyPlayed = false;

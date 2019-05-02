@@ -65,6 +65,12 @@ QuestionnaireItemMediaAudio.prototype._createMediaNode = function() {
     this.audioNode = new Audio();
     this.audioNode.oncanplaythrough = this._onloaded.bind(this);
     this.audioNode.src = this.url;
+
+    for (var i = 0; i < this.url.length; i++) {
+        audioSource = document.createElement("source");
+        audioSource.src = this.url[i];
+        this.audioNode.appendChild(audioSource);
+    }
 };
 
 QuestionnaireItemMediaAudio.prototype._play = function() {
