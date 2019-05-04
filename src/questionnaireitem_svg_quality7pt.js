@@ -7,20 +7,22 @@ Labels are by default in German - the content of the labels is defined in the SV
 @augments UIElementInteractive
 @augments QuestionnaireItem
 @augments QuestionnaireItemSVG
-
-@param {string} [className] CSS class
-@param {string} question
-@param {boolean} [required=false]
-@param {string[]} [labels=["NOTE: Default labels are defined in the SVG."]] The labels (7 items; evaluated to string)
 */
-function QuestionnaireItemSVGQuality7pt(className, question, required, labels) {
-    QuestionnaireItemSVG.call(this, className, question, required);
+class QuestionnaireItemSVGQuality7pt extends QuestionnaireItemSVG {
+
+    /**
+    @param {string} [className] CSS class
+    @param {string} question
+    @param {boolean} [required=false]
+    @param {string[]} [labels=["NOTE: Default labels are defined in the SVG."]] The labels (7 items; evaluated to string)
+    */
+    constructor(className, question, required, labels) {
+    super(className, question, required);
 
     this.labels = labels;
 }
-QuestionnaireItemSVGQuality7pt.prototype = Object.create(QuestionnaireItemSVG.prototype);
-QuestionnaireItemSVGQuality7pt.prototype.constructor = QuestionnaireItemSVGQuality7pt;
-QuestionnaireItemSVGQuality7pt.prototype._setupSVG = function() {
+
+_setupSVG() {
     this.scaleImage = document.createElementNS("http://www.w3.org/2000/svg", "svg");
     this.scaleImage.setAttribute("viewBox", "0 2 136.76 21.39");
     this.scaleImage.innerHTML = '@@include("../svg_scales/quality7pt_scale_include.svg")';
@@ -38,10 +40,13 @@ QuestionnaireItemSVGQuality7pt.prototype._setupSVG = function() {
     } else {
         TheFragebogen.logger.info(this.constructor.name + "._setupSVG()", "Using default scale labels.");
     }
-};
-QuestionnaireItemSVGQuality7pt.prototype._getAnswerElements = function() {
+}
+
+_getAnswerElements() {
     return this.scaleImage.getElementsByTagName("ellipse");
-};
-QuestionnaireItemSVGQuality7pt.prototype.getAnswerOptions = function() {
+}
+
+getAnswerOptions() {
     return "10-70";
-};
+}
+}

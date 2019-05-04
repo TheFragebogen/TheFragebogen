@@ -6,20 +6,21 @@ This item uses a HTML input field.
 @augments UIElement
 @augments UIElementInteractive
 @augments QuestionnaireItem
-
-@param {string} [className] CSS class
-@param {string} question
-@param {boolean} [required=false]
 */
-function QuestionnaireItemText(className, question, required) {
-    QuestionnaireItem.call(this, className, question, required);
+class QuestionnaireItemText extends QuestionnaireItem {
+
+    /**
+    @param {string} [className] CSS class
+    @param {string} question
+    @param {boolean} [required=false]
+    */
+    constructor(className, question, required) {
+    super(className, question, required);
 
     this.input = null;
 }
-QuestionnaireItemText.prototype = Object.create(QuestionnaireItem.prototype);
-QuestionnaireItemText.prototype.constructor = QuestionnaireItemText;
 
-QuestionnaireItemText.prototype._createAnswerNode = function() {
+_createAnswerNode() {
     var node = document.createElement("div");
 
     this.input = document.createElement("input");
@@ -29,9 +30,9 @@ QuestionnaireItemText.prototype._createAnswerNode = function() {
 
     this._applyAnswerToUI();
     return node;
-};
+}
 
-QuestionnaireItemText.prototype._handleChange = function(event) {
+_handleChange(event) {
     if (this.input.value === "") {
         this.setAnswer(null);
     } else {
@@ -39,9 +40,9 @@ QuestionnaireItemText.prototype._handleChange = function(event) {
     }
 
     TheFragebogen.logger.info(this.constructor.name + "._handleChange()", this.getAnswer() + ".");
-};
+}
 
-QuestionnaireItemText.prototype._applyAnswerToUI = function() {
+_applyAnswerToUI() {
     if (!this.isUIcreated()) {
         return;
     }
@@ -49,12 +50,13 @@ QuestionnaireItemText.prototype._applyAnswerToUI = function() {
     if (this.isAnswered()) {
         this.input.value = this.getAnswer();
     }
-};
+}
+
 /**
 @param {string} answer answer
 @returns {boolean}
 */
-QuestionnaireItemText.prototype.setAnswer = function(answer) {
+setAnswer(answer) {
     if (answer === null) {
         this.answer = null;
         this._applyAnswerToUI();
@@ -65,29 +67,30 @@ QuestionnaireItemText.prototype.setAnswer = function(answer) {
     this._applyAnswerToUI();
     this._sendReadyStateChanged();
     return true;
-};
+}
 
-QuestionnaireItemText.prototype.releaseUI = function() {
+releaseUI() {
     this.node = null;
     this.uiCreated = false;
     this.enabled = false;
 
     this.input = null;
-};
+}
 
-QuestionnaireItemText.prototype.getData = function() {
+getData() {
     return [this.getQuestion(), this.getAnswer()];
-};
+}
 
-QuestionnaireItemText.prototype._checkData = function(data) {
+_checkData(data) {
     return (data[0] === this.question);
-};
+}
 
-QuestionnaireItemText.prototype.setData = function(data) {
+setData(data) {
     if (!this._checkData(data)) {
         return false;
     }
 
     this.setAnswer(data[1]);
     return true;
-};
+}
+}

@@ -7,23 +7,23 @@ A group of checkboxes is used.
 @augments UIElementInteractive
 @augments QuestionnaireItem
 @augments QuestionnaireItemDefined
-
-@param {string} [className] CSS class
-@param {string} question
-@param {boolean} [required=false]
-
-@param {array} optionList
 */
-function QuestionnaireItemDefinedMulti(className, question, required, optionList) {
-    QuestionnaireItemDefined.call(this, className, question, required, optionList);
+class QuestionnaireItemDefinedMulti extends QuestionnaireItemDefined {
+
+    /**
+    @param {string} [className] CSS class
+    @param {string} question
+    @param {boolean} [required=false]
+    @param {array} optionList
+    */
+    constructor(className, question, required, optionList) {
+    super(className, question, required, optionList);
 
     this.identifier = Math.random(); //Part of the identifier for the label + checkbox relation.
     this.answer = [];
 }
-QuestionnaireItemDefinedMulti.prototype = Object.create(QuestionnaireItemDefined.prototype);
-QuestionnaireItemDefinedMulti.prototype.constructor = QuestionnaireItemDefinedMulti;
 
-QuestionnaireItemDefinedMulti.prototype._createAnswerNode = function() {
+_createAnswerNode() {
     var node = document.createElement("div");
 
     for (var i = 0; i < this.optionList.length; i++) {
@@ -45,16 +45,16 @@ QuestionnaireItemDefinedMulti.prototype._createAnswerNode = function() {
 
     this._applyAnswerToUI();
     return node;
-};
+}
 
-QuestionnaireItemDefinedMulti.prototype._handleChange = function(event) {
+_handleChange(event) {
     this.answer[event.target.value] = event.target.checked;
     this.markRequired();
     this._sendReadyStateChanged();
     TheFragebogen.logger.info(this.constructor.name + "._handleChange()", this.getAnswer() + ".");
-};
+}
 
-QuestionnaireItemDefinedMulti.prototype._applyAnswerToUI = function() {
+_applyAnswerToUI() {
     if (!this.isUIcreated()) {
         return;
     }
@@ -64,9 +64,9 @@ QuestionnaireItemDefinedMulti.prototype._applyAnswerToUI = function() {
             this.input[i].checked = this.answer[i] || false;
         }
     }
-};
+}
 
-QuestionnaireItemDefinedMulti.prototype.getAnswer = function() {
+getAnswer() {
     //Clone answer
     var result = this.optionList.slice(0);
 
@@ -80,12 +80,13 @@ QuestionnaireItemDefinedMulti.prototype.getAnswer = function() {
     return result.filter(function(n) {
         return n !== null;
     });
-};
+}
+
 /**
 @param {(string|string[])} answer
 @returns {boolean}
 */
-QuestionnaireItemDefinedMulti.prototype.setAnswer = function(answer) {
+setAnswer(answer) {
     if (answer === null) {
         this.answer = [];
         this._applyAnswerToUI();
@@ -120,33 +121,35 @@ QuestionnaireItemDefinedMulti.prototype.setAnswer = function(answer) {
 
     TheFragebogen.logger.warn(this.constructor.name + ".setAnswer()", "Only accepts: string or array[string].");
     return false;
-};
-QuestionnaireItemDefinedMulti.prototype.isAnswered = function() {
-    return this.answer.length > 0;
-};
+}
 
-QuestionnaireItemDefinedMulti.prototype.releaseUI = function() {
+isAnswered() {
+    return this.answer.length > 0;
+}
+
+releaseUI() {
     this.node = null;
     this.uiCreated = false;
     this.enabled = false;
 
     this.input = [];
     this.identifier = null;
-};
+}
 
-QuestionnaireItemDefinedMulti.prototype.getData = function() {
+getData() {
     return [this.getQuestion(), this.optionList, this.getAnswer()];
-};
+}
 
-QuestionnaireItemDefinedMulti.prototype._checkData = function(data) {
+_checkData(data) {
     return (data[0] === this.question) && (JSON.stringify(data[1]) === JSON.stringify(this.optionList));
-};
+}
 
-QuestionnaireItemDefinedMulti.prototype.setData = function(data) {
+setData(data) {
     if (!this._checkData(data)) {
         return false;
     }
 
     this.setAnswer(data[2]);
     return true;
-};
+}
+}

@@ -10,21 +10,23 @@ It gets measured at the time of createUI().
 @augments QuestionnaireItem
 @augments QuestionnaireItemSystem
 */
-function QuestionnaireItemSystemViewportSize() {
+class QuestionnaireItemSystemViewportSize extends QuestionnaireItemSystem {
+
+    constructor() {
     QuestionnaireItemSystem.call(this, null, "Viewport size", false);
 }
-QuestionnaireItemSystemViewportSize.prototype = Object.create(QuestionnaireItemSystem.prototype);
-QuestionnaireItemSystemViewportSize.prototype.constructor = QuestionnaireItemSystemViewportSize;
 
-QuestionnaireItemSystemViewportSize.prototype.createUI = function() {
+createUI() {
     this.answer = [document.documentElement.clientWidth, document.documentElement.clientHeight];
-};
+}
 
-QuestionnaireItemSystemViewportSize.prototype.isReady = function() {
+isReady() {
     return true;
-};
+}
 
-QuestionnaireItemSystemViewportSize.prototype.releaseUI = function() {};
-QuestionnaireItemSystemViewportSize.prototype.getData = function() {
+releaseUI() {}
+
+getData() {
     return [this.getQuestion(), this.getAnswer()];
-};
+}
+}

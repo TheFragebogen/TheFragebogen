@@ -3,16 +3,19 @@ An audiometer for one frequency and one hear.
 
 @class TheAudiometerScreen
 @augments Screen
-
-@param {string} [className] CSS class
-@param {TheAudiometerCalibration} calibration The object containing the calibration data.
-@param {int} frequency The frequency the
-@param {int} channel The channel to be used.
-@param {int} hearinglevelInitial The hearing level to be used initially.
-@param {int} duration The duration in seconds.
 */
-function TheAudiometerScreen(className, calibration, frequency, channel, hearinglevelInitial, duration) {
-    Screen.call(this);
+class TheAudiometerScreen extends Screen {
+
+    /**
+    @param {string} [className] CSS class
+    @param {TheAudiometerCalibration} calibration The object containing the calibration data.
+    @param {int} frequency The frequency the
+    @param {int} channel The channel to be used.
+    @param {int} hearinglevelInitial The hearing level to be used initially.
+    @param {int} duration The duration in seconds.
+    */
+    constructor(className, calibration, frequency, channel, hearinglevelInitial, duration) {
+    super();
     this.className = className;
     this._calibration = calibration;
     this._frequency = frequency;
@@ -31,10 +34,7 @@ function TheAudiometerScreen(className, calibration, frequency, channel, hearing
     this.node = null;
 }
 
-TheAudiometerScreen.prototype = Object.create(Screen.prototype);
-TheAudiometerScreen.prototype.constructor = TheAudiometerScreen;
-
-TheAudiometerScreen.prototype.createUI = function() {
+createUI() {
     this.node = document.createElement("div");
     this.node.style.top = "0px";
     this.node.style.bottom = "0px";
@@ -49,30 +49,33 @@ TheAudiometerScreen.prototype.createUI = function() {
     TheFragebogen.logger.info(this.constructor.name + "()", "Channel: " + this._channel + ", Frequency: " + this._frequency + " with the following hearing levels " + this._calibration.getHearinglevelAll(this._frequency, this._channel));
 
     return this.node;
-};
-TheAudiometerScreen.prototype.releaseUI = function() {
+}
+
+releaseUI() {
     this.node = null;
     if (!this._beepGenerator.isStopped()) {
         this._stop();
     }
-};
-TheAudiometerScreen.prototype.start = function() {
+}
+
+start() {
     this._startTime = Date.now();
     this._decreaseHearinglevel = false;
 
     this._beepGenerator.setGain(this._calibration.getGain(this._frequency, this._channel, this._hearinglevel));
     this._beepGenerator.start();
-};
-TheAudiometerScreen.prototype.getDataCSV = function() {
+}
+
+getDataCSV() {
     return [
         [this.constructor.name, this.constructor.name, this.constructor.name, this.constructor.name, this.constructor.name],
         ['frequency', 'channel', 'initialHearinglevel', 'duration', 'measurement (JSON array)'],
         [],
         [this._frequency, this._channel, this._hearinglevelInitial, this._duration, JSON.stringify(this._data)],
     ];
-};
+}
 
-TheAudiometerScreen.prototype._handleBeep = function() {
+_handleBeep() {
     this._data.push(this._hearinglevel);
 
     if (Date.now() - this._startTime > this._duration * 1000) {
@@ -94,28 +97,31 @@ TheAudiometerScreen.prototype._handleBeep = function() {
     } else {
         TheFragebogen.logger.error(this.constructor.name, "Ingnoring gain of " + gain);
     }
-};
-TheAudiometerScreen.prototype._stop = function() {
+}
+
+_stop() {
     this._beepGenerator.stop();
 
     this._sendPaginateCallback();
-};
+}
 
 /**
 Increase the hearinglevel.
 */
-TheAudiometerScreen.prototype.increaseHearinglevel = function() {
+increaseHearinglevel() {
     if (!this._decreaseHearinglevel) return;
 
     TheFragebogen.logger.debug(this.constructor.name, "Increase hearing level for following beeps.");
     this._decreaseHearinglevel = false;
-};
+}
+
 /**
 Increase the hearinglevel.
 */
-TheAudiometerScreen.prototype.decreaseHearinglevel = function() {
+decreaseHearinglevel() {
     if (this._decreaseHearinglevel) return;
 
     TheFragebogen.logger.debug(this.constructor.name, "Decrease hearing level for following beeps.");
     this._decreaseHearinglevel = true;
-};
+}
+}

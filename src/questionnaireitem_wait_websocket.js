@@ -24,17 +24,20 @@ Uses CSS classes:
 @augments UIElement
 @augments UIElementInteractive
 @augments QuestionnaireItem
-
-@param {string} [className] CSS class
-
-@param {string} url The websocket URL, eg., ws://localhost:8080/someLocation.
-@param {string} [messageReceive=undefined]
-@param {string} [messageSend=undefined]
-@param {number} [reconnectAttempts=-1] Number of attempts to reconnect; negative number: forever.
-@param {number} [timeout=0] Timeout in seconds.
 */
-function QuestionnaireItemWaitWebsocket(className, url, messageSend, messageReceive, reconnectAttempts, timeout) {
-    QuestionnaireItem.call(this, className, "", true);
+class QuestionnaireItemWaitWebsocket extends QuestionnaireItem {
+
+    /**
+    @param {string} [className] CSS class
+
+    @param {string} url The websocket URL, eg., ws://localhost:8080/someLocation.
+    @param {string} [messageReceive=undefined]
+    @param {string} [messageSend=undefined]
+    @param {number} [reconnectAttempts=-1] Number of attempts to reconnect; negative number: forever.
+    @param {number} [timeout=0] Timeout in seconds.
+    */
+    constructor(className, url, messageSend, messageReceive, reconnectAttempts, timeout) {
+    super(className, "", true);
 
     this.url = url;
     this.messageSend = messageSend;
@@ -53,14 +56,14 @@ function QuestionnaireItemWaitWebsocket(className, url, messageSend, messageRece
 
     TheFragebogen.logger.warn("QuestionnaireItemWaitWebsocket()", "Set: url as " + this.url + ", messageSend as" + this.messageSend + ", messageReceive as " + this.messageReceive + "and timeout as " + this.timeout);
 }
-QuestionnaireItemWaitWebsocket.prototype = Object.create(QuestionnaireItem.prototype);
-QuestionnaireItemWaitWebsocket.prototype.constructor = QuestionnaireItemWaitWebsocket;
-QuestionnaireItemWaitWebsocket.prototype.createUI = function() {
+
+createUI() {
     this.node = document.createElement("div");
     this.node.className = this.className;
     return this.node;
-};
-QuestionnaireItemWaitWebsocket.prototype.setEnabled = function(enabled) {
+}
+
+setEnabled(enabled) {
     this.enabled = enabled;
 
     if (this.enabled) { //Let's connect (and start timer)!
@@ -70,8 +73,9 @@ QuestionnaireItemWaitWebsocket.prototype.setEnabled = function(enabled) {
             this.timeoutHandle = setTimeout((this._onTimeout).bind(this), this.timeout);
         }
     }
-};
-QuestionnaireItemWaitWebsocket.prototype._handleConnect = function() {
+}
+
+_handleConnect() {
     if (this.websocketConnection === null) {
         this.websocketConnection = new WebSocket(this.url);
 
@@ -82,8 +86,9 @@ QuestionnaireItemWaitWebsocket.prototype._handleConnect = function() {
         this.websocketConnection.onerror = this._onWebsocketError.bind(this);
         this.websocketConnection.onclose = this._onWebsocketClose.bind(this);
     }
-};
-QuestionnaireItemWaitWebsocket.prototype._onConnected = function() {
+}
+
+_onConnected() {
     this.node.className = this.className + "Connected";
 
     if (this.messageSend === undefined) {
@@ -92,8 +97,9 @@ QuestionnaireItemWaitWebsocket.prototype._onConnected = function() {
 
     this.websocketConnection.send(this.messageSend);
     TheFragebogen.logger.info(this.constructor.name + ".connection.onopen()", "Connection opened and message <<" + this.messageSend + ">> delivered.");
-};
-QuestionnaireItemWaitWebsocket.prototype._onMessage = function(event) {
+}
+
+_onMessage(event) {
     if (event.data && event.data !== this.messageReceive) {
         TheFragebogen.logger.warn(this.constructor.name + ".connection.onmessage()", "Received unknown message: <<" + event.data + ">>; waiting for <<" + this.messageReceive + ">>");
         return;
@@ -104,13 +110,15 @@ QuestionnaireItemWaitWebsocket.prototype._onMessage = function(event) {
     this.node.className = this.className + "Ready";
 
     this._sendReadyStateChanged();
-};
-QuestionnaireItemWaitWebsocket.prototype._onWebsocketError = function(error) {
+}
+
+_onWebsocketError(error) {
     this.node.className = this.className + "Reconnecting";
     TheFragebogen.logger.warn(this.constructor.name + ".connection.onerror()", error);
     //Reconnect handled by onclose
-};
-QuestionnaireItemWaitWebsocket.prototype._onWebsocketClose = function() {
+}
+
+_onWebsocketClose() {
     TheFragebogen.logger.warn(this.constructor.name + ".connection.onclose()", "Connection closed.");
 
     if (this.isReady()) {
@@ -131,16 +139,19 @@ QuestionnaireItemWaitWebsocket.prototype._onWebsocketClose = function() {
     TheFragebogen.logger.error(this.constructor.name + ".connection.onclose()", "Maximal number of attempts reached. QuestionnaireItemWaitWebsocket will not try to reconnect again!");
     this.ready = true;
     this._sendReadyStateChanged();
-};
-QuestionnaireItemWaitWebsocket.prototype._onTimeout = function() {
+}
+
+_onTimeout() {
     this._sendReadyStateChanged();
 
     TheFragebogen.logger.warn(this.constructor.name + "._handleTimeout()", "Waiting got timeout after " + (!this.connectionFailures ? (this.timeout + "ms.") : (this.connectionFailures + " attempt(s).")));
-};
-QuestionnaireItemWaitWebsocket.prototype.markRequired = function() {
+}
+
+markRequired() {
     //This elements shows its status and is always required.
-};
-QuestionnaireItemWaitWebsocket.prototype.releaseUI = function() {
+}
+
+releaseUI() {
     this.node = null;
 
     clearTimeout(this.timeoutHandle);
@@ -153,4 +164,5 @@ QuestionnaireItemWaitWebsocket.prototype.releaseUI = function() {
         this.websocketConnection.close();
     }
     this.websocketConnection = null;
-};
+}
+}

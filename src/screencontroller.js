@@ -5,15 +5,17 @@ Applies lifecycle management for the Screens.
 
 ATTENTION: `ScreenController.init(parentNode)` must be called before using a ScreenController.
 
-@class ScreenController
-
-@param {array} The Screens to be used.
-
 Callbacks:
 * ScreenController.callbackScreenFinished() {boolean}: The current screen is done; continue to next screen?
 
+@class ScreenController
 */
-function ScreenController() {
+class ScreenController {
+
+    /**
+    @param {array} The Screens to be used.
+    */
+    constructor() {
     if (arguments.length === 0) TheFragebogen.logger.fatal(this.constructor.name + ".constructor", "No screen available.");
 
     var localArguments = [].concat.apply([], arguments); //Flatten the potential array.
@@ -31,13 +33,12 @@ function ScreenController() {
 
     this.preloadedScreenResult = null;
 }
-ScreenController.prototype.constructor = ScreenController;
+
 /**
 Init this instance of ScreenController; most important providing the HTML element to be used.
-
 @param {HTMLElement} [parentNode] The parent HTML element; must be a container.
 */
-ScreenController.prototype.init = function(parentNode) {
+init(parentNode) {
     if (this.screenContainerNode !== null) {
         TheFragebogen.logger.warn(this.constructor.name + ".init()", "Is already initialized.");
         return;
@@ -47,7 +48,7 @@ ScreenController.prototype.init = function(parentNode) {
 
     this.screenContainerNode = parentNode;
 
-    for (i = 0; i < this.screen.length; i++) {
+    for (var i = 0; i < this.screen.length; i++) {
         if (this.screen[i].setGetDataCallback instanceof Function) {
             this.screen[i].setGetDataCallback((this.requestDataCSV).bind(this));
         }
@@ -60,21 +61,22 @@ ScreenController.prototype.init = function(parentNode) {
     }
 
     this.currentScreenIndex = 0;
-};
-ScreenController.prototype.setCallbackScreenFinished = function(callback) {
+}
+
+setCallbackScreenFinished(callback) {
     if (!(callback instanceof Function)) {
         TheFragebogen.logger.warn(this.constructor.name + ".setCallbackScreenFinished()", "Callback is not a function. Ignoring it.");
         return;
     }
     this.callbackScreenFinished = callback;
-};
+}
+
 /**
 Add an additional screen at the end.Appends a screen and returns the index.
-
 @param {Screen} screen
 @returns {number} The index of the just added screen; in case of failure -1.
 */
-ScreenController.prototype.addScreen = function(screen) {
+addScreen(screen) {
     if (!(screen instanceof Screen)) {
         TheFragebogen.logger.warn(this.constructor.name + ".addScreen()", "This screen is not a screen. Ignoring it.");
         return -1;
@@ -94,21 +96,22 @@ ScreenController.prototype.addScreen = function(screen) {
     }
 
     return this.screen.length - 1;
-};
+}
+
 /**
 Starts the screenController, i.e., showing the screen in their respective order.
 */
-ScreenController.prototype.start = function() {
+start() {
     this.screenContainerNode.innerHTML = "";
     this._displayUI();
-};
+}
+
 /**
 Proceeds to the next screen if the current screen reports ready.
-
 @param {Screen} screen The screen that send the callback.
 @param {number} [relativeScreenId=1]
 */
-ScreenController.prototype.nextScreen = function(screen, relativeScreenId) {
+nextScreen(screen, relativeScreenId) {
     if (this.screenContainerNode === null) {
         TheFragebogen.logger.error(this.constructor.name + ".nextScreen()", "Please call init() before.");
         return;
@@ -130,8 +133,9 @@ ScreenController.prototype.nextScreen = function(screen, relativeScreenId) {
 
     relativeScreenId = relativeScreenId === undefined ? 1 : relativeScreenId;
     this.goToScreenRelative(relativeScreenId);
-};
-ScreenController.prototype._displayUI = function() {
+}
+
+_displayUI() {
     if (this.currentScreenIndex >= this.screen.length) {
         TheFragebogen.logger.error(this.constructor.name + "._displayUI()", "There is no screen with index " + this.currentScreenIndex + ".");
         return;
@@ -146,7 +150,8 @@ ScreenController.prototype._displayUI = function() {
     var screen = this.screen[this.currentScreenIndex];
     this.screenContainerNode.appendChild(screen.createUI());
     screen.start();
-};
+}
+
 /**
 Prepare data for export (CSV).
 * Column 1: ScreenIndex
@@ -154,10 +159,9 @@ Prepare data for export (CSV).
 * Column 3: Questions
 * Column 4: Answer options
 * Column 5: Answers
-
 @return {string}
 */
-ScreenController.prototype.requestDataCSV = function() {
+requestDataCSV() {
     TheFragebogen.logger.info(this.constructor.name + ".requestDataCSV()", "called.");
     var dataArray = this.requestDataArray();
 
@@ -170,7 +174,8 @@ ScreenController.prototype.requestDataCSV = function() {
         result += '","' + dataArray[i][4] + '"\n'; //Answer
     }
     return result;
-};
+}
+
 /**
 Prepare data for export as a two-dimensional array:
 * Column 1: ScreenIndex
@@ -178,10 +183,9 @@ Prepare data for export as a two-dimensional array:
 * Column 3: Questions
 * Column 4: Answer options
 * Column 5: Answers
-
 @return {array}
 */
-ScreenController.prototype.requestDataArray = function() {
+requestDataArray() {
     TheFragebogen.logger.info(this.constructor.name + ".requestDataArray()", "called.");
 
     var screenIndeces = ["Screen index"];
@@ -229,31 +233,35 @@ ScreenController.prototype.requestDataArray = function() {
         });
     });
     return result;
-};
+}
+
 /**
 @return {boolean}
 */
-ScreenController.prototype.isLastScreen = function() {
+isLastScreen() {
     return this.currentScreenIndex === this.screen.length - 1;
-};
+}
+
 /*
 @return {number}
 */
-ScreenController.prototype.getCurrentScreenIndex = function() {
+getCurrentScreenIndex() {
     return this.currentScreenIndex;
-};
+}
+
 /*
 @return {Screen}
 */
-ScreenController.prototype.getCurrentScreen = function() {
+getCurrentScreen() {
     return this.screen[this.getCurrentScreenIndex()];
-};
+}
+
 /**
 Go to screen by screenId (relative).
 @argument {number} relativeScreenId The screenId (relative) of the screen that should be displayed.
 @return {boolean} Success.
 */
-ScreenController.prototype.goToScreenRelative = function(relativeScreenId) {
+goToScreenRelative(relativeScreenId) {
     if (this.screenContainerNode === null) {
         TheFragebogen.logger.error(this.constructor.name + ".goToScreenRelative()", "Please call init() before.");
         return false;
@@ -277,26 +285,26 @@ ScreenController.prototype.goToScreenRelative = function(relativeScreenId) {
     this.currentScreenIndex = screenId;
     this._displayUI();
     return true;
-};
+}
+
 /**
 Go to screen by screenId (absolute).
 @argument {number} screenId The screenId (relative) of the screen that should be displayed.
 @return {boolean} Success.
 */
-ScreenController.prototype.goToScreenAbsolute = function(screenId) {
+goToScreenAbsolute(screenId) {
     return this.goToScreenRelative(screenId - this.getCurrentScreenIndex());
-};
+}
+
 /**
 Initiates preloading of external media, i.e., informs all `Screens` to start loading external media and report when ready/fail.
 While preloading, `screenController.start()` can be called.
-
 @see ScreenController._onPreloadedScreenFinished()
 @see ScreenController._onScreenPreloaded()
 @see ScreenController._finishedPreload()
-
 @param innerHTML The HTML to be shown while preloading.
 */
-ScreenController.prototype.preload = function(innerHTML) {
+preload(innerHTML) {
     TheFragebogen.logger.debug(this.constructor.name + ".preload()", "Preloading started.");
 
     this.screenContainerNode.innerHTML += innerHTML;
@@ -305,14 +313,13 @@ ScreenController.prototype.preload = function(innerHTML) {
         this.screen[i].setOnPreloadedCallback((this.onScreenPreloaded).bind(this));
         this.screen[i].preload();
     }
-};
+}
 
 /**
 Handles the returned preloadStatus from each screen.
-
 @param {Screen} screen The screen that finished preloading.
 */
-ScreenController.prototype.onScreenPreloaded = function() {
+onScreenPreloaded() {
     for (var i = 0; i < this.screen.length; i++) {
         if (!this.screen[i].isPreloaded()) {
             return;
@@ -320,14 +327,15 @@ ScreenController.prototype.onScreenPreloaded = function() {
     }
 
     this.onPreloadingDone();
-};
+}
 
 /**
 Preloading is finished.
 Start the screenController.
 */
-ScreenController.prototype.onPreloadingDone = function() {
+onPreloadingDone() {
     TheFragebogen.logger.info(this.constructor.name + "._onPreloadingDone()", "Preloading done. Let's go.");
     setTimeout(this.start.bind(this), 2000);
     //TODO Do something about preloading errors?
-};
+}
+}

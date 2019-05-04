@@ -2,23 +2,24 @@
 Provides access to calibration data.
 
 @class TheAudiometerCalibration
-@param {Map<int, Map<int, Map<int, int>>>} calibrationData The calibration to be used as nested map: channel -> frequency -> hearinglevel -> gain
 */
-function TheAudiometerCalibration(calibrationData) {
+class TheAudiometerCalibration {
+
+    /**
+    @param {Map<int, Map<int, Map<int, int>>>} calibrationData The calibration to be used as nested map: channel -> frequency -> hearinglevel -> gain
+    */
+    constructor(calibrationData) {
     this._calibrationData = calibrationData;
 }
-TheAudiometerCalibration.prototype = Object.create(TheAudiometerCalibration);
-TheAudiometerCalibration.prototype.constructor = TheAudiometerCalibration;
 
 /**
 Lookup the gain for this channel, frequency and hearing level.
 @param {int} frequency
 @param {int} channel
 @param {int} hearinglevel
-
 @return {float|NaN} The gain.
 */
-TheAudiometerCalibration.prototype.getGain = function(frequency, channel, hearinglevel) {
+getGain(frequency, channel, hearinglevel) {
     var calibrationDataChannelFrequency = this._getChannelFrequency(frequency, channel);
     var gain = calibrationDataChannelFrequency[hearinglevel];
     if (gain === undefined) {
@@ -30,17 +31,17 @@ TheAudiometerCalibration.prototype.getGain = function(frequency, channel, hearin
         return NaN;
     }
     return gain;
-};
+}
+
 /**
 Get the next hearing level to be presented (either increase or decrease).
 @param {boolean} decreaseHearinglevel Should the hearing level be decreased or increased?
 @param {int} frequency
 @param {int} channel
 @param {int} hearinglevel
-
 @return {int|NaN} The next hearing level.
 */
-TheAudiometerCalibration.prototype.getHearinglevel = function(decreaseHearinglevel, frequency, channel, hearinglevel) {
+getHearinglevel(decreaseHearinglevel, frequency, channel, hearinglevel) {
     var calibrationDataHearinglevel = this._getChannelFrequency(frequency, channel);
     if (calibrationDataHearinglevel === undefined) {
         TheFragebogen.logger.error(this.constructor.name + ".getHearinglevel()", "Could not find calibration data for channel: " + channel + ", frequency: " + frequency + ", and hearing level " + hearinglevel);
@@ -65,15 +66,15 @@ TheAudiometerCalibration.prototype.getHearinglevel = function(decreaseHearinglev
     }
 
     return hearinglevelSorted[hearinglevelNextIndex];
-};
+}
+
 /**
 Get all hearing levels for a channel and a frequency.
 @param {int} frequency
 @param {int} channel
-
 @return {array<float>} All hearing levels.
 */
-TheAudiometerCalibration.prototype.getHearinglevelAll = function(frequency, channel) {
+getHearinglevelAll(frequency, channel) {
     var calibrationDataHearinglevel = this._getChannelFrequency(frequency, channel);
     if (calibrationDataHearinglevel === undefined) {
         TheFragebogen.logger.error(this.constructor.name + ".getHearinglevel()", "Could not find calibration data for channel: " + channel + ", frequency: " + frequency + ", and hearing level " + hearinglevel);
@@ -81,8 +82,9 @@ TheAudiometerCalibration.prototype.getHearinglevelAll = function(frequency, chan
     }
 
     return Object.keys(calibrationDataHearinglevel).map(e => parseInt(e)).sort((a, b) => a - b);
-};
-TheAudiometerCalibration.prototype._getChannelFrequency = function(frequency, channel) {
+}
+
+_getChannelFrequency(frequency, channel) {
     var calibrationDataChannel = this._calibrationData[channel];
     if (calibrationDataChannel === undefined) {
         TheFragebogen.logger.error(this.constructor.name + "._getChannelFrequency()", "Could not find calibration data for channel: " + channel);
@@ -95,4 +97,5 @@ TheAudiometerCalibration.prototype._getChannelFrequency = function(frequency, ch
         return NaN;
     }
     return calibrationDataFrequency;
-};
+}
+}

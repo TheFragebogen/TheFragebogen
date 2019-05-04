@@ -8,17 +8,19 @@ Playable media start playing automatically if loaded (canplaythrough=true) and `
 @augments UIElement
 @augments UIElementInteractive
 @augments QuestionnaireItem
-
-@param {string} [className] CSS class
-@param {string} [question]
-@param {boolean} [required=false]
-@param {string} url The URL of the media element to be loaded; if supported by the browser also data URI.
-@param {string|array} url The URL of the media element to be loaded; if supported by the browser also data URI. A single resource can be provided as string or multiple resources of different formats as an array.
-@param {boolean} required Element must report ready before continue.
-@param {boolean} [readyOnError] Set `ready=true` if an error occures.
 */
-function QuestionnaireItemMedia(className, question, required, url, readyOnError) {
-    QuestionnaireItem.call(this, className, question, required);
+class QuestionnaireItemMedia extends QuestionnaireItem {
+
+    /**
+    @param {string} [className] CSS class
+    @param {string} [question]
+    @param {boolean} [required=false]
+    @param {string|array} url The URL of the media element to be loaded; if supported by the browser also data URI. A single resource can be provided as string or multiple resources of different formats as an array.
+    @param {boolean} required Element must report ready before continue.
+    @param {boolean} [readyOnError] Set `ready=true` if an error occures.
+    */
+    constructor(className, question, required, url, readyOnError) {
+    super(className, question, required);
 
     this.url = Array.isArray(url) ? url : [url];
     this.isContentLoaded = false;
@@ -28,33 +30,32 @@ function QuestionnaireItemMedia(className, question, required, url, readyOnError
 
     this.errorOccured = false;
 }
-QuestionnaireItemMedia.prototype = Object.create(QuestionnaireItem.prototype);
-QuestionnaireItemMedia.prototype.constructor = QuestionnaireItemMedia;
-QuestionnaireItemMedia.prototype.load = function() {
+
+load() {
     TheFragebogen.logger.info(this.constructor.name + ".load()", "Start loading for " + this.getURL() + ".");
-};
+}
 
-QuestionnaireItemMedia.prototype.isLoaded = function() {
+isLoaded() {
     return this.isContentLoaded;
-};
+}
 
-QuestionnaireItemMedia.prototype.isReady = function() {
+isReady() {
     if (!this.readyOnError && this.errorOccured) {
         return false;
     }
 
     return this.isRequired() ? this.wasSuccessfullyPlayed : true;
-};
+}
 
-QuestionnaireItemMedia.prototype.getURL = function() {
+getURL() {
     return this.url;
-};
+}
 
-QuestionnaireItemMedia.prototype.getStallingCount = function() {
+getStallingCount() {
     return this.stallingCount;
-};
+}
 
-QuestionnaireItemMedia.prototype.setEnabled = function(enabled) {
+setEnabled(enabled) {
     if (!this.isUIcreated()) {
         TheFragebogen.logger.warn(this.constructor.name + ".setEnabled()", "Cannot start playback on setEnabled without createUI().");
         return;
@@ -66,39 +67,40 @@ QuestionnaireItemMedia.prototype.setEnabled = function(enabled) {
     } else {
         this._pause();
     }
-};
+}
 
-QuestionnaireItemMedia.prototype.preload = function() {
+preload() {
     TheFragebogen.logger.debug(this.constructor.name + ".preload()", "Start preloading.");
 
     this.preloaded = false;
 
     this._loadMedia();
-};
+}
 
-QuestionnaireItemMedia.prototype._loadMedia = function() {
+_loadMedia() {
     TheFragebogen.logger.warn(this.constructor.name + "._loadMedia()", "This method must be overridden for correct preloading.");
-};
+}
 
 //Media-related callbacks
 /**
 Start playback of playable media.
 */
-QuestionnaireItemMedia.prototype._play = function() {
+_play() {
     TheFragebogen.logger.debug(this.constructor.name + "._play()", "This method must be overridden if playback is desired.");
-};
+}
+
 /**
 Pause playback of playable media.
 */
-QuestionnaireItemMedia.prototype._pause = function() {
+_pause() {
     TheFragebogen.logger.debug(this.constructor.name + "._pause()", "This method must be overridden if playback is desired.");
-};
+}
 
-QuestionnaireItemMedia.prototype._onloading = function() {
+_onloading() {
     TheFragebogen.logger.info(this.constructor.name + "._onloading()", "This method might be overriden.");
-};
+}
 
-QuestionnaireItemMedia.prototype._onloaded = function() {
+_onloaded() {
     TheFragebogen.logger.info(this.constructor.name + "._onloaded()", "Loading done for " + this.getURL() + ".");
 
     if (!this.isContentLoaded) {
@@ -110,29 +112,29 @@ QuestionnaireItemMedia.prototype._onloaded = function() {
     if (this.isUIcreated()) {
         this.setEnabled(this.enabled);
     }
-};
+}
 
-QuestionnaireItemMedia.prototype._onstalled = function() {
+_onstalled() {
     this.stallingCount += 1;
     this._updateAnswer();
     this._sendOnPreloadedCallback();
 
     TheFragebogen.logger.warn(this.constructor.name + "._onstalled()", "Stalling occured (" + this.stallingCount + ") for " + this.getURL());
-};
+}
 
-QuestionnaireItemMedia.prototype._onerror = function() {
+_onerror() {
     this.stallingCount += 1;
     this._updateAnswer();
     this._sendOnPreloadedCallback();
 
     TheFragebogen.logger.error(this.constructor.name + "._onerror()", "Stalling occured (" + this.stallingCount + ") for " + this.getURL());
-};
+}
 
-QuestionnaireItemMedia.prototype._onprogress = function() {
+_onprogress() {
     TheFragebogen.logger.debug(this.constructor.name + "._onprogress()", "This method must be overridden if progress reporting is desired.");
-};
+}
 
-QuestionnaireItemMedia.prototype._onended = function() {
+_onended() {
     TheFragebogen.logger.info(this.constructor.name + "._onended", "Playback finished.");
 
     this.wasSuccessfullyPlayed = true;
@@ -140,24 +142,25 @@ QuestionnaireItemMedia.prototype._onended = function() {
 
     this._sendReadyStateChanged();
     this.markRequired();
-};
+}
 
-QuestionnaireItemMedia.prototype.setAnswer = function(answer) {
+setAnswer(answer) {
     this.answer = answer;
-};
+}
 
-QuestionnaireItemMedia.prototype.getData = function() {
+getData() {
     return [this.url, this.time];
-};
+}
 
-QuestionnaireItemMedia.prototype._checkData = function(data) {
+_checkData(data) {
     return (data[0] === this.getURL()) && (data[1] === this.getStallingCount());
-};
+}
 
-QuestionnaireItemMedia.prototype.setData = function(data) {
+setData(data) {
     return this._checkData(data);
-};
+}
 
-QuestionnaireItemMedia.prototype._updateAnswer = function() {
+_updateAnswer() {
     TheFragebogen.logger.debug(this.constructor.name + "._updateAnswer()", "This method must be overridden if progress reporting is desired.");
-};
+}
+}

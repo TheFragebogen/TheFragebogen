@@ -3,23 +3,24 @@ A screen that presents one or more UIElements.
 All UIElements are visible and enabled by default.
 Ready is reported when all UIElements reported ready AND the user pressed the presented button.
 
-DEVERLOPER: To inherit this class, `ScreenUIElements.apply(this, arguments)` MUST be used instead of `ScreenUIElements.call(this, arguments)`.
-
 Supports _pagination_.
 Default paginator is `PaginateUIButton`.
 
 @class ScreenUIElements
 @augments Screen
-
-@param {string} [className=] CSS class
-@param {array} arguments an array containing the UIElements of the screen
 */
-function ScreenUIElements(className) {
-    Screen.call(this);
+class ScreenUIElements extends Screen {
+
+    /**
+    @param {string} [className=] CSS class
+    @param {...UIElement} arguments an array containing the UIElements of the screen
+    */
+    constructor(className) {
+    super();
 
     var localArguments = Array.prototype.slice.call(arguments);
 
-    if (typeof(className) !== "string" || className === undefined || className === null) {
+    if (className === undefined || className === null || !(className instanceof String)) {
         this.className = "";
     } else {
         this.className = className;
@@ -41,19 +42,17 @@ function ScreenUIElements(className) {
 
     this.paginateUI = new PaginateUIButton(undefined, undefined, 1);
 }
-ScreenUIElements.prototype = Object.create(Screen.prototype);
-ScreenUIElements.prototype.constructor = ScreenUIElements;
 
-ScreenUIElements.prototype.setPaginateUI = function(paginateUI) {
+setPaginateUI(paginateUI) {
     if (this.isUIcreated()) return false;
     if (!(paginateUI instanceof PaginateUI || paginateUI === null)) return false;
 
     this.paginateUI = paginateUI;
     TheFragebogen.logger.debug(this.constructor.name + ".setPaginateUI()", "Set paginateUI.");
     return true;
-};
+}
 
-ScreenUIElements.prototype.createUI = function() {
+createUI() {
     this.node = document.createElement("div");
     this.node.className = this.className;
 
@@ -75,30 +74,32 @@ ScreenUIElements.prototype.createUI = function() {
     }
 
     return this.node;
-};
+}
 
-ScreenUIElements.prototype.releaseUI = function() {
+releaseUI() {
     TheFragebogen.logger.info(this.constructor.name + ".release()", "");
     this.node = null;
     for (var index in this.uiElements) {
         this.uiElements[index].releaseUI();
     }
-};
+}
+
 /**
 Enables all the elements of the screen.
 */
-ScreenUIElements.prototype.start = function() {
+start() {
     TheFragebogen.logger.info(this.constructor.name + ".start()", "");
 
     for (var index in this.uiElements) {
         this.uiElements[index].setEnabled(true);
     }
-};
+}
+
 /**
 Are all UIElementInteractive ready?
 @returns {boolean}
 */
-ScreenUIElements.prototype.isReady = function() {
+isReady() {
     var ready = true;
 
     for (var index in this.uiElements) {
@@ -110,7 +111,8 @@ ScreenUIElements.prototype.isReady = function() {
         }
     }
     return ready;
-};
+}
+
 /**
  Returns the data of QuestionnaireItem (UIElementInteractive are omitted) in CSV format.
  The data of each questionnaire item is subdivided in 4 columns:
@@ -120,7 +122,7 @@ ScreenUIElements.prototype.isReady = function() {
  4. QuestionnaireItem.getAnswer()
  @returns {array}
  */
-ScreenUIElements.prototype.getDataCSV = function() {
+getDataCSV() {
     var data = [
         [],
         [],
@@ -137,33 +139,34 @@ ScreenUIElements.prototype.getDataCSV = function() {
         }
     }
     return data;
-};
+}
 
-ScreenUIElements.prototype.preload = function() {
+preload() {
     TheFragebogen.logger.debug(this.constructor.name + ".preload()", "called");
 
     for (var i = 0; i < this.uiElements.length; i++) {
         this.uiElements[i].setOnPreloadedCallback(this._onUIElementPreloaded.bind(this));
         this.uiElements[i].preload();
     }
-};
+}
 
 /**
 All external resources loaded?
 @abstract
 @returns {boolean}
 */
-ScreenUIElements.prototype.isPreloaded = function() {
+isPreloaded() {
     for (var i = 0; i < this.uiElements.length; i++) {
         if (!this.uiElements[i].isPreloaded()) return false;
     }
     return true;
-};
+}
 
-ScreenUIElements.prototype._onUIElementPreloaded = function() {
+_onUIElementPreloaded() {
     for (var i = 0; i < this.uiElements.length; i++) {
         if (!this.uiElements[i].isPreloaded()) return;
     }
 
     this._sendOnPreloadedCallback();
-};
+}
+}

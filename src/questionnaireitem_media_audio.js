@@ -14,16 +14,19 @@ audioPlayDurations are the times in seconds how long the audio played each time.
 @augments UIElementInteractive
 @augments QuestionnaireItem
 @augments QuestionnaireItemMedia
-
-@param {string} [className] CSS class
-@param {string} [question]
-@param {boolean} [required=false]
-@param {string} url The URL of the media element to be loaded; if supported by the browser also data URI.
-@param {boolean} required Element must report ready before continue.
-@param {boolean} [readyOnError=true] Sets ready=true if an error occures.
 */
-function QuestionnaireItemMediaAudio(className, question, required, url, readyOnError) {
-    QuestionnaireItemMedia.call(this, className, question, required, url, readyOnError);
+class QuestionnaireItemMediaAudio extends QuestionnaireItemMedia {
+
+    /**
+    @param {string} [className] CSS class
+    @param {string} [question]
+    @param {boolean} [required=false]
+    @param {string} url The URL of the media element to be loaded; if supported by the browser also data URI.
+    @param {boolean} required Element must report ready before continue.
+    @param {boolean} [readyOnError=true] Sets ready=true if an error occures.
+    */
+    constructor(className, question, required, url, readyOnError) {
+    super(className, question, required, url, readyOnError);
 
     TheFragebogen.logger.debug(this.constructor.name + "()", "Set: className as " + this.className + ", urls as " + this.height + ", width as " + this.width);
 
@@ -35,10 +38,8 @@ function QuestionnaireItemMediaAudio(className, question, required, url, readyOn
     this.audioStartTimes = []; // Stores when the audio started relative to audioCreationTime
     this.replayCount = 0; // Counts how often the audio got replayed explicitly with replay()
 }
-QuestionnaireItemMediaAudio.prototype = Object.create(QuestionnaireItemMedia.prototype);
-QuestionnaireItemMediaAudio.prototype.constructor = QuestionnaireItemMediaAudio;
 
-QuestionnaireItemMediaAudio.prototype._createAnswerNode = function() {
+_createAnswerNode() {
     var node = document.createElement("div");
 
     this._createMediaNode();
@@ -56,9 +57,9 @@ QuestionnaireItemMediaAudio.prototype._createAnswerNode = function() {
 
     this.audioCreationTime = new Date().getTime();
     return node;
-};
+}
 
-QuestionnaireItemMediaAudio.prototype.releaseUI = function() {
+releaseUI() {
     this.node = null;
     this.uiCreated = false;
     this.enabled = false;
@@ -68,13 +69,13 @@ QuestionnaireItemMediaAudio.prototype.releaseUI = function() {
 
     this.audioNode = null;
     this.progressbar = null;
-};
+}
 
-QuestionnaireItemMediaAudio.prototype._loadMedia = function() {
+_loadMedia() {
     this._createMediaNode();
-};
+}
 
-QuestionnaireItemMediaAudio.prototype._createMediaNode = function() {
+_createMediaNode() {
     if (this.audioNode !== null) {
         TheFragebogen.logger.debug(this.constructor.name + "()", "audioNode was already created.");
         return;
@@ -92,9 +93,9 @@ QuestionnaireItemMediaAudio.prototype._createMediaNode = function() {
     pTag = document.createElement("p");
     pTag.innerHTML = "This is a fallback content. Your browser does not support the provided audio formats.";
     this.audioNode.appendChild(pTag);
-};
+}
 
-QuestionnaireItemMediaAudio.prototype.replay = function() {
+replay() {
     this.audioPlayDurations.push(this.audioNode.currentTime);
     this.replayCount += 1;
     this._updateAnswer();
@@ -102,9 +103,9 @@ QuestionnaireItemMediaAudio.prototype.replay = function() {
     this.audioNode.pause();
     this.audioNode.currentTime = 0.0;
     this.audioNode.play();
-};
+}
 
-QuestionnaireItemMediaAudio.prototype._play = function() {
+_play() {
     if (this.audioNode === null) {
         TheFragebogen.logger.warn(this.constructor.name + "()", "Cannot start playback without this.audioNode.");
         return;
@@ -115,27 +116,28 @@ QuestionnaireItemMediaAudio.prototype._play = function() {
         TheFragebogen.logger.warn(this.constructor.name + "()", "No supported format availble.");
         this._onerror();
     }
-};
+}
 
-QuestionnaireItemMediaAudio.prototype._pause = function() {
+_pause() {
     if (this.audioNode === null) {
         TheFragebogen.logger.warn(this.constructor.name + "()", "Cannot start playback without this.audioNode.");
         return;
     }
     this.audioNode.pause();
-};
+}
 
-QuestionnaireItemMediaAudio.prototype._onprogress = function() {
+_onprogress() {
     if (this.progressbar && !isNaN(this.audioNode.duration)) {
         this.progressbar.value = (this.audioNode.currentTime / this.audioNode.duration);
     }
-};
+}
 
-QuestionnaireItemMediaAudio.prototype._onplay = function() {
+_onplay() {
     this.audioStartTimes.push((new Date().getTime() - this.audioCreationTime) / 1000);
     this._updateAnswer();
-};
+}
 
-QuestionnaireItemMediaAudio.prototype._updateAnswer = function() {
+_updateAnswer() {
     this.answer = [this.url, this.audioNode.duration, this.stallingCount, this.replayCount, this.audioStartTimes, this.audioPlayDurations];
-};
+}
+}

@@ -4,13 +4,16 @@ The provided callback function gets called if a onclick event occurs on this but
 
 @class UIElementButton
 @augments UIElement
-
-@param {string} [className] CSS class
-@param {string} caption Caption of the button
-@param {method} actionCallback Callback function for onclick event
 */
-function UIElementButton(className, caption, actionCallback) {
-    UIElement.call(this);
+class UIElementButton extends UIElement {
+
+    /**
+    @param {string} [className] CSS class
+    @param {string} caption Caption of the button
+    @param {method} actionCallback Callback function for onclick event
+    */
+    constructor(className, caption, actionCallback) {
+    super();
 
     this.className = className;
     this.caption = caption;
@@ -21,10 +24,8 @@ function UIElementButton(className, caption, actionCallback) {
 
     TheFragebogen.logger.debug(this.constructor.name + "()", "className as " + this.className + " and caption as " + this.caption);
 }
-UIElementButton.prototype = Object.create(UIElement.prototype);
-UIElementButton.prototype.constructor = UIElementButton;
 
-UIElementButton.prototype.createUI = function() {
+createUI() {
     this.node = document.createElement("div");
     this.node.className = this.className;
 
@@ -34,41 +35,42 @@ UIElementButton.prototype.createUI = function() {
 
     this.node.appendChild(this.button);
     return this.node;
-};
+}
 
-UIElementButton.prototype.releaseUI = function() {
+releaseUI() {
     this.node = null;
     this.button = null;
-};
+}
 
-UIElementButton.prototype.setEnabled = function(enabled) {
+setEnabled(enabled) {
     this.enabled = enabled;
     this.button.disabled = !this.enabled;
-};
+}
 
-UIElementButton.prototype._onclick = function() {
+_onclick() {
     if (this.actionCallback) {
         this.actionCallback();
     }
-};
+}
 
 /**
 Returns the caption
 @returns {array} caption data stored in the index 0 of the array
 */
-UIElementButton.prototype.getData = function() {
+getData() {
     return [this.caption];
-};
+}
 
-UIElementButton.prototype._checkData = function(data) {
+_checkData(data) {
     return data[0] === this.caption;
-};
+}
 
-UIElementButton.prototype.setData = function(data) {
+setData(data) {
     return this._checkData(data);
-};
+}
 
-UIElementButton.prototype.setVisible = function(visible) {
+setVisible(visible) {
     this.visible = visible;
     this.node.hidden = this.visible ? "" : "hidden";
-};
+}
+}

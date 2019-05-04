@@ -7,17 +7,17 @@ NOTE: UIElementsInteractive should be marked as REQUIRED.
 @class ScreenUIElementsAuto
 @augments Screen
 @augments ScreenUIElements
-
-@param {string} [className] CSS class
-@param {array} arguments an array containing the UIElements of the screen
 */
-function ScreenUIElementsAuto() {
-    ScreenUIElements.apply(this, arguments);
+class ScreenUIElementsAuto extends ScreenUIElements {
+    /**
+    @param {string} [className=] CSS class
+    @param {...UIElement} arguments an array containing the UIElements of the screen
+    */
+    constructor(...args) {
+    super(...args);
 }
-ScreenUIElementsAuto.prototype = Object.create(ScreenUIElements.prototype);
-ScreenUIElementsAuto.prototype.constructor = ScreenUIElementsAuto;
 
-ScreenUIElementsAuto.prototype.createUI = function() {
+createUI() {
     this.node = document.createElement("div");
     this.node.className = this.className;
 
@@ -36,13 +36,16 @@ ScreenUIElementsAuto.prototype.createUI = function() {
     }
 
     return this.node;
-};
-Screen.prototype._onUIElementReady = function() {
+}
+
+_onUIElementReady() {
     if (this.isReady()) {
         this._sendPaginateCallback();
     }
-};
-Screen.prototype.setPaginateUI = function(paginateUI) {
+}
+
+setPaginateUI(paginateUI) {
     TheFragebogen.logger.warn(this.constructor.name + ".setPaginateUI()", "Does not support pagination.");
     return false;
-};
+}
+}

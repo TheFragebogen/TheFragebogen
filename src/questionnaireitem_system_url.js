@@ -8,8 +8,9 @@ A QuestionnaireItem that stores the current URL of the web browser.
 @augments QuestionnaireItemSystem
 @augments QuestionnaireItemSystemConst
 */
-function QuestionnaireItemSystemURL() {
-    QuestionnaireItemSystemConst.call(this, "URL", window.location.href);
+class QuestionnaireItemSystemURL extends QuestionnaireItemSystem {
+
+    constructor() {
+    super("URL", window.location.href);
 }
-QuestionnaireItemSystemURL.prototype = Object.create(QuestionnaireItemSystemConst.prototype);
-QuestionnaireItemSystemURL.prototype.constructor = QuestionnaireItemSystemURL;
+}

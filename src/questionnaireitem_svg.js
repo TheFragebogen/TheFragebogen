@@ -40,22 +40,23 @@ cross.setAttributeNS(null, "transform", "translate(" + (-transform.e + Math.abs(
 @augments UIElement
 @augments UIElementInteractive
 @augments QuestionnaireItem
-
-@param {string} [className] CSS class
-@param {string} question
-@param {boolean} [required=false]
 */
-function QuestionnaireItemSVG(className, question, required) {
-    QuestionnaireItem.call(this, className, question, required);
+class QuestionnaireItemSVG extends QuestionnaireItem {
+
+    /**
+    @param {string} [className] CSS class
+    @param {string} question
+    @param {boolean} [required=false]
+    */
+    constructor(className, question, required) {
+    super(className, question, required);
 
     this.scaleImage = null;
     this.answerMap = null;
     this.crossImage = null;
 }
-QuestionnaireItemSVG.prototype = Object.create(QuestionnaireItem.prototype);
-QuestionnaireItemSVG.prototype.constructor = QuestionnaireItemSVG;
 
-QuestionnaireItemSVG.prototype._createAnswerNode = function() {
+_createAnswerNode() {
     var node = document.createElement("div");
 
     this.scaleImage = document.createElementNS("http://www.w3.org/2000/svg", "svg");
@@ -90,26 +91,28 @@ QuestionnaireItemSVG.prototype._createAnswerNode = function() {
 
     node.appendChild(this.scaleImage);
     return node;
-};
+}
+
 /**
 Setup this.scaleImage by definining the content and the viewbox.
 1. this.scaleImage.innerHTML = "<svg...>";
 2. this.scaleImage.setAttribute("viewBox", "0 2 136.76 21.39");
 */
-QuestionnaireItemSVG.prototype._setupSVG = function() {
+_setupSVG() {
     TheFragebogen.logger.error(this.constructor.name + "._setupSVG()", "Must be overridden.");
-};
+}
+
 /**
 Returns all clickable elements representing an answer.
 Every element must have a unique id, which is used as answer.
 @returns {array}
 */
-QuestionnaireItemSVG.prototype._getAnswerElements = function() {
+_getAnswerElements() {
     TheFragebogen.logger.error(this.constructor.name + "._answerElements()", "Must be overridden.");
     return [];
-};
+}
 
-QuestionnaireItemSVG.prototype._handleChange = function(event) {
+_handleChange(event) {
     if (!this.isEnabled()) {
         return;
     }
@@ -118,8 +121,9 @@ QuestionnaireItemSVG.prototype._handleChange = function(event) {
 
     this.markRequired();
     this._sendReadyStateChanged();
-};
-QuestionnaireItemSVG.prototype._updateUI = function() {
+}
+
+_updateUI() {
     if (!this.isUIcreated()) {
         return;
     }
@@ -149,9 +153,9 @@ QuestionnaireItemSVG.prototype._updateUI = function() {
 
     TheFragebogen.logger.debug(this.constructor.name + "._updateUI()", translateX);
     this.crossImage.setAttributeNS(null, "transform", "translate(" + translateX + ",0)");
-};
+}
 
-QuestionnaireItemSVG.prototype.setAnswer = function(answer) {
+setAnswer(answer) {
     if (answer === null) {
         this.answer = null;
         this._updateUI();
@@ -166,9 +170,9 @@ QuestionnaireItemSVG.prototype.setAnswer = function(answer) {
 
     this._updateUI();
     return true;
-};
+}
 
-QuestionnaireItemSVG.prototype.releaseUI = function() {
+releaseUI() {
     this.node = null;
     this.uiCreated = false;
     this.enabled = false;
@@ -176,25 +180,26 @@ QuestionnaireItemSVG.prototype.releaseUI = function() {
     this.scaleImage = null;
     this.answerMap = null;
     this.crossImage = null;
-};
+}
 
-QuestionnaireItemSVG.prototype.getData = function() {
+getData() {
     return [this.getQuestion(), this.getAnswer()];
-};
+}
 
-QuestionnaireItemSVG.prototype._checkData = function(data) {
+_checkData(data) {
     return data[0] === this.question;
-};
+}
 
-QuestionnaireItemSVG.prototype.setData = function(data) {
+setData(data) {
     if (!this._checkData(data)) {
         return false;
     }
 
     this.setAnswer(data[1]);
     return true;
-};
+}
 
-QuestionnaireItemSVG.prototype.getAnswerOptions = function() {
+getAnswerOptions() {
     TheFragebogen.logger.warn(this.constructor.name + ".getAnswerOptions()", "Should be overriden.");
-};
+}
+}

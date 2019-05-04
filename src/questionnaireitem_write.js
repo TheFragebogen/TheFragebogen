@@ -13,19 +13,21 @@ Apply "cursor: none;" if stylus input is used.
 @augments UIElement
 @augments UIElementInteractive
 @augments QuestionnaireItem
-
-@param {string} [className] CSS class
-@param {string} [question] The question
-@param {boolean} [required=false] Is this QuestionnaireItem required to be answered?
-
-@param {string} [backgroundImg] URL of the background image
-@param {number} [height=240]
-@param {number} [width=320]
-@param {number} [drawSize=1] The radius of the pen in px.
-@param {number} [eraserSize=10] The radius of the eraser in px.
 */
-function QuestionnaireItemWrite(className, question, required, backgroundImg, width, height, drawColor, drawSize, eraserSize) {
-    QuestionnaireItem.call(this, className, question, required);
+class QuestionnaireItemWrite extends QuestionnaireItem {
+
+    /**
+    @param {string} [className] CSS class
+    @param {string} [question] The question
+    @param {boolean} [required=false] Is this QuestionnaireItem required to be answered?
+    @param {string} [backgroundImg] URL of the background image
+    @param {number} [height=240]
+    @param {number} [width=320]
+    @param {number} [drawSize=1] The radius of the pen in px.
+    @param {number} [eraserSize=10] The radius of the eraser in px.
+    */
+    constructor(className, question, required, backgroundImg, width, height, drawColor, drawSize, eraserSize) {
+    super(className, question, required);
 
     this.className = className;
     this.backgroundImg = backgroundImg !== undefined ? backgroundImg : "";
@@ -47,10 +49,8 @@ function QuestionnaireItemWrite(className, question, required, backgroundImg, wi
 
     this.context = null;
 }
-QuestionnaireItemWrite.prototype = Object.create(QuestionnaireItem.prototype);
-QuestionnaireItemWrite.prototype.constructor = QuestionnaireItemWrite;
 
-QuestionnaireItemWrite.prototype._createAnswerNode = function() {
+_createAnswerNode() {
     var node = document.createElement("div");
     var canvas = document.createElement("canvas");
     if (this.width !== null) {
@@ -98,11 +98,12 @@ QuestionnaireItemWrite.prototype._createAnswerNode = function() {
     this.context.scale(this.pixelRatio, this.pixelRatio);
     //END: EXPERIMENTAL
     return node;
-};
+}
+
 /**
 Pen is down on the paper.
 */
-QuestionnaireItemWrite.prototype.onWritingStart = function(event) {
+onWritingStart(event) {
     if (!this.isEnabled()) {
         return;
     }
@@ -112,11 +113,12 @@ QuestionnaireItemWrite.prototype.onWritingStart = function(event) {
     this.penWasDown = false;
 
     this.onWriting(event);
-};
+}
+
 /**
 Pen is moving on the paper.
 */
-QuestionnaireItemWrite.prototype.onWriting = function(event) {
+onWriting(event) {
     if (!this.isEnabled() || !this.painting) {
         return;
     }
@@ -148,28 +150,29 @@ QuestionnaireItemWrite.prototype.onWriting = function(event) {
     this.penWasDown = true;
     this.lastDrawX = x;
     this.lastDrawY = y;
-};
+}
+
 /**
 Pen left paper, so save the answer.
 */
-QuestionnaireItemWrite.prototype.onWritingStop = function() {
+onWritingStop() {
     this.painting = false;
 
     if (this.isAnswered()) {
         this.markRequired();
     }
     this._sendReadyStateChanged();
-};
+}
 
-QuestionnaireItemWrite.prototype.getAnswer = function() {
+getAnswer() {
     if (this.isUIcreated() && this.isAnswered()) {
         this.answer = this.context.canvas.toDataURL("image/png");
     }
 
     return this.answer;
-};
+}
 
-QuestionnaireItemWrite.prototype.setAnswer = function(answer) {
+setAnswer(answer) {
     if (answer === null) {
         this.answer = null;
         if (this.isUIcreated()) {
@@ -196,9 +199,9 @@ QuestionnaireItemWrite.prototype.setAnswer = function(answer) {
     }
     TheFragebogen.logger.warn(this.constructor.name + ".setAnswer()", "Invalid answer: " + answer + ".");
     return false;
-};
+}
 
-QuestionnaireItemWrite.prototype.releaseUI = function() {
+releaseUI() {
     this.node = null;
     this.uiCreated = false;
     this.enabled = false;
@@ -212,21 +215,22 @@ QuestionnaireItemWrite.prototype.releaseUI = function() {
     this.penWasDown = false;
     this.painting = false;
     this.eraserMode = false;
-};
+}
 
-QuestionnaireItemWrite.prototype.getData = function() {
+getData() {
     return [this.getQuestion(), this.getAnswer()];
-};
+}
 
-QuestionnaireItemWrite.prototype._checkData = function(data) {
+_checkData(data) {
     return data[0] === this.question;
-};
+}
 
-QuestionnaireItemWrite.prototype.setData = function(data) {
+setData(data) {
     if (!this._checkData(data)) {
         return false;
     }
 
     this.setAnswer(data[1]);
     return true;
-};
+}
+}

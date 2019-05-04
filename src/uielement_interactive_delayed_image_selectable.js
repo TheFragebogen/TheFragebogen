@@ -8,16 +8,19 @@ DEVELOPER:
 @class UIElementInteractiveDelayedImageSelectable
 @augments UIElement
 @augments UIElementInteractive
-
-@param {string} [className] CSS class
-@param {string} loadAnimationURL URL of the load animation.
-@param {string} imageURL URL of the image.
-@param {string} imageCaption The caption of the image.
-@param {float} loadDelay The delay in ms.
-@param {int} [readyMode=0] 0: immediately, 1: selected, 2: not selected, 3: ready on delayed load, 4: case 1 & 3; 5: case 2 & 3
 */
-function UIElementInteractiveDelayedImageSelectable(className, loadAnimationURL, imageURL, imageCaption, imageDelay, readyMode) {
-    UIElementInteractive.call(this);
+class UIElementInteractiveDelayedImageSelectable extends UIElementInteractive {
+
+    /**
+    @param {string} [className] CSS class
+    @param {string} loadAnimationURL URL of the load animation.
+    @param {string} imageURL URL of the image.
+    @param {string} imageCaption The caption of the image.
+    @param {float} loadDelay The delay in ms.
+    @param {int} [readyMode=0] 0: immediately, 1: selected, 2: not selected, 3: ready on delayed load, 4: case 1 & 3; 5: case 2 & 3
+    */
+    constructor(className, loadAnimationURL, imageURL, imageCaption, imageDelay, readyMode) {
+    super();
 
     this.className = className;
 
@@ -32,10 +35,8 @@ function UIElementInteractiveDelayedImageSelectable(className, loadAnimationURL,
     this.checkbox = null;
     this.isImageLoaded = false;
 }
-UIElementInteractiveDelayedImageSelectable.prototype = Object.create(UIElementInteractive.prototype);
-UIElementInteractiveDelayedImageSelectable.prototype.constructor = UIElementInteractiveDelayedImageSelectable;
 
-UIElementInteractiveDelayedImageSelectable.prototype.createUI = function() {
+createUI() {
     this.node = document.createElement("span");
     this.node.className = this.className;
 
@@ -70,18 +71,18 @@ UIElementInteractiveDelayedImageSelectable.prototype.createUI = function() {
     this.uiCreated = true;
 
     return this.node;
-};
+}
 
-UIElementInteractiveDelayedImageSelectable.prototype.releaseUI = function() {
+releaseUI() {
     this.node = null;
     this.uiCreated = false;
     this.enabled = false;
 
     this.checkbox = null;
     this.isImageLoaded = false;
-};
+}
 
-UIElementInteractiveDelayedImageSelectable.prototype.isReady = function() {
+isReady() {
     switch (this.readyMode) {
         case 0:
             return true;
@@ -96,9 +97,9 @@ UIElementInteractiveDelayedImageSelectable.prototype.isReady = function() {
         case 5:
             return this.isImageLoaded && this.isSelected === false;
     }
-};
+}
 
-UIElementInteractiveDelayedImageSelectable.prototype._onSelected = function(event) {
+_onSelected(event) {
     if (!this.isUIcreated()) return;
 
     if ([4, 5].indexOf(this.readyMode) != -1 && !this.isImageLoaded) return;
@@ -107,4 +108,5 @@ UIElementInteractiveDelayedImageSelectable.prototype._onSelected = function(even
     this.checkbox.checked = this.isSelected;
 
     event.stopPropagation();
-};
+}
+}

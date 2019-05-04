@@ -5,11 +5,14 @@ Provided HTML is encapsulated into a div and div.className is set.
 @class UIElementHTML
 @augments UIElement
 
-@param {string} [className] CSS class
-@param {string} html HTML
 */
-function UIElementHTML(className, html) {
-    UIElement.call(this);
+class UIElementHTML extends UIElement {
+    /**
+    @param {string} [className] CSS class
+    @param {string} html HTML
+    */
+    constructor(className, html) {
+    super();
 
     this.className = className;
     this.html = html;
@@ -18,42 +21,41 @@ function UIElementHTML(className, html) {
 
     TheFragebogen.logger.debug(this.constructor.name + "()", "className as " + this.className + " and html as " + this.html);
 }
-UIElementHTML.prototype = Object.create(UIElement.prototype);
-UIElementHTML.prototype.constructor = UIElementHTML;
 
-UIElementHTML.prototype.createUI = function() {
+createUI() {
     this.node = document.createElement("div");
     this.node.className = this.className;
     this.node.innerHTML = this.html;
 
     return this.node;
-};
+}
 
-UIElementHTML.prototype.releaseUI = function() {
+releaseUI() {
     this.node = null;
-};
+}
 
-UIElementHTML.prototype.setEnabled = function(enabled) {
+setEnabled(enabled) {
     //NOPE
-};
+}
 
 /**
 Returns the HTML
 @returns {array} html data stored in the index 0 of the array
 */
-UIElementHTML.prototype.getData = function() {
+getData() {
     return [this.html];
-};
+}
 
-UIElementHTML.prototype._checkData = function(data) {
+_checkData(data) {
     return data[0] === this.html;
-};
+}
 
-UIElementHTML.prototype.setData = function(data) {
+setData(data) {
     return this._checkData(data);
-};
+}
 
-UIElementHTML.prototype.setVisible = function(visible) {
+setVisible(visible) {
     this.visible = visible;
     this.node.hidden = this.visible ? "" : "hidden";
-};
+}
+}
