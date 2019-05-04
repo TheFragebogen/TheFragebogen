@@ -11,3 +11,4 @@ before_script:
 script:
   - grunt format && git diff-index --quiet HEAD --
   - grunt lint
+  - grunt test
