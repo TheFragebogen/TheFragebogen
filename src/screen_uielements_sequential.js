@@ -6,18 +6,19 @@ UIElements are enabled one after another, i.e., if its predecessing UIElement re
 @class ScreenUIElementsSequential
 @augments Screen
 @augments ScreenUIElements
-
-@param {string} [className] CSS class
-@param {array} arguments an array containing the UIElements of the screen
 */
-function ScreenUIElementsSequential(className) {
-    ScreenUIElements.apply(this, arguments);
+class ScreenUIElementsSequential extends ScreenUIElements {
+
+    /**
+    @param {string} [className=] CSS class
+    @param {...UIElement} arguments an array containing the UIElements of the screen
+    */
+    constructor(...args) {
+    super(...args);
     this.currentElementIndex = null;
 }
-ScreenUIElementsSequential.prototype = Object.create(ScreenUIElements.prototype);
-ScreenUIElementsSequential.prototype.constructor = ScreenUIElementsSequential;
 
-ScreenUIElementsSequential.prototype.start = function() {
+start() {
     for (var index in this.uiElements) {
         if (this.uiElements[index].setOnReadyStateChangedCallback instanceof Function) {
             this.uiElements[index].setOnReadyStateChangedCallback((this._onUIElementReady).bind(this));
@@ -35,11 +36,12 @@ ScreenUIElementsSequential.prototype.start = function() {
     if (this.currentElementIndex == undefined) {
         TheFragebogen.logger.error(this.constructor.name + "", "One UIElementInteractive is at least required.");
     }
-};
+}
+
 /**
 Callback to enable the following UIElementInteractive.
  */
-ScreenUIElementsSequential.prototype._onUIElementReady = function() {
+_onUIElementReady() {
     TheFragebogen.logger.info(this.constructor.name + "._onUIElementReady()", "called");
 
     var nextElementIndex = -1;
@@ -59,4 +61,5 @@ ScreenUIElementsSequential.prototype._onUIElementReady = function() {
     this.uiElements[this.currentElementIndex].setEnabled(false);
     this.currentElementIndex = nextElementIndex;
     this.uiElements[this.currentElementIndex].setEnabled(true);
-};
+}
+}

@@ -7,21 +7,22 @@ A group of radiobuttons is used.
 @augments UIElementInteractive
 @augments QuestionnaireItem
 @augments QuestionnaireItemDefined
-
-@param {string} [className] CSS class
-@param {string} questions
-@param {boolean} [required=false]
-@param {array} optionList
 */
-function QuestionnaireItemDefinedOne(className, question, required, optionList) {
-    QuestionnaireItemDefined.call(this, className, question, required, optionList);
+class QuestionnaireItemDefinedOne extends QuestionnaireItemDefined {
+
+    /**
+    @param {string} [className] CSS class
+    @param {string} questions
+    @param {boolean} [required=false]
+    @param {array} optionList
+    */
+    constructor(className, question, required, optionList) {
+    super(className, question, required, optionList);
 
     this.identifier = Math.random(); //Part of the identifier for the label + radiobutton relation.
 }
-QuestionnaireItemDefinedOne.prototype = Object.create(QuestionnaireItemDefined.prototype);
-QuestionnaireItemDefinedOne.prototype.constructor = QuestionnaireItemDefinedOne;
 
-QuestionnaireItemDefinedOne.prototype._createAnswerNode = function() {
+_createAnswerNode() {
     var tableRowLabel = document.createElement('tr');
     var tableRowRadio = document.createElement('tr');
 
@@ -60,16 +61,16 @@ QuestionnaireItemDefinedOne.prototype._createAnswerNode = function() {
     table.appendChild(tableBody);
 
     return table;
-};
+}
 
-QuestionnaireItemDefinedOne.prototype._handleChange = function(event) {
+_handleChange(event) {
     this.answer = this.optionList[event.target.value];
     this.markRequired();
     this._sendReadyStateChanged();
     TheFragebogen.logger.info(this.constructor.name + "._handleChange()", this.answer);
-};
+}
 
-QuestionnaireItemDefinedOne.prototype._applyAnswerToUI = function() {
+_applyAnswerToUI() {
     if (!this.isUIcreated()) {
         return;
     }
@@ -79,12 +80,13 @@ QuestionnaireItemDefinedOne.prototype._applyAnswerToUI = function() {
             this.input[i].checked = this.answer[i] || false;
         }
     }
-};
+}
+
 /**
 @param {string} answer answer
 @returns {boolean}
 */
-QuestionnaireItemDefinedOne.prototype.setAnswer = function(answer) {
+setAnswer(answer) {
     if (answer === null) {
         this.answer = null;
         this._applyAnswerToUI();
@@ -102,30 +104,31 @@ QuestionnaireItemDefinedOne.prototype.setAnswer = function(answer) {
 
     this._sendReadyStateChanged();
     return true;
-};
+}
 
-QuestionnaireItemDefinedOne.prototype.releaseUI = function() {
+releaseUI() {
     this.node = null;
     this.uiCreated = false;
     this.enabled = false;
 
     this.input = [];
     this.identifier = null;
-};
+}
 
-QuestionnaireItemDefinedOne.prototype.getData = function() {
+getData() {
     return [this.getQuestion(), this.optionList, this.getAnswer()];
-};
+}
 
-QuestionnaireItemDefinedOne.prototype._checkData = function(data) {
+_checkData(data) {
     return (data[0] === this.question) && (JSON.stringify(data[1]) === JSON.stringify(this.optionList));
-};
+}
 
-QuestionnaireItemDefinedOne.prototype.setData = function(data) {
+setData(data) {
     if (!this._checkData(data)) {
         return false;
     }
 
     this.setAnswer(data[2]);
     return true;
-};
+}
+}

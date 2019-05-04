@@ -1,19 +1,22 @@
-/**
+ /**
 Provides a UI for pagination between `Screens`.
 
 Implements a button to continue to the following `Screen`.
 
 @class PaginateUIButton
 @augments PaginateUI
-
-@param {string} [className] CSS class
-@param {number} [relativeIdNext=undefined] The relativeId of the next screen. If undefined, no back button will be generated.
-@param {number} [relativeIdback=undefined] The relativeId of the next screen. If undefined, no back button will be generated.
-@param {string} [labelBack="Back"] The caption for the back-button.
-@param {string} [labelNext="Next"] The caption for the next-button.
 */
-function PaginateUIButton(className, relativeIdBack, relativeIdNext, labelBack, labelNext) {
-    PaginateUI.call(this, className);
+class PaginateUIButton extends PaginateUI {
+
+    /**
+    @param {string} [className] CSS class
+    @param {number} [relativeIdNext=undefined] The relativeId of the next screen. If undefined, no back button will be generated.
+    @param {number} [relativeIdback=undefined] The relativeId of the next screen. If undefined, no back button will be generated.
+    @param {string} [labelBack="Back"] The caption for the back-button.
+    @param {string} [labelNext="Next"] The caption for the next-button.
+    */
+    constructor(className, relativeIdBack, relativeIdNext, labelBack, labelNext) {
+    super(className);
 
     this.relativeIdBack = relativeIdBack;
     this.relativeIdNext = relativeIdNext;
@@ -29,16 +32,15 @@ function PaginateUIButton(className, relativeIdBack, relativeIdNext, labelBack, 
 
     this.node = null;
 }
-PaginateUIButton.prototype = Object.create(PaginateUI.prototype);
-PaginateUIButton.prototype.constructor = PaginateUIButton;
+
 /**
 @returns {boolean} true if the UI is created, false if not
 */
-PaginateUIButton.prototype.isUIcreated = function() {
+isUIcreated() {
     return this.uiCreated;
-};
+}
 
-PaginateUIButton.prototype.createUI = function() {
+createUI() {
     this.node = document.createElement("div");
     this.node.className = this.className;
 
@@ -62,8 +64,9 @@ PaginateUIButton.prototype.createUI = function() {
         this.node.appendChild(buttonNext);
     }
     return this.node;
-};
+}
 
-PaginateUIButton.prototype.releaseUI = function() {
+releaseUI() {
     this.node = null;
-};
+}
+}

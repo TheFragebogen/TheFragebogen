@@ -7,30 +7,31 @@ Useful for store information that are useful in the data to be exported.
 @augments UIElementInteractive
 @augments QuestionnaireItem
 @augments QuestionnaireItemSystem
-
-@param {string} question First slot for information.
-@param {string} answer Second slot for information.
 */
-function QuestionnaireItemSystemConst(question, answer) {
-    QuestionnaireItemSystem.call(this, null, question, false);
+class QuestionnaireItemSystemConst extends QuestionnaireItemSystem {
+
+    /**
+    @param {string} question First slot for information.
+    @param {string} answer Second slot for information.
+    */
+    constructor(question, answer) {
+    super(null, question, false);
     this.answer = answer;
 }
-QuestionnaireItemSystemConst.prototype = Object.create(QuestionnaireItemSystem.prototype);
-QuestionnaireItemSystemConst.prototype.constructor = QuestionnaireItemSystemConst;
 
-QuestionnaireItemSystemConst.prototype.createUI = function() {};
+createUI() {}
 
-QuestionnaireItemSystemConst.prototype.releaseUI = function() {};
+releaseUI() {}
 
-QuestionnaireItemSystemConst.prototype.getData = function() {
+getData() {
     return [this.getQuestion(), this.getAnswer()];
-};
+}
 
-QuestionnaireItemSystemConst.prototype._checkData = function(data) {
+_checkData(data) {
     return (data[0] === this.question && data[1] === this.answer);
-};
+}
 
-QuestionnaireItemSystemConst.prototype.setData = function(data) {
+setData(data) {
     if (!this._checkData(data)) {
         return false;
     }
@@ -38,4 +39,5 @@ QuestionnaireItemSystemConst.prototype.setData = function(data) {
     this.question = data[0];
     this.setAnswer(data[1]);
     return true;
-};
+}
+}

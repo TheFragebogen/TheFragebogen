@@ -8,11 +8,14 @@ No UI is displayed.
 @augments UIElementInteractive
 @augments QuestionnaireItem
 @augments QuestionnaireItemSystem
-
-@param {number} waitTime waiting time in seconds
 */
-function QuestionnaireItemSystemWait(waitTime) {
-    QuestionnaireItemSystem.call(this, null, "", true);
+class QuestionnaireItemSystemWait extends QuestionnaireItemSystem {
+
+    /**
+    @param {number} waitTime waiting time in seconds
+    */
+    constructor(waitTime) {
+    super(null, "", true);
     this.waitTime = waitTime;
 
     this.required = true;
@@ -20,37 +23,36 @@ function QuestionnaireItemSystemWait(waitTime) {
 
     TheFragebogen.logger.debug(this.constructor.name + "()", "Set: waitTime as " + this.waitTime);
 }
-QuestionnaireItemSystemWait.prototype = Object.create(QuestionnaireItemSystem.prototype);
-QuestionnaireItemSystemWait.prototype.constructor = QuestionnaireItemSystemWait;
 
-QuestionnaireItemSystemWait.prototype.createUI = function() {
+createUI() {
     this.setAnswer(null);
     this.timeoutHandle = setTimeout((this._waitTimeCallback).bind(this), this.waitTime);
-};
+}
 
-QuestionnaireItemSystemWait.prototype._waitTimeCallback = function() {
+_waitTimeCallback() {
     this.setAnswer(this.waitTime);
-};
+}
 
-QuestionnaireItemSystemWait.prototype.releaseUI = function() {
+releaseUI() {
     if (this.timeoutHandle !== null) {
         clearTimeout(this.timeoutHandle);
         this.timeoutHandle = null;
     }
-};
+}
 
-QuestionnaireItemSystemWait.prototype.getData = function() {
+getData() {
     return [this.waitTime];
-};
+}
 
-QuestionnaireItemSystemWait.prototype._checkData = function(data) {
+_checkData(data) {
     return (data[0] === this.waitTime);
-};
+}
 
-QuestionnaireItemSystemWait.prototype.setData = function(data) {
+setData(data) {
     if (!this._checkData(data)) {
         return false;
     }
 
     return true;
-};
+}
+}

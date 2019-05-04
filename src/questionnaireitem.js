@@ -10,13 +10,16 @@ DEVERLOPER: Subclasses need to override `_createAnswerNode()`.
 @class QuestionnaireItem
 @augments UIElement
 @augments UIElementInteractive
-
-@param {string} [className] CSS class
-@param {string} question question
-@param {boolean} [required=false] Is this QuestionnaireItem required to be answered?
 */
-function QuestionnaireItem(className, question, required) {
-    UIElementInteractive.call(this);
+class QuestionnaireItem extends UIElementInteractive {
+
+    /**
+    @param {string} [className] CSS class
+    @param {string} question question
+    @param {boolean} [required=false] Is this QuestionnaireItem required to be answered?
+    */
+    constructor(className, question, required) {
+    super();
 
     this.node = null;
 
@@ -27,54 +30,59 @@ function QuestionnaireItem(className, question, required) {
 
     TheFragebogen.logger.debug(this.constructor.name + "()", "Set: className as " + this.className + ", question as " + this.question + " and required as " + this.required);
 }
-QuestionnaireItem.prototype = Object.create(UIElementInteractive.prototype);
-QuestionnaireItem.prototype.constructor = QuestionnaireItem;
+
 /**
 Returns the question.
 @returns {string} The question.
 */
-QuestionnaireItem.prototype.getQuestion = function() {
+getQuestion() {
     return this.question;
-};
+}
+
 /**
 Returns the answer.
 @returns {string} The answer.
 */
-QuestionnaireItem.prototype.getAnswer = function() {
+getAnswer() {
     return this.answer;
-};
+}
+
 /**
 Sets the answer.
 DEVELOPER: If the answer is accepted, the method `this._sendReadyStateChanged()` must be called.
 @abstract
 */
-QuestionnaireItem.prototype.setAnswer = function() {
+setAnswer() {
     this._sendReadyStateChanged();
     TheFragebogen.logger.debug(this.constructor.name + ".setAnswer()", "This method might need to be overridden.");
-};
+}
+
 /**
 Is this QuestionnaireItem answered?
 @returns {boolean}
 */
-QuestionnaireItem.prototype.isAnswered = function() {
+isAnswered() {
     return this.answer !== null;
-};
+}
+
 /**
 Returns the list of predefined options.
 @abstract
 @returns {array} undefined by default.
 */
-QuestionnaireItem.prototype.getAnswerOptions = function() {
+getAnswerOptions() {
     return undefined;
-};
+}
+
 /**
 Adjust the UI if the answer was changed using `setAnswer()`.
 @abstract
 */
-QuestionnaireItem.prototype._applyAnswerToUI = function() {
+_applyAnswerToUI() {
     TheFragebogen.logger.debug(this.constructor.name + "._applyAnswerToUI()", "This method might need to be overridden.");
-};
-QuestionnaireItem.prototype.setEnabled = function(enable) {
+}
+
+setEnabled(enable) {
     this.enabled = this.isUIcreated() ? enable : false;
 
     if (this.node !== null) {
@@ -83,26 +91,29 @@ QuestionnaireItem.prototype.setEnabled = function(enable) {
             elements[i].disabled = !this.enabled;
         }
     }
-};
-QuestionnaireItem.prototype.setVisible = function(visible) {
+}
+
+setVisible(visible) {
     this.node.style.visibility = visible ? "visible" : "hidden";
-};
+}
+
 /**
 Is this QuestionnaireItem ready, i.e., answered if required?
 @returns {boolean}
 */
-QuestionnaireItem.prototype.isReady = function() {
+isReady() {
     return this.isRequired() ? this.isAnswered() : true;
-};
+}
+
 /**
 Is this QuestionnaireItem required to be answered?
 @returns {boolean}
 */
-QuestionnaireItem.prototype.isRequired = function() {
+isRequired() {
     return this.required;
-};
+}
 
-QuestionnaireItem.prototype.createUI = function() {
+createUI() {
     if (this.isUIcreated()) {
         return this.node;
     }
@@ -117,34 +128,37 @@ QuestionnaireItem.prototype.createUI = function() {
     this.node.appendChild(this._createAnswerNode());
 
     return this.node;
-};
+}
+
 /**
 Create the UI showing the question.
 @returns {HTMLElement} The div containing the question.
 */
-QuestionnaireItem.prototype._createQuestionNode = function() {
+_createQuestionNode() {
     var node = document.createElement("div");
     node.innerHTML = this.question + (this.required ? "*" : "");
     return node;
-};
+}
+
 /**
 Create the UI showing the scale.
 @abstract
 @returns {HTMLElement} The HTML container with the scale.
 */
-QuestionnaireItem.prototype._createAnswerNode = function() {
+_createAnswerNode() {
     TheFragebogen.logger.warn(this.constructor.name + "._createAnswerNode()", "This method might need to be overridden.");
-};
+}
 
-QuestionnaireItem.prototype.releaseUI = function() {
+releaseUI() {
     this.node = null;
     this.uiCreated = false;
-};
+}
+
 /**
 Mark this element as required if it was not answered (className + "Required").
 Is called by the Screen if necessary.
 */
-QuestionnaireItem.prototype.markRequired = function() {
+markRequired() {
     if (this.node === null) {
         return;
     }
@@ -155,4 +169,5 @@ QuestionnaireItem.prototype.markRequired = function() {
     } else {
         this.node.classList.remove(classNameRequired);
     }
-};
+}
+}

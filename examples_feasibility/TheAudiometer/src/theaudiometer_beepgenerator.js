@@ -13,12 +13,15 @@ this._gainDummy is required to enforce stereo output (i.e., one channel silent).
 If a lower boundary for this._audioGain.gain is reached, a second GainNode could be used in addition.
 
 @class TheAudiometerBeepGenerator
-
-@param {int} frequency The frequency of the beeps.
-@param {int} channel The channel (index) to be used.
-@param {function} afterBeepCallback A callback function to be called after each beeps.
 */
-function TheAudiometerBeepGenerator(frequency, channel, afterBeepCallback) {
+class TheAudiometerBeepGenerator {
+
+    /**
+    @param {int} frequency The frequency of the beeps.
+    @param {int} channel The channel (index) to be used.
+    @param {function} afterBeepCallback A callback function to be called after each beeps.
+    */
+    constructor(frequency, channel, afterBeepCallback) {
     this._frequency = frequency;
     this._channel = channel; //0: Left? 1:Right?
 
@@ -47,10 +50,7 @@ function TheAudiometerBeepGenerator(frequency, channel, afterBeepCallback) {
     this._audioOscillator = null;
 }
 
-TheAudiometerBeepGenerator.prototype = Object.create(Object.prototype);
-TheAudiometerBeepGenerator.prototype.constructor = TheAudiometerBeepGenerator;
-
-TheAudiometerBeepGenerator.prototype._beeping = function() {
+_beeping() {
     this._afterBeepCallback();
 
     if (!this._scheduleNextBeep) {
@@ -79,27 +79,34 @@ TheAudiometerBeepGenerator.prototype._beeping = function() {
     // ramp length 20 - 50ms (choose 40ms)
     this._audioGain.gain.linearRampToValueAtTime(0, startTime + 0.05 + 0.2 + 0.05);
     this._audioOscillator.stop(startTime + 0.05 + 0.2 + 0.05 + 0.2);
-};
-TheAudiometerBeepGenerator.prototype.start = function() {
+}
+
+start() {
     if (!this._scheduleNextBeep) {
         TheFragebogen.logger.error(this.constructor.name, "Cannot be reused. Please create a new one.");
         return;
     }
     this._scheduleNextBeep = true;
     this._beeping();
-};
-TheAudiometerBeepGenerator.prototype.stop = function() {
+}
+
+stop() {
     this._scheduleNextBeep = false;
-};
-TheAudiometerBeepGenerator.prototype.isStopped = function() {
+}
+
+isStopped() {
     return !this._scheduleNextBeep;
-};
-TheAudiometerBeepGenerator.prototype.getFrequency = function() {
+}
+
+getFrequency() {
     return this._frequency;
-};
-TheAudiometerBeepGenerator.prototype.getGain = function() {
+}
+
+getGain() {
     return this._gain;
-};
-TheAudiometerBeepGenerator.prototype.setGain = function(gain) {
+}
+
+setGain(gain) {
     this._gain = gain;
-};
+}
+}

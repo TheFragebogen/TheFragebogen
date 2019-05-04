@@ -5,16 +5,19 @@ A QuestionnaireItem with a HTML5 date selector.
 @augments UIElement
 @augments UIElementInteractive
 @augments QuestionnaireItem
-
-@param {string} [className] CSS class
-@param {string} [question]
-@param {boolean} [required=false]
-@param {string} [min] The earliest acceptable date.
-@param {string} [max] The lattest acceptable date.
-@param {string} [pattern] The pattern an acceptable date needs to fulfill.
 */
-function QuestionnaireItemDate(className, question, required, min, max, pattern) {
-    QuestionnaireItem.call(this, className, question, required);
+class QuestionnaireItemDate extends QuestionnaireItem {
+
+    /**
+    @param {string} [className] CSS class
+    @param {string} [question]
+    @param {boolean} [required=false]
+    @param {string} [min] The earliest acceptable date.
+    @param {string} [max] The lattest acceptable date.
+    @param {string} [pattern] The pattern an acceptable date needs to fulfill.
+    */
+    constructor(className, question, required, min, max, pattern) {
+    super(className, question, required);
 
     this.min = min;
     this.max = max;
@@ -24,10 +27,8 @@ function QuestionnaireItemDate(className, question, required, min, max, pattern)
 
     TheFragebogen.logger.debug(this.constructor.name + "()", "Set: min as " + this.min + ", max as " + this.max + " and pattern as " + this.pattern);
 }
-QuestionnaireItemDate.prototype = Object.create(QuestionnaireItem.prototype);
-QuestionnaireItemDate.prototype.constructor = QuestionnaireItemDate;
 
-QuestionnaireItemDate.prototype._createAnswerNode = function() {
+_createAnswerNode() {
     var node = document.createElement("div");
 
     this.input = document.createElement("input");
@@ -46,14 +47,14 @@ QuestionnaireItemDate.prototype._createAnswerNode = function() {
 
     this._applyAnswerToUI();
     return node;
-};
+}
 
-QuestionnaireItemDate.prototype._handleChange = function(event) {
+_handleChange(event) {
     this.answer = this.input.value;
     this._sendReadyStateChanged();
-};
+}
 
-QuestionnaireItemDate.prototype._applyAnswerToUI = function() {
+_applyAnswerToUI() {
     if (!this.isUIcreated()) {
         return;
     }
@@ -61,36 +62,37 @@ QuestionnaireItemDate.prototype._applyAnswerToUI = function() {
     if (this.isAnswered()) {
         this.input.value = this.getAnswer();
     }
-};
+}
 
-QuestionnaireItemDate.prototype.setAnswer = function(answer) {
+setAnswer(answer) {
     this.answer = answer;
     this._applyAnswerToUI();
     this._sendReadyStateChanged();
     return true;
-};
+}
 
-QuestionnaireItemDate.prototype.releaseUI = function() {
+releaseUI() {
     this.node = null;
     this.uiCreated = false;
     this.enabled = false;
 
     this.input = null;
-};
+}
 
-QuestionnaireItemDate.prototype.getData = function() {
+getData() {
     return [this.getQuestion(), this.pattern, this.getAnswer()];
-};
+}
 
-QuestionnaireItemDate.prototype._checkData = function(data) {
+_checkData(data) {
     return (data[0] === this.question) && (data[1] === this.pattern);
-};
+}
 
-QuestionnaireItemDate.prototype.setData = function(data) {
+setData(data) {
     if (!this._checkData(data)) {
         return false;
     }
 
     this.setAnswer(data[2]);
     return true;
-};
+}
+}

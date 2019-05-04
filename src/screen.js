@@ -6,44 +6,51 @@ In TheFragebogen only one screen is shown at a time.
 @abstract
 @class Screen
 */
-function Screen() {
+class Screen {
+    
+    constructor() {
     this.paginateCallback = null;
     this.preloadedCallback = null;
     this.preloaded = true;
     this.node = null;
 }
-Screen.prototype.constructor = Screen;
+
 /**
 @returns {boolean} true if the UI is created, false if not
 */
-Screen.prototype.isUIcreated = function() {
+isUIcreated() {
     return this.node !== null;
-};
+}
+
 /**
 Creates the UI.
 @abstract
 */
-Screen.prototype.createUI = function() {};
+createUI() {}
+
 /**
 (optional) Inform the screen its UI gets shown.
 @abstract
 */
-Screen.prototype.start = function() {};
+start() {}
+
 /**
 Destroy and release the UI.
 @abstract
 */
-Screen.prototype.releaseUI = function() {};
+releaseUI() {}
+
 /**
 Returns the stored data in CSV format.
 @abstract
 */
-Screen.prototype.getDataCSV = function() {};
+getDataCSV() {}
+
 /**
 Set the callback for ready-state changed.
 @param {function} [callback]
 */
-Screen.prototype.setPaginateCallback = function(callback) {
+setPaginateCallback(callback) {
     if (!(callback instanceof Function)) {
         TheFragebogen.logger.error(this.constructor.name + ".setPaginateCallback()", "Provided callback ist not a function.");
         return false;
@@ -52,14 +59,14 @@ Screen.prototype.setPaginateCallback = function(callback) {
     TheFragebogen.logger.debug(this.constructor.name + ".setPaginateCallback()", "called.");
     this.paginateCallback = callback;
     return true;
-};
+}
+
 /**
 Call this.paginateCallback().
-
 @param {number} [relativeScreenId=1] The relative id of the next screen.
 @param {boolean} [isReadyRequired=true] Only send the event if `this.isReady() === true`.
 */
-Screen.prototype._sendPaginateCallback = function(relativeScreenId, isReadyRequired) {
+_sendPaginateCallback(relativeScreenId, isReadyRequired) {
     relativeScreenId = relativeScreenId === undefined ? 1 : relativeScreenId;
     isReadyRequired = isReadyRequired === undefined ? true : isReadyRequired;
 
@@ -75,61 +82,65 @@ Screen.prototype._sendPaginateCallback = function(relativeScreenId, isReadyRequi
 
     TheFragebogen.logger.debug(this.constructor.name + "._sendPaginateCallback()", "called");
     this.paginateCallback(this, relativeScreenId);
-};
+}
+
 /**
 Is the screen ready and TheFragebogen can continue to the next one?
 @abstract
 @returns {boolean} true Is the screen ready?
 */
-Screen.prototype.isReady = function() {
+isReady() {
     return true;
-};
+}
 /**
+
 Sets the `PaginateUI` for the screen.
 NOTE: Can only be called successfully if `screen.createUI()` is `false`.
 NOTE: This function is _only_ implemented by screens that provide _manual_ pagination.
-
 @abstract
 @param {function} [paginateUI] Set the `PaginateUI` to be used. Set `null` for no `paginateUI`.
 @returns {boolean} Setting the PaginateUI was successful?
 */
-Screen.prototype.setPaginateUI = function(paginateUI) {
+setPaginateUI(paginateUI) {
     TheFragebogen.logger.warn(this.constructor.name + ".setPaginateUI()", "This method might need to be overridden.");
     return false;
-};
+}
+
 /**
 Starts preloading external media.
 Default implementation immediately sends callback `Screen._sendOnPreloadedCallback()`.
 @abstract
 */
-Screen.prototype.preload = function() {
+preload() {
     TheFragebogen.logger.debug(this.constructor.name + ".preload()", "Must be overridden for preloading.");
     this._sendOnPreloadedCallback();
-};
+}
+
 /**
 All external resources loaded?
 @abstract
 @returns {boolean}
 */
-Screen.prototype.isPreloaded = function() {
+isPreloaded() {
     return this.preloaded;
-};
+}
+
 /**
  Calls the function defined by setOnPreloadedCallback()
  */
-Screen.prototype._sendOnPreloadedCallback = function() {
+_sendOnPreloadedCallback() {
     if (!(this.preloadedCallback instanceof Function)) {
         TheFragebogen.logger.error(this.constructor.name + "._sendOnPreloadedCallback()", "called, but no preloadedCallback set.");
         return;
     }
     this.preloadedCallback();
-};
+}
 
 /**
  Sets a preloadedCallback function to be called when screen preloading
  is finished.
  */
-Screen.prototype.setOnPreloadedCallback = function(preloadedCallback) {
+setOnPreloadedCallback(preloadedCallback) {
     if (!(preloadedCallback instanceof Function)) {
         TheFragebogen.logger.error(this.constructor.name + ".setOnPreloadedCallback()", "No callback handle given.");
         return false;
@@ -138,4 +149,5 @@ Screen.prototype.setOnPreloadedCallback = function(preloadedCallback) {
     TheFragebogen.logger.debug(this.constructor.name + ".setOnPreloadedCallback()", "called");
     this.preloadedCallback = preloadedCallback;
     return true;
-};
+}
+}

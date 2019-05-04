@@ -10,13 +10,16 @@ ATTENTION: Preloading is not supported.
 
 @class ScreenIFrame
 @augments Screen
-
-@param {string} [className] CSS class
-@param {string} [url]
-@param {number} [urlChangesToReady] Number of URL changes until ready is reported.
 */
-function ScreenIFrame(className, url, urlChangesToReady) {
-    Screen.call(this);
+class ScreenIFrame extends Screen {
+
+    /**
+    @param {string} [className] CSS class
+    @param {string} [url]
+    @param {number} [urlChangesToReady] Number of URL changes until ready is reported.
+    */
+    constructor(className, url, urlChangesToReady) {
+    super();
 
     this.className = className;
 
@@ -31,10 +34,8 @@ function ScreenIFrame(className, url, urlChangesToReady) {
 
     TheFragebogen.logger.debug(this.constructor.name + "()", "Set: url as " + this.urlStart + ", urlChangesToReady as" + this.urlChangesToReady);
 }
-ScreenIFrame.prototype = Object.create(Screen.prototype);
-ScreenIFrame.prototype.constructor = ScreenIFrame;
 
-ScreenIFrame.prototype.createUI = function() {
+createUI() {
     this.urlChanges = -1; //Ignore the first load
     this.node = document.createElement("iframe");
     this.node.className = this.className;
@@ -60,23 +61,28 @@ ScreenIFrame.prototype.createUI = function() {
     }.bind(this);
 
     return this.node;
-};
-ScreenIFrame.prototype.start = function() {
+}
+
+start() {
     this.startTime = Date.now();
-};
-ScreenIFrame.prototype.isReady = function() {
+}
+
+isReady() {
     return this.duration !== null;
-};
-ScreenIFrame.prototype.releaseUI = function() {
+}
+
+releaseUI() {
     this.node = null;
     this.startTime = null;
     TheFragebogen.logger.info(this.constructor.name + ".releaseUI()", this.duration);
-};
-ScreenIFrame.prototype.getDataCSV = function() {
+}
+
+getDataCSV() {
     return [
         ["url", "finalURL", "duration"],
         ["url", "finalURL", "duration"],
         ["", "", ""],
         [this.urlStart, this.urlFinal, this.duration]
     ];
-};
+}
+}

@@ -4,13 +4,16 @@ Fancy animation(s) can be shown using CSS.
 
 @class ScreenWait
 @augments Screen
-
-@param {string} [className] CSS class
-@param {number} [time=2] The time to wait in seconds
-@param {string} [html="Please wait..."] The HTML content to be presented.
 */
-function ScreenWait(className, time, html) {
-    Screen.call(this);
+class ScreenWait extends Screen {
+
+    /**
+    @param {string} [className] CSS class
+    @param {number} [time=2] The time to wait in seconds
+    @param {string} [html="Please wait..."] The HTML content to be presented.
+    */
+    constructor(className, time, html) {
+    super();
 
     this.className = className;
     this.time = !isNaN(time) ? Math.abs(time) * 1000 : 2;
@@ -21,32 +24,34 @@ function ScreenWait(className, time, html) {
 
     TheFragebogen.logger.debug(this.constructor.name, "Set: time as " + this.time + " and html as " + this.html);
 }
-ScreenWait.prototype = Object.create(Screen.prototype);
-ScreenWait.prototype.constructor = ScreenWait;
 
-ScreenWait.prototype.createUI = function() {
+createUI() {
     this.node = document.createElement("div");
     this.node.className = this.className;
     this.node.innerHTML = this.html;
 
     return this.node;
-};
+}
 
-ScreenWait.prototype._startTimer = function() {
+_startTimer() {
     TheFragebogen.logger.info(this.constructor.name + "._startTimer()", "New screen will be displayed in " + this.time + "ms.");
     this.timeoutHandle = setTimeout((this._onWaitTimeReached).bind(this), this.time);
-};
+}
+
 /**
 Starts the timer.
 */
-ScreenWait.prototype.start = function() {
+start() {
     this._startTimer();
-};
-ScreenWait.prototype._onWaitTimeReached = function() {
+}
+
+_onWaitTimeReached() {
     this._sendPaginateCallback();
-};
-ScreenWait.prototype.releaseUI = function() {
+
+}
+releaseUI() {
     clearTimeout(this.timeoutHandle);
     this.timeoutHandle = null;
     this.node = null;
-};
+}
+}

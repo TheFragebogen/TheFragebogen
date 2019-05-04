@@ -7,26 +7,26 @@ Uses the HTML input type="range".
 @augments UIElementInteractive
 @augments QuestionnaireItem
 @augments QuestionnaireItemDefined
-
-@param {string} [className] CSS class
-@param {string} question
-@param {boolean} [required=false]
-
-@param {int} [min] Minimal acceptable answer.
-@param {int} [max] Maximal acceptable answer.
 */
-function QuestionnaireItemDefinedRange(className, question, required, min, max) {
-    QuestionnaireItemDefined.call(this, className, question, required, [min, max]);
+class QuestionnaireItemDefinedRange extends QuestionnaireItemDefined {
+
+    /**
+    @param {string} [className] CSS class
+    @param {string} question
+    @param {boolean} [required=false]
+    @param {int} [min] Minimal acceptable answer.
+    @param {int} [max] Maximal acceptable answer.
+    */
+    constructor(className, question, required, min, max) {
+    super(className, question, required, [min, max]);
 
     this.min = min;
     this.max = max;
 
     this.input = null;
 }
-QuestionnaireItemDefinedRange.prototype = Object.create(QuestionnaireItemDefined.prototype);
-QuestionnaireItemDefinedRange.prototype.constructor = QuestionnaireItemDefinedRange;
 
-QuestionnaireItemDefinedRange.prototype._createAnswerNode = function() {
+_createAnswerNode() {
     var node = document.createElement("div");
     node.className = this.className;
 
@@ -40,14 +40,14 @@ QuestionnaireItemDefinedRange.prototype._createAnswerNode = function() {
 
     this._applyAnswerToUI();
     return node;
-};
+}
 
-QuestionnaireItemDefinedRange.prototype._handleChange = function(event) {
+_handleChange(event) {
     this.answer = this.input.value;
     this._sendReadyStateChanged();
-};
+}
 
-QuestionnaireItemDefinedRange.prototype._applyAnswerToUI = function() {
+_applyAnswerToUI() {
     if (!this.isUIcreated()) {
         return;
     }
@@ -55,12 +55,13 @@ QuestionnaireItemDefinedRange.prototype._applyAnswerToUI = function() {
     if (this.isAnswered()) {
         this.input.value = this.getAnswer();
     }
-};
+}
+
 /**
 @param {string} answer
 @returns {boolean}
 */
-QuestionnaireItemDefinedRange.prototype.setAnswer = function(answer) {
+setAnswer(answer) {
     if (answer === null) {
         this.answer = null;
         this._applyAnswerToUI();
@@ -71,29 +72,30 @@ QuestionnaireItemDefinedRange.prototype.setAnswer = function(answer) {
     this._applyAnswerToUI();
     this._sendReadyStateChanged();
     return true;
-};
+}
 
-QuestionnaireItemDefinedRange.prototype.releaseUI = function() {
+releaseUI() {
     this.node = null;
     this.uiCreated = false;
     this.enabled = false;
 
     this.input = null;
-};
+}
 
-QuestionnaireItemDefinedRange.prototype.getData = function() {
+getData() {
     return [this.getQuestion(), [this.min, this.max], this.getAnswer()];
-};
+}
 
-QuestionnaireItemDefinedRange.prototype._checkData = function(data) {
+_checkData(data) {
     return (data[0] === this.question) && (data[1][0] === this.min) && (data[1][1] === this.max);
-};
+}
 
-QuestionnaireItemDefinedRange.prototype.setData = function(data) {
+setData(data) {
     if (!this._checkData(data)) {
         return false;
     }
 
     this.setAnswer(data[2]);
     return true;
-};
+}
+}

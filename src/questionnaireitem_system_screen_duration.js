@@ -9,33 +9,39 @@ Reports in milliseconds.
 @augments QuestionnaireItem
 @augments QuestionnaireItemSystem
 */
-function QuestionnaireItemSystemScreenDuration() {
-    QuestionnaireItemSystem.call(this, null, "Screen Duration", false);
+class QuestionnaireItemSystemScreenDuration extends QuestionnaireItemSystem {
+
+    constructor() {
+    super(null, "Screen Duration", false);
     this.startTime = null;
 }
-QuestionnaireItemSystemScreenDuration.prototype = Object.create(QuestionnaireItemSystem.prototype);
-QuestionnaireItemSystemScreenDuration.prototype.constructor = QuestionnaireItemSystemScreenDuration;
 
-QuestionnaireItemSystemScreenDuration.prototype.createUI = function() {
+createUI() {
     this.startTime = new Date().getTime();
-};
-QuestionnaireItemSystemScreenDuration.prototype.isReady = function() {
+}
+
+isReady() {
     return true;
-};
-QuestionnaireItemSystemScreenDuration.prototype.releaseUI = function() {
+}
+
+releaseUI() {
     this.answer = new Date().getTime() - this.startTime;
-};
-QuestionnaireItemSystemScreenDuration.prototype.getData = function() {
+}
+
+getData() {
     return [this.getQuestion(), this.getAnswer()];
-};
-QuestionnaireItemSystemScreenDuration.prototype._checkData = function(data) {
+}
+
+_checkData(data) {
     return (data[0] === this.question);
-};
-QuestionnaireItemSystemScreenDuration.prototype.setData = function(data) {
+}
+
+setData(data) {
     if (!this._checkData(data)) {
         return false;
     }
 
     this.setAnswer(data[1]);
     return true;
-};
+}
+}

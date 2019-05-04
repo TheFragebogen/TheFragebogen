@@ -8,11 +8,14 @@ Default paginator is `PaginateUIButton`.
 
 @class ScreenDataPreview
 @augments Screen
-
-@param {string} [className] CSS class
 */
-function ScreenDataPreview(className) {
-    Screen.call(this);
+class ScreenDataPreview extends Screen {
+
+    /**
+    @param {string} [className] CSS class
+    */
+    constructor(className) {
+    super();
 
     this.data = null;
     this.className = className;
@@ -22,19 +25,16 @@ function ScreenDataPreview(className) {
     this.paginateUI = new PaginateUIButton(undefined, undefined, 1);
 }
 
-ScreenDataPreview.prototype = Object.create(Screen.prototype);
-ScreenDataPreview.prototype.constructor = ScreenDataPreview;
-
-ScreenDataPreview.prototype.setPaginateUI = function(paginateUI) {
+setPaginateUI(paginateUI) {
     if (this.isUIcreated()) return false;
     if (!(paginateUI instanceof PaginateUI || paginateUI === null)) return false;
 
     this.paginateUI = paginateUI;
     TheFragebogen.logger.debug(this.constructor.name + ".setPaginateUI()", "Set paginateUI.");
     return true;
-};
+}
 
-ScreenDataPreview.prototype.createUI = function() {
+createUI() {
     //Request data
     if (this.getDataFromScreencontroller instanceof Function) {
         TheFragebogen.logger.debug(this.constructor.name + "._sendGetDataFromScreencontroller()", "called");
@@ -68,22 +68,24 @@ ScreenDataPreview.prototype.createUI = function() {
     }
 
     return this.node;
-};
+}
 
-ScreenDataPreview.prototype.releaseUI = function() {
+releaseUI() {
     this.node = null;
     this.data = null;
-};
+}
+
 /**
 Set the function pointer for requesting the ScreenController's _raw_ data.
 @param {function} function
 @returns {boolean} true if parameter was a function
 */
-ScreenDataPreview.prototype.setGetRawDataCallback = function(getDataFromScreencontroller) {
+setGetRawDataCallback(getDataFromScreencontroller) {
     if (getDataFromScreencontroller instanceof Function) {
         TheFragebogen.logger.debug(this.constructor.name + ".setGetRawDataCallback()", "called");
         this.getDataFromScreencontroller = getDataFromScreencontroller;
         return true;
     }
     return false;
-};
+}
+}
