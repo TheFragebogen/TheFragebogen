@@ -66,7 +66,14 @@ module.exports = function(grunt) {
             }
         },
         qunit: {
-            all: ['tests/qunit*.html']
+            all: ['tests/qunit*.html'],
+            options: {
+                puppeteer: {
+                    headless: true,
+                    //Disable Chrome's security features to be executed on (older) Linux; needed for TravisCI
+                    args: ['--no-sandbox', '--disable-setuid-sandbox']
+                }
+            }
         },
         revision: {
             options: {
