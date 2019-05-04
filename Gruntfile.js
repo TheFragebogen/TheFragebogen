@@ -83,13 +83,24 @@ module.exports = function(grunt) {
                 exec: 'grunt --help'
             }
         },
+        babel: {
+            options: {
+                sourceMap: true,
+                presets: ['@babel/preset-env']
+            },
+            dist: {
+                files: {
+                    'thefragebogen.es5.js': 'thefragebogen.js'
+                }
+            }
+        },
         uglify: {
             options: {
                 banner: '/*!\n<%= pkg.name %>\nVersion: <%= pkg.version %>\n<%= pkg.homepage %>\nGIT: <%= pkg.repository %>/commit/<%= meta.revision %>\nLicense: <%= pkg.license %>\n<%= grunt.template.today("UTC:dddd, mmmm dS, yyyy, h:MM:ss TT Z", true) %>\n*/\n',
             },
             dist: {
                 files: {
-                    'thefragebogen.min.js': ['thefragebogen.js'] //'<%= concat_in_order.dist.dest %>'
+                    'thefragebogen.es5-min.js': ['thefragebogen.es5.js'] //'<%= concat_in_order.dist.dest %>'
                 }
             }
         }
@@ -103,11 +114,13 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks("grunt-jsbeautifier");
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-run');
+    require("load-grunt-tasks")(grunt);
 
     //Task(s)
-    grunt.registerTask('default', ['includereplace', 'revision', 'concat_in_order', 'uglify']);
+    grunt.registerTask('default', ['includereplace', 'revision', 'concat_in_order']);
 
     grunt.registerTask('doc', ['default', 'run:jsdoc']);
+    grunt.registerTask('dist', ['default', 'babel', 'uglify']);
     grunt.registerTask('format', ['jsbeautifier']);
     grunt.registerTask('help', ['run:help']);
     grunt.registerTask('lint', ['jshint']);
