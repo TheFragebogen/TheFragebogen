@@ -13,8 +13,8 @@ A group of radiobuttons is used.
 @param {boolean} [required=false]
 @param {array} optionList
 */
-function QuestionnaireItemDefinedOne(className, question, required, options) {
-    QuestionnaireItemDefined.call(this, className, question, required, options);
+function QuestionnaireItemDefinedOne(className, question, required, optionList) {
+    QuestionnaireItemDefined.call(this, className, question, required, optionList);
 
     this.identifier = Math.random(); //Part of the identifier for the label + radiobutton relation.
 }
