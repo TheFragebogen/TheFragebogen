@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <meta charset="utf-8">
+        <title>
+            TheFragebogen - Test UIElements and QuestionnaireItems
+        </title>
+        <link rel="stylesheet" href="../node_modules/qunit/qunit/qunit.css">
+
+        <script src="../node_modules/qunit/qunit/qunit.js">
+        </script>
+
+        <script src="../thefragebogen.js">
+        </script>
+
+        <script src="qunit_screen.js">
+        </script>
+
+        <script src="qunit_questionnaireitem.js">
+        </script>
+
+        <script>
+        QUnit.test("Checking thefragebogen could be loaded succesfully.", function(assert) {
+            assert.ok(TheFragebogen !== undefined);
+        });
+        QUnit.test("Testing if internal logger is available.", function(assert) {
+            TheFragebogen.logger.info("testCSS", "This is just a message to test the logger.")
+            assert.expect(0);
+        });
+
+        </script>
+    </head>
+
+    <body>
+        <div id="qunit"></div>
+        <div id="qunit-fixture"></div>
+    </body>
+
+</html>
