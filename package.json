@@ -23,7 +23,8 @@
         "grunt-include-replace": "^5.0.0",
         "grunt-jsbeautifier": "^0.2.13",
         "grunt-run": "^0.8.1",
-        "load-grunt-tasks": "^4.0.0"
+        "load-grunt-tasks": "^4.0.0",
+        "qunit": "^2.9.2"
     },
     "scripts": {
         "test": "grunt test"
