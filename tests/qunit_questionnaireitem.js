@@ -38,8 +38,8 @@ QUnit.test("UIElements: lifecycle", function(assert) {
     }
 
     test(new QuestionnaireItemDate("testCSS", "Hallo", false));
-    test(new QuestionnaireItemDefinedOne("testCSS", "Hallo", ["60", "70"], false));
-    test(new QuestionnaireItemDefinedMulti("testCSS", "Hallo", ["60", "70"], false));
+    test(new QuestionnaireItemDefinedOne("testCSS", "Hallo", false, ["60", "70"]));
+    test(new QuestionnaireItemDefinedMulti("testCSS", "Hallo", false, ["60", "70"]));
     test(new QuestionnaireItemDefinedRange("testCSS", "Hallo", false));
     test(new QuestionnaireItemDefinedSelector("testCSS", "Hallo", false, ["1", "2"]));
     test(new QuestionnaireItemText("testCSS", "Hallo", false));
