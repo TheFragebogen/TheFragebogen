@@ -26,10 +26,14 @@ createUI() {
             TheFragebogen.logger.warn(this.constructor.name + ".createUI()", "Element[" + index + "] has no 'createUI' method");
             continue;
         }
-        var node = this.uiElements[index].createUI();
-        if (node !== undefined && node !== null) {
-            this.node.appendChild(node);
+
+        var uiElementNode = this.uiElements[index].createUI();
+        if (uiElementNode instanceof HTMLElement) {
+            this.node.appendChild(uiElementNode);
+        } else {
+            TheFragebogen.logger.warn(this.constructor.name + ".createUI()", "Element[" + index + "].createUI() did not a HTMLElement.");
         }
+
         if (this.uiElements[index].setOnReadyStateChangedCallback instanceof Function) {
             this.uiElements[index].setOnReadyStateChangedCallback(this._onUIElementReady.bind(this));
         }

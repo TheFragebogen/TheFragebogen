@@ -135,9 +135,9 @@ Create the UI showing the question.
 @returns {HTMLElement} The div containing the question.
 */
 _createQuestionNode() {
-    var node = document.createElement("div");
-    node.innerHTML = this.question + (this.required ? "*" : "");
-    return node;
+    var questionNode = document.createElement("div");
+    questionNode.innerHTML = this.question + (this.required ? "*" : "");
+    return questionNode;
 }
 
 /**

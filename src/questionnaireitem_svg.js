@@ -57,7 +57,7 @@ class QuestionnaireItemSVG extends QuestionnaireItem {
 }
 
 _createAnswerNode() {
-    var node = document.createElement("div");
+    var answerNode = document.createElement("div");
 
     this.scaleImage = document.createElementNS("http://www.w3.org/2000/svg", "svg");
     this._setupSVG();
@@ -65,7 +65,7 @@ _createAnswerNode() {
     this.crossImage = this.scaleImage.getElementById("cross");
     //Problem identified here by the tests while using Safari 7.0.6 --- this.crossImage === null
     if (this.crossImage === null) {
-        node.innerHTML = '"QuestionnaireItemSVG" feature not available in this browser or SVG is not compatible.';
+        answerNode.innerHTML = '"QuestionnaireItemSVG" feature not available in this browser or SVG is not compatible.';
         this.answer = "unavailable"; //sets answer, so the item will be ready even if it was required.
         return node;
     }
@@ -89,8 +89,8 @@ _createAnswerNode() {
         this._updateUI();
     }
 
-    node.appendChild(this.scaleImage);
-    return node;
+    answerNode.appendChild(this.scaleImage);
+    return answerNode;
 }
 
 /**

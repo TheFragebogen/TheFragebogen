@@ -39,11 +39,11 @@ class QuestionnaireItemMediaVideo extends QuestionnaireItemMedia {
 }
 
 _createAnswerNode() {
-    var node = document.createElement("div");
+    var answerNode = document.createElement("div");
 
     this._createMediaNode();
 
-    node.appendChild(this.videoNode);
+    answerNode.appendChild(this.videoNode);
 
     this.videoNode.ontimeupdate = this._onprogress.bind(this);
     this.videoNode.onerror = this._onerror.bind(this);
@@ -52,7 +52,7 @@ _createAnswerNode() {
     this.videoNode.onplay = this._onplay.bind(this);
 
     this.videoCreationTime = new Date().getTime();
-    return node;
+    return answerNode;
 }
 
 releaseUI() {

@@ -31,13 +31,13 @@ class QuestionnaireItemMediaImage extends QuestionnaireItemMedia {
 }
 
 _createAnswerNode() {
-    var node = document.createElement("div");
+    var answerNode = document.createElement("div");
 
     this._createMediaNode();
 
-    node.appendChild(this.imageNode);
+    answerNode.appendChild(this.imageNode);
 
-    return node;
+    return answerNode;
 }
 
 releaseUI() {

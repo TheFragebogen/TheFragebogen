@@ -21,15 +21,15 @@ class QuestionnaireItemText extends QuestionnaireItem {
 }
 
 _createAnswerNode() {
-    var node = document.createElement("div");
+    var answerNode = document.createElement("div");
 
     this.input = document.createElement("input");
     this.input.addEventListener("change", this._handleChange.bind(this));
 
-    this.node.appendChild(this.input);
+    answerNode.appendChild(this.input);
 
     this._applyAnswerToUI();
-    return node;
+    return answerNode;
 }
 
 _handleChange(event) {

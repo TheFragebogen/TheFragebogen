@@ -21,7 +21,7 @@ class QuestionnaireItemDefinedSelector extends QuestionnaireItemDefined {
 }
 
 _createAnswerNode() {
-    var node = document.createElement("div");
+    var answerNode = document.createElement("div");
 
     this.select = document.createElement("select");
     this.select.addEventListener("change", this._handleChange.bind(this));
@@ -40,10 +40,10 @@ _createAnswerNode() {
         this.select.appendChild(option);
     }
 
-    node.appendChild(this.select);
+    answerNode.appendChild(this.select);
 
     this._applyAnswerToUI();
-    return node;
+    return answerNode;
 }
 
 _handleChange(event) {
