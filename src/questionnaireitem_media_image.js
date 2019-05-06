@@ -31,7 +31,7 @@ class QuestionnaireItemMediaImage extends QuestionnaireItemMedia {
 }
 
 _createAnswerNode() {
-    var answerNode = document.createElement("div");
+    const answerNode = document.createElement("div");
 
     this._createMediaNode();
 

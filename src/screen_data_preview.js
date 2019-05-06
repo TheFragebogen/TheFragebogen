@@ -45,12 +45,12 @@ createUI() {
     this.node.innerHTML = "<h1>Data Preview</h1>";
     this.node.className = this.className;
 
-    var tblBody = document.createElement("tbody");
-    for (i = 0; i < this.data.length; i++) {
-        var row = document.createElement("tr");
-        for (j = 0; j < this.data[i].length; j++) {
+    const tblBody = document.createElement("tbody");
+    for (let i = 0; i < this.data.length; i++) {
+        const row = document.createElement("tr");
+        for (let j = 0; j < this.data[i].length; j++) {
 
-            var cell = document.createElement(i == 0 ? "th" : "td");
+            const cell = document.createElement(i == 0 ? "th" : "td");
 
             cell.innerHTML = this.data[i][j];
             row.appendChild(cell);
@@ -58,7 +58,7 @@ createUI() {
         tblBody.appendChild(row);
     }
 
-    var tbl = document.createElement("table");
+    const tbl = document.createElement("table");
     tbl.appendChild(tblBody);
     this.node.appendChild(tbl);
 

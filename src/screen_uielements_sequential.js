@@ -19,14 +19,14 @@ class ScreenUIElementsSequential extends ScreenUIElements {
 }
 
 start() {
-    for (var index in this.uiElements) {
+    for (let index in this.uiElements) {
         if (this.uiElements[index].setOnReadyStateChangedCallback instanceof Function) {
             this.uiElements[index].setOnReadyStateChangedCallback((this._onUIElementReady).bind(this));
         }
         this.uiElements[index].setEnabled(false);
     }
 
-    for (var i = 0; i < this.uiElements.length; i++) {
+    for (let i = 0; i < this.uiElements.length; i++) {
         if (this.uiElements[i] instanceof UIElementInteractive) {
             this.currentElementIndex = i;
             this.uiElements[this.currentElementIndex].setEnabled(true);
@@ -44,8 +44,8 @@ Callback to enable the following UIElementInteractive.
 _onUIElementReady() {
     TheFragebogen.logger.info(this.constructor.name + "._onUIElementReady()", "called");
 
-    var nextElementIndex = -1;
-    for (var i = this.currentElementIndex + 1; i < this.uiElements.length; i++) {
+    let nextElementIndex = -1;
+    for (let i = this.currentElementIndex + 1; i < this.uiElements.length; i++) {
         this.uiElements[i].setEnabled(true);
         if (this.uiElements[i] instanceof UIElementInteractive) {
             nextElementIndex = i;

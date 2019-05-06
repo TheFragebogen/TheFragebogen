@@ -25,8 +25,8 @@ To test your SVG, you can use the following code (open the SVG in Chrome and ope
 The cross should be positioned accordingly.
 
 <code>
-var cross=document.getElementById("cross")
-var answerA = document.getElementById('10'); //Change if you use different answer
+const cross=document.getElementById("cross")
+const answerA = document.getElementById('10'); //Change if you use different answer
 
 cross.setAttributeNS(null, "transform", "translate(0,0)"); //Reset cross position
 
@@ -57,7 +57,7 @@ class QuestionnaireItemSVG extends QuestionnaireItem {
 }
 
 _createAnswerNode() {
-    var answerNode = document.createElement("div");
+    const answerNode = document.createElement("div");
 
     this.scaleImage = document.createElementNS("http://www.w3.org/2000/svg", "svg");
     this._setupSVG();
@@ -74,9 +74,9 @@ _createAnswerNode() {
 
     //Attach event listener to clickable areas.
     this.answerMap = {};
-    var answerElements = this._getAnswerElements();
+    const answerElements = this._getAnswerElements();
 
-    for (var i = 0; i < answerElements.length; i++) {
+    for (let i = 0; i < answerElements.length; i++) {
         if (answerElements[i].id === "cross") {
             continue;
         }
@@ -144,12 +144,12 @@ _updateUI() {
     this.crossImage.setAttributeNS(null, "transform", "translate(0,0)");
 
     //Move to new position.
-    var answer = this.answerMap[this.answer];
-    var crossBBox = this.crossImage.getBBox();
-    var answerBBox = answer.getBBox();
+    const answer = this.answerMap[this.answer];
+    const crossBBox = this.crossImage.getBBox();
+    const answerBBox = answer.getBBox();
 
-    var transform = answer.getScreenCTM().inverse().multiply(this.crossImage.getScreenCTM());
-    var translateX = -transform.e + Math.abs(answerBBox.x - crossBBox.x) - crossBBox.width / 2 + answerBBox.width / 2;
+    const transform = answer.getScreenCTM().inverse().multiply(this.crossImage.getScreenCTM());
+    const translateX = -transform.e + Math.abs(answerBBox.x - crossBBox.x) - crossBBox.width / 2 + answerBBox.width / 2;
 
     TheFragebogen.logger.debug(this.constructor.name + "._updateUI()", translateX);
     this.crossImage.setAttributeNS(null, "transform", "translate(" + translateX + ",0)");

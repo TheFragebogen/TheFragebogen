@@ -41,7 +41,7 @@ class ScreenWaitDataUpload extends ScreenWaitData {
 createUI() {
     this.node = document.createElement("div");
 
-    var span = document.createElement("span");
+    const span = document.createElement("span");
     span.innerHTML = this.html;
     this.node.appendChild(span);
 
@@ -109,7 +109,7 @@ _onload() {
 Callback if upload failed and schedules a retry.
 */
 _onerror() {
-    var span = document.createElement("span");
+    const span = document.createElement("span");
     span.innerHTML = "" + "Upload failed. Retrying in 5 seconds.";
     this.node.appendChild(span);
     this.retry = setTimeout((this.callbackUpload).bind(this), 5000, this.data);

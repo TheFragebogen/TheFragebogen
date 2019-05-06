@@ -18,8 +18,8 @@ class ScreenController {
     constructor() {
     if (arguments.length === 0) TheFragebogen.logger.fatal(this.constructor.name + ".constructor", "No screen available.");
 
-    var localArguments = [].concat.apply([], arguments); //Flatten the potential array.
-    for (var i in localArguments) {
+    const localArguments = [].concat.apply([], arguments); //Flatten the potential array.
+    for (let i in localArguments) {
         if (!(localArguments[i] instanceof Screen)) TheFragebogen.logger.error(this.constructor.name + "()", "This argument (index " + i + " is not a Screen: " + localArguments[i] + " and will be ignored.");
     }
     this.screen = localArguments.filter(function(element) {
@@ -48,7 +48,7 @@ init(parentNode) {
 
     this.screenContainerNode = parentNode;
 
-    for (var i = 0; i < this.screen.length; i++) {
+    for (let i = 0; i < this.screen.length; i++) {
         if (this.screen[i].setGetDataCallback instanceof Function) {
             this.screen[i].setGetDataCallback((this.requestDataCSV).bind(this));
         }
@@ -147,7 +147,7 @@ _displayUI() {
     window.scrollTo(0, document.body.scrollLeft);
 
     //Add the new screen
-    var screen = this.screen[this.currentScreenIndex];
+    const screen = this.screen[this.currentScreenIndex];
     this.screenContainerNode.appendChild(screen.createUI());
     screen.start();
 }
@@ -163,10 +163,10 @@ Prepare data for export (CSV).
 */
 requestDataCSV() {
     TheFragebogen.logger.info(this.constructor.name + ".requestDataCSV()", "called.");
-    var dataArray = this.requestDataArray();
+    const dataArray = this.requestDataArray();
 
-    var result = "";
-    for (var i = 0; i < dataArray.length; i++) {
+    let result = "";
+    for (let i = 0; i < dataArray.length; i++) {
         result += '"' + dataArray[i][0]; //Screen index
         result += '","' + dataArray[i][1]; //Type of question
         result += '","' + dataArray[i][2]; //Question
@@ -188,14 +188,14 @@ Prepare data for export as a two-dimensional array:
 requestDataArray() {
     TheFragebogen.logger.info(this.constructor.name + ".requestDataArray()", "called.");
 
-    var screenIndeces = ["Screen index"];
-    var questionType = ["Type of item"];
-    var questions = ["Question"];
-    var options = ["Answer options"];
-    var answers = ["Answer"];
+    let screenIndeces = ["Screen index"];
+    let questionType = ["Type of item"];
+    let questions = ["Question"];
+    let options = ["Answer options"];
+    let answers = ["Answer"];
 
-    for (var i = 0; i <= this.currentScreenIndex; i++) {
-        var currentData = this.screen[i].getDataCSV();
+    for (let i = 0; i <= this.currentScreenIndex; i++) {
+        const currentData = this.screen[i].getDataCSV();
 
         if (currentData instanceof Array && currentData[0] instanceof Array && currentData[1] instanceof Array && currentData[2] instanceof Array && currentData[3] instanceof Array) {
             if (currentData[0].length === 0) continue;
@@ -205,7 +205,7 @@ requestDataArray() {
                 currentData[1][currentData[0].length] = null;
             }
 
-            for (var j = 0; j < currentData[0].length; j++) {
+            for (let j = 0; j < currentData[0].length; j++) {
                 screenIndeces = screenIndeces.concat(i);
             }
 
@@ -216,8 +216,8 @@ requestDataArray() {
         }
     }
 
-    var result = [];
-    for (i in screenIndeces) {
+    let result = [];
+    for (let i in screenIndeces) {
         result[i] = [];
         result[i][0] = screenIndeces[i];
         result[i][1] = questionType[i];
@@ -272,7 +272,7 @@ goToScreenRelative(relativeScreenId) {
         return false;
     }
 
-    var screenId = this.getCurrentScreenIndex() + relativeScreenId;
+    const screenId = this.getCurrentScreenIndex() + relativeScreenId;
 
     if (!(0 <= screenId && screenId < this.screen.length)) {
         TheFragebogen.logger.error(this.constructor.name + ".goToScreenRelative()", "There is no screen with id: " + screenId);
@@ -309,7 +309,7 @@ preload(innerHTML) {
 
     this.screenContainerNode.innerHTML += innerHTML;
 
-    for (var i = 0; i < this.screen.length; i++) {
+    for (let i = 0; i < this.screen.length; i++) {
         this.screen[i].setOnPreloadedCallback((this.onScreenPreloaded).bind(this));
         this.screen[i].preload();
     }
@@ -320,7 +320,7 @@ Handles the returned preloadStatus from each screen.
 @param {Screen} screen The screen that finished preloading.
 */
 onScreenPreloaded() {
-    for (var i = 0; i < this.screen.length; i++) {
+    for (let i = 0; i < this.screen.length; i++) {
         if (!this.screen[i].isPreloaded()) {
             return;
         }

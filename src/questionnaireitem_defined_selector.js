@@ -21,20 +21,20 @@ class QuestionnaireItemDefinedSelector extends QuestionnaireItemDefined {
 }
 
 _createAnswerNode() {
-    var answerNode = document.createElement("div");
+    const answerNode = document.createElement("div");
 
     this.select = document.createElement("select");
     this.select.addEventListener("change", this._handleChange.bind(this));
 
-    var optionNull = document.createElement("option");
+    const optionNull = document.createElement("option");
     optionNull.value = "";
     optionNull.disabled = true;
     optionNull.selected = true;
     optionNull.innerHTML = "";
     this.select.appendChild(optionNull);
 
-    for (var i in this.optionList) {
-        var option = document.createElement("option");
+    for (let i in this.optionList) {
+        const option = document.createElement("option");
         option.value = this.optionList[i];
         option.innerHTML = this.optionList[i];
         this.select.appendChild(option);
@@ -68,7 +68,7 @@ setAnswer(answer) {
         return true;
     }
 
-    var answerIndex = this.optionList.indexOf(answer);
+    const answerIndex = this.optionList.indexOf(answer);
     if (answerIndex === -1) {
         TheFragebogen.logger.error(this.constructor.name + ".setAnswer()", "Provided answer is not an option " + answer + ".");
         return false;

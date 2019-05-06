@@ -40,7 +40,7 @@ class QuestionnaireItemMediaAudio extends QuestionnaireItemMedia {
 }
 
 _createAnswerNode() {
-    var answerNode = document.createElement("div");
+    const answerNode = document.createElement("div");
 
     this._createMediaNode();
 
@@ -82,8 +82,8 @@ _createMediaNode() {
     this.audioNode = new Audio();
     this.audioNode.oncanplaythrough = this._onloaded.bind(this);
 
-    for (var i = 0; i < this.url.length; i++) {
-        var audioSource = document.createElement("source");
+    for (let i = 0; i < this.url.length; i++) {
+        const audioSource = document.createElement("source");
         audioSource.src = this.url[i];
         this.audioNode.appendChild(audioSource);
     }

@@ -68,7 +68,7 @@ _beeping() {
 
     this._audioOscillator.frequency.value = this._frequency;
 
-    var startTime = this._audioContext.currentTime;
+    const startTime = this._audioContext.currentTime;
 
     //Here we actually produce the beep (DIN EN 60645-1 p. 27)
     this._audioOscillator.start(startTime);

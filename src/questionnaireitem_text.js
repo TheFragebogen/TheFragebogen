@@ -21,7 +21,7 @@ class QuestionnaireItemText extends QuestionnaireItem {
 }
 
 _createAnswerNode() {
-    var answerNode = document.createElement("div");
+    const answerNode = document.createElement("div");
 
     this.input = document.createElement("input");
     this.input.addEventListener("change", this._handleChange.bind(this));

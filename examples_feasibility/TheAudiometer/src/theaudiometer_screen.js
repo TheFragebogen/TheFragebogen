@@ -84,14 +84,14 @@ _handleBeep() {
     }
     TheFragebogen.logger.info(this.constructor.name + "._handleBeep()", (Date.now() - this._startTime) / 1000 + " sec" + " --- Hearinglevel: " + this._hearinglevel + " --- Gain: " + this._beepGenerator.getGain());
 
-    var hearinglevelNext = this._calibration.getHearinglevel(this._decreaseHearinglevel, this._frequency, this._channel, this._hearinglevel);
+    const hearinglevelNext = this._calibration.getHearinglevel(this._decreaseHearinglevel, this._frequency, this._channel, this._hearinglevel);
     if (hearinglevelNext !== undefined) {
         this._hearinglevel = hearinglevelNext;
     } else {
         TheFragebogen.logger.error(this.constructor.name, "Next hearing level not found in calibration data.");
     }
 
-    var gain = this._calibration.getGain(this._frequency, this._channel, this._hearinglevel);
+    const gain = this._calibration.getGain(this._frequency, this._channel, this._hearinglevel);
     if (Number.isNaN(gain) === false) {
         this._beepGenerator.setGain(gain);
     } else {

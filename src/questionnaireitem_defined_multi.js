@@ -24,9 +24,9 @@ class QuestionnaireItemDefinedMulti extends QuestionnaireItemDefined {
 }
 
 _createAnswerNode() {
-    var answerNode = document.createElement("div");
+    const answerNode = document.createElement("div");
 
-    for (var i = 0; i < this.optionList.length; i++) {
+    for (let i = 0; i < this.optionList.length; i++) {
         this.input[i] = document.createElement("input");
         this.input[i].type = "checkbox";
         this.input[i].id = this.identifier + i;
@@ -35,7 +35,7 @@ _createAnswerNode() {
 
         this.input[i].addEventListener("change", this._handleChange.bind(this));
 
-        var label = document.createElement("label");
+        const label = document.createElement("label");
         label.setAttribute("for", this.identifier + i);
         label.innerHTML = this.optionList[i];
 
@@ -59,7 +59,7 @@ _applyAnswerToUI() {
         return;
     }
 
-    for (var i = 0; i < this.answer.length; i++) {
+    for (let i = 0; i < this.answer.length; i++) {
         if (this.input[i] !== undefined) {
             this.input[i].checked = this.answer[i] || false;
         }
@@ -68,10 +68,10 @@ _applyAnswerToUI() {
 
 getAnswer() {
     //Clone answer
-    var result = this.optionList.slice(0);
+    const result = this.optionList.slice(0);
 
     //Remove not selected items
-    for (var i = 0; i < this.optionList.length; i++) {
+    for (let i = 0; i < this.optionList.length; i++) {
         if (!this.answer[i]) {
             result[i] = null;
         }
@@ -105,8 +105,8 @@ setAnswer(answer) {
             return false;
         }
 
-        for (var i = 0; i < answer.length; i++) {
-            var optionIndex = this.optionList.indexOf(answer[i]);
+        for (let i = 0; i < answer.length; i++) {
+            const optionIndex = this.optionList.indexOf(answer[i]);
             if (optionIndex === -1) {
                 TheFragebogen.logger.warn(this.constructor.name + ".setAnswer()", "Option " + answer[i] + " is not available in " + this.optionList + ".");
                 this.answer = [];

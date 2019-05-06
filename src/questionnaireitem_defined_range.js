@@ -27,7 +27,7 @@ class QuestionnaireItemDefinedRange extends QuestionnaireItemDefined {
 }
 
 _createAnswerNode() {
-    var answerNode = document.createElement("div");
+    const answerNode = document.createElement("div");
     answerNode.className = this.className;
 
     this.input = document.createElement("input");

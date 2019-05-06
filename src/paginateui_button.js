@@ -45,7 +45,7 @@ createUI() {
     this.node.className = this.className;
 
     if (this.relativeIdBack !== undefined) {
-        var buttonBack = document.createElement("input");
+        const buttonBack = document.createElement("input");
         buttonBack.type = "button";
         buttonBack.value = this.labelBack;
         buttonBack.onclick = function() {
@@ -55,7 +55,7 @@ createUI() {
     }
 
     if (this.relativeIdNext !== undefined) {
-        var buttonNext = document.createElement("input");
+        const buttonNext = document.createElement("input");
         buttonNext.type = "button";
         buttonNext.value = this.labelNext;
         buttonNext.onclick = function() {

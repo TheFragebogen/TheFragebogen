@@ -36,7 +36,7 @@
         Calibration data for the audiometer (i.e., mapping of hearing level to gain by frequency and channel).
         Only the values provided here can be later used.
         */
-        var audiometerCalibrationData = {
+        const audiometerCalibrationData = {
             //channel: left ear
             0: {
                 //frequency
@@ -82,7 +82,7 @@
         };
 
         //This array stores all screens that will be shown.
-        var screens = [];
+        const screens = [];
 
         screens.push(new ScreenUIElements(
             new UIElementHTML(undefined, "Welcome to TheAudiometer.<br>This is a proof-of-concept implementation of an audiometer (<a href='https://en.wikipedia.org/wiki/Audiometer'>Wiki</a>) for TheFragebogen.<br><p><b>ATTENTION:</b> This software is working while using work-in-progress web standards (Web Audio API).<br>Moreover, for real use, the software needs to be precisely calibrated to the audio equipment.<p>")
@@ -115,7 +115,7 @@
 
         screens.push(new ScreenWaitDataDownload(undefined, "The End<br>All data should now be downloaded."));
 
-        var screenController = new ScreenController(screens);
+        const screenController = new ScreenController(screens);
 
         </script>
 

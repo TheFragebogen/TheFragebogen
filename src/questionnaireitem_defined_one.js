@@ -23,10 +23,10 @@ class QuestionnaireItemDefinedOne extends QuestionnaireItemDefined {
 }
 
 _createAnswerNode() {
-    var tableRowLabel = document.createElement('tr');
-    var tableRowRadio = document.createElement('tr');
+    const tableRowLabel = document.createElement('tr');
+    const tableRowRadio = document.createElement('tr');
 
-    for (var i = 0; i < this.optionList.length; i++) {
+    for (let i = 0; i < this.optionList.length; i++) {
         this.input[i] = document.createElement("input");
         this.input[i].value = i;
         this.input[i].id = this.identifier + i;
@@ -39,24 +39,24 @@ _createAnswerNode() {
 
         this.input[i].addEventListener("change", this._handleChange.bind(this));
 
-        var label = document.createElement("label");
+        const label = document.createElement("label");
         label.setAttribute("for", this.identifier + i);
         label.innerHTML = this.optionList[i];
 
-        var tdLabel = document.createElement('td');
+        const tdLabel = document.createElement('td');
         tdLabel.appendChild(label);
         tableRowLabel.appendChild(tdLabel);
 
-        var tdRadio = document.createElement('td');
+        const tdRadio = document.createElement('td');
         tdRadio.appendChild(this.input[i]);
         tableRowRadio.appendChild(tdRadio);
     }
 
-    var tableBody = document.createElement('tbody');
+    const tableBody = document.createElement('tbody');
     tableBody.appendChild(tableRowLabel);
     tableBody.appendChild(tableRowRadio);
 
-    var table = document.createElement('table');
+    const table = document.createElement('table');
     table.style.display = "inline"; //CSS
     table.appendChild(tableBody);
 
@@ -75,7 +75,7 @@ _applyAnswerToUI() {
         return;
     }
 
-    for (var i = 0; i < this.answer.length; i++) {
+    for (let i = 0; i < this.answer.length; i++) {
         if (this.input[i] !== undefined) {
             this.input[i].checked = this.answer[i] || false;
         }
@@ -93,7 +93,7 @@ setAnswer(answer) {
         return true;
     }
 
-    var answerIndex = this.optionList.indexOf(answer);
+    const answerIndex = this.optionList.indexOf(answer);
     if (answerIndex === -1) {
         TheFragebogen.logger.error(this.constructor.name + ".setAnswer()", "Provided answer is not an option " + answer + ".");
         return false;
