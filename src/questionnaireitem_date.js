@@ -29,7 +29,7 @@ class QuestionnaireItemDate extends QuestionnaireItem {
 }
 
 _createAnswerNode() {
-    var answerNode = document.createElement("div");
+    const answerNode = document.createElement("div");
 
     this.input = document.createElement("input");
     this.input.setAttribute("type", "date");

@@ -8,14 +8,14 @@ Encapulates some browser-specific API differences.
 */
 function downloadData(filename, data) {
     if (typeof(window.navigator.msSaveBlob) === "function") {
-        var blob = new Blob([data], {
+        const blob = new Blob([data], {
             type: "text/plain"
         });
         window.navigator.msSaveBlob(blob, filename);
         return;
     }
     if ("download" in document.createElement("a") && navigator.userAgent.toLowerCase().indexOf("firefox") === -1) { //So far only chrome AND not firefox.
-        var downloadLink = document.createElement("a");
+        const downloadLink = document.createElement("a");
         downloadLink.download = filename;
         downloadLink.href = window.URL.createObjectURL(new Blob([data], {
             type: "text/plain"

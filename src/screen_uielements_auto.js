@@ -21,13 +21,13 @@ createUI() {
     this.node = document.createElement("div");
     this.node.className = this.className;
 
-    for (var index in this.uiElements) {
+    for (let index in this.uiElements) {
         if (!(this.uiElements[index] instanceof UIElement)) {
             TheFragebogen.logger.warn(this.constructor.name + ".createUI()", "Element[" + index + "] has no 'createUI' method");
             continue;
         }
 
-        var uiElementNode = this.uiElements[index].createUI();
+        const uiElementNode = this.uiElements[index].createUI();
         if (uiElementNode instanceof HTMLElement) {
             this.node.appendChild(uiElementNode);
         } else {

@@ -39,7 +39,7 @@ class QuestionnaireItemMediaVideo extends QuestionnaireItemMedia {
 }
 
 _createAnswerNode() {
-    var answerNode = document.createElement("div");
+    const answerNode = document.createElement("div");
 
     this._createMediaNode();
 
@@ -77,8 +77,8 @@ _createMediaNode() {
     this.videoNode = document.createElement('video');
     this.videoNode.oncanplaythrough = this._onloaded.bind(this);
 
-    for (var i = 0; i < this.url.length; i++) {
-        var videoSource = document.createElement("source");
+    for (let i = 0; i < this.url.length; i++) {
+        const videoSource = document.createElement("source");
         videoSource.src = this.url[i];
         this.videoNode.appendChild(videoSource);
     }

@@ -51,8 +51,8 @@ class QuestionnaireItemWrite extends QuestionnaireItem {
 }
 
 _createAnswerNode() {
-    var answerNode = document.createElement("div");
-    var canvas = document.createElement("canvas");
+    const answerNode = document.createElement("div");
+    const canvas = document.createElement("canvas");
     if (this.width !== null) {
         canvas.width = this.width;
     }
@@ -72,7 +72,7 @@ _createAnswerNode() {
     if (this.isAnswered()) {
         TheFragebogen.logger.debug(this.constructor.name + "_createAnswerNode()", "Already answered; restoring image.");
 
-        var img = new Image();
+        const img = new Image();
         img.onload = function() {
             this.context.drawImage(img, 0, 0);
         }.bind(this);
@@ -123,8 +123,8 @@ onWriting(event) {
         return;
     }
 
-    var x = event.pageX - event.target.offsetLeft;
-    var y = event.pageY - event.target.offsetTop;
+    const x = event.pageX - event.target.offsetLeft;
+    const y = event.pageY - event.target.offsetTop;
 
     this.context.beginPath();
 
@@ -184,11 +184,11 @@ setAnswer(answer) {
         this.answer = answer;
         if (this.isUIcreated()) {
             this.context.clearRect(0, 0, this.context.canvas.width, this.context.canvas.height);
-            var img = new Image();
+            const img = new Image();
             img.src = answer;
 
-            var ratio_w = img.width / parseInt(this.context.canvas.style.width);
-            var ratio_h = img.height / parseInt(this.context.canvas.style.height);
+            const ratio_w = img.width / parseInt(this.context.canvas.style.width);
+            const ratio_h = img.height / parseInt(this.context.canvas.style.height);
 
             this.context.scale(1 / ratio_w, 1 / ratio_h);
             this.context.drawImage(img, 0, 0);

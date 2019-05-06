@@ -20,8 +20,8 @@ Lookup the gain for this channel, frequency and hearing level.
 @return {float|NaN} The gain.
 */
 getGain(frequency, channel, hearinglevel) {
-    var calibrationDataChannelFrequency = this._getChannelFrequency(frequency, channel);
-    var gain = calibrationDataChannelFrequency[hearinglevel];
+    const calibrationDataChannelFrequency = this._getChannelFrequency(frequency, channel);
+    const gain = calibrationDataChannelFrequency[hearinglevel];
     if (gain === undefined) {
         TheFragebogen.logger.error(this.constructor.name + ".getGain()", "Could not find calibration data for channel: " + channel + ", frequency: " + frequency + ", and hearing level " + hearinglevel);
         return NaN;
@@ -42,20 +42,20 @@ Get the next hearing level to be presented (either increase or decrease).
 @return {int|NaN} The next hearing level.
 */
 getHearinglevel(decreaseHearinglevel, frequency, channel, hearinglevel) {
-    var calibrationDataHearinglevel = this._getChannelFrequency(frequency, channel);
+    const calibrationDataHearinglevel = this._getChannelFrequency(frequency, channel);
     if (calibrationDataHearinglevel === undefined) {
         TheFragebogen.logger.error(this.constructor.name + ".getHearinglevel()", "Could not find calibration data for channel: " + channel + ", frequency: " + frequency + ", and hearing level " + hearinglevel);
         return NaN;
     }
 
-    var hearinglevelSorted = Object.keys(calibrationDataHearinglevel).map(e => parseInt(e)).sort((a, b) => a - b);
-    var hearinglevelIndex = hearinglevelSorted.findIndex(e => e === hearinglevel);
+    const hearinglevelSorted = Object.keys(calibrationDataHearinglevel).map(e => parseInt(e)).sort((a, b) => a - b);
+    const hearinglevelIndex = hearinglevelSorted.findIndex(e => e === hearinglevel);
     if (hearinglevelIndex == -1) {
         TheFragebogen.logger.error(this.constructor.name + ".getHearinglevel()", "Hearing level " + hearinglevel + " is not configured.");
         return hearinglevel;
     }
 
-    var hearinglevelNextIndex = decreaseHearinglevel ? hearinglevelIndex - 1 : hearinglevelIndex + 1;
+    const hearinglevelNextIndex = decreaseHearinglevel ? hearinglevelIndex - 1 : hearinglevelIndex + 1;
     if (hearinglevelNextIndex < 0) {
         TheFragebogen.logger.warn(this.constructor.name + ".getHearinglevel()", "Minimal hearing level reached.");
         return hearinglevel;
@@ -75,7 +75,7 @@ Get all hearing levels for a channel and a frequency.
 @return {array<float>} All hearing levels.
 */
 getHearinglevelAll(frequency, channel) {
-    var calibrationDataHearinglevel = this._getChannelFrequency(frequency, channel);
+    const calibrationDataHearinglevel = this._getChannelFrequency(frequency, channel);
     if (calibrationDataHearinglevel === undefined) {
         TheFragebogen.logger.error(this.constructor.name + ".getHearinglevel()", "Could not find calibration data for channel: " + channel + ", frequency: " + frequency + ", and hearing level " + hearinglevel);
         return [NaN];
@@ -85,13 +85,13 @@ getHearinglevelAll(frequency, channel) {
 }
 
 _getChannelFrequency(frequency, channel) {
-    var calibrationDataChannel = this._calibrationData[channel];
+    const calibrationDataChannel = this._calibrationData[channel];
     if (calibrationDataChannel === undefined) {
         TheFragebogen.logger.error(this.constructor.name + "._getChannelFrequency()", "Could not find calibration data for channel: " + channel);
         return NaN;
     }
 
-    var calibrationDataFrequency = calibrationDataChannel[frequency];
+    const calibrationDataFrequency = calibrationDataChannel[frequency];
     if (calibrationDataChannel === undefined) {
         TheFragebogen.logger.error(this.constructor.name + "._getChannelFrequency()", "Could not find calibration data for channel: " + channel + "and frequency: " + frequency);
         return NaN;

@@ -71,7 +71,7 @@ _checkData(data) {
         return false;
     }
 
-    for (var i = 0; i < data.length; i++) {
+    for (let i = 0; i < data.length; i++) {
         if (!Array.isArray(data[i]) || typeof data[i][0] !== "boolean" || !Number.isInteger(data[i][1])) {
             return false;
         }

@@ -26,7 +26,7 @@ class ScreenWaitDataDownload extends ScreenWaitData {
 createUI() {
     this.node = document.createElement("div");
 
-    var span = document.createElement("span");
+    const span = document.createElement("span");
     span.innerHTML = this.html;
     this.node.appendChild(span);
 

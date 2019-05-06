@@ -18,7 +18,7 @@ class ScreenUIElements extends Screen {
     constructor(className) {
     super();
 
-    var localArguments = Array.prototype.slice.call(arguments);
+    const localArguments = Array.prototype.slice.call(arguments);
 
     if (className === undefined || className === null || !(className instanceof String)) {
         this.className = "";
@@ -27,7 +27,7 @@ class ScreenUIElements extends Screen {
         localArguments.splice(0, 1);
     }
 
-    for (var i in localArguments) {
+    for (let i in localArguments) {
         if (!(localArguments[i] instanceof UIElement)) {
             TheFragebogen.logger.error(this.constructor.name + "()", "This argument (index " + i + " is not an UIElement: " + localArguments[i]);
         }
@@ -56,13 +56,13 @@ createUI() {
     this.node = document.createElement("div");
     this.node.className = this.className;
 
-    for (var index in this.uiElements) {
+    for (let index in this.uiElements) {
         if (this.uiElements[index].createUI === undefined) {
             TheFragebogen.logger.warn(this.constructor.name + ".createUI()", "Element[" + index + "] has no 'createUI' method");
             continue;
         }
 
-        var uiElementNode = this.uiElements[index].createUI();
+        const uiElementNode = this.uiElements[index].createUI();
         if (uiElementNode instanceof HTMLElement) {
             this.node.appendChild(uiElementNode);
         } else {
@@ -80,7 +80,7 @@ createUI() {
 
 releaseUI() {
     super.releaseUI();
-    for (var index in this.uiElements) {
+    for (let index in this.uiElements) {
         this.uiElements[index].releaseUI();
     }
 }
@@ -91,7 +91,7 @@ Enables all the elements of the screen.
 start() {
     TheFragebogen.logger.info(this.constructor.name + ".start()", "");
 
-    for (var index in this.uiElements) {
+    for (let index in this.uiElements) {
         this.uiElements[index].setEnabled(true);
     }
 }
@@ -101,9 +101,9 @@ Are all UIElementInteractive ready?
 @returns {boolean}
 */
 isReady() {
-    var ready = true;
+    let ready = true;
 
-    for (var index in this.uiElements) {
+    for (let index in this.uiElements) {
         if (this.uiElements[index] instanceof UIElementInteractive) {
             if (!this.uiElements[index].isReady()) {
                 ready = false;
@@ -124,14 +124,14 @@ isReady() {
  @returns {array}
  */
 getDataCSV() {
-    var data = [
+    const data = [
         [],
         [],
         [],
         []
     ];
 
-    for (var index in this.uiElements) {
+    for (let index in this.uiElements) {
         if ((this.uiElements[index] instanceof QuestionnaireItem)) {
             data[0].push(this.uiElements[index].getType());
             data[1].push(this.uiElements[index].getQuestion());
@@ -145,7 +145,7 @@ getDataCSV() {
 preload() {
     TheFragebogen.logger.debug(this.constructor.name + ".preload()", "called");
 
-    for (var i = 0; i < this.uiElements.length; i++) {
+    for (let i = 0; i < this.uiElements.length; i++) {
         this.uiElements[i].setOnPreloadedCallback(this._onUIElementPreloaded.bind(this));
         this.uiElements[i].preload();
     }
@@ -157,14 +157,14 @@ All external resources loaded?
 @returns {boolean}
 */
 isPreloaded() {
-    for (var i = 0; i < this.uiElements.length; i++) {
+    for (let i = 0; i < this.uiElements.length; i++) {
         if (!this.uiElements[i].isPreloaded()) return false;
     }
     return true;
 }
 
 _onUIElementPreloaded() {
-    for (var i = 0; i < this.uiElements.length; i++) {
+    for (let i = 0; i < this.uiElements.length; i++) {
         if (!this.uiElements[i].isPreloaded()) return;
     }
 

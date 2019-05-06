@@ -46,11 +46,11 @@ createUI() {
     //Apply value to UI
     this.checkbox.checked = this.isSelected;
 
-    var image = new Image();
+    const image = new Image();
     image.alt = this.imageCaption;
     //Load delay for the image
     if (this.imageDelay > 0) {
-        var imageURL = this.imageURL;
+        const imageURL = this.imageURL;
         image.src = this.loadAnimationURL;
         setTimeout(
             function() {

@@ -30,7 +30,7 @@ class QuestionnaireItemTextArea extends QuestionnaireItem {
 }
 
 _createAnswerNode() {
-    var answerNode = document.createElement("div");
+    const answerNode = document.createElement("div");
 
     this.textarea = document.createElement("textarea");
     this.textarea.rows = this.rows;

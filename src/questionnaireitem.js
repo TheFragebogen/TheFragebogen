@@ -86,8 +86,8 @@ setEnabled(enable) {
     this.enabled = this.isUIcreated() ? enable : false;
 
     if (this.node !== null) {
-        var elements = this.node.getElementsByTagName("*");
-        for (var i = 0; i < elements.length; i++) {
+        const elements = this.node.getElementsByTagName("*");
+        for (let i = 0; i < elements.length; i++) {
             elements[i].disabled = !this.enabled;
         }
     }
@@ -135,7 +135,7 @@ Create the UI showing the question.
 @returns {HTMLElement} The div containing the question.
 */
 _createQuestionNode() {
-    var questionNode = document.createElement("div");
+    const questionNode = document.createElement("div");
     questionNode.innerHTML = this.question + (this.required ? "*" : "");
     return questionNode;
 }
@@ -163,7 +163,7 @@ markRequired() {
         return;
     }
 
-    var classNameRequired = this.className + "Required";
+    const classNameRequired = this.className + "Required";
     if (!this.isReady()) {
         this.node.classList.add(classNameRequired);
     } else {
