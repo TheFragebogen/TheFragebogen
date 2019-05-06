@@ -126,7 +126,7 @@ _ontimeout() {
 }
 
 releaseUI() {
-    this.node = null;
+    super.releaseUI();
 
     if (this.retry !== null) {
         clearTimeout(this.retry);

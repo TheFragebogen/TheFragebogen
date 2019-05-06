@@ -7,7 +7,7 @@ In TheFragebogen only one screen is shown at a time.
 @class Screen
 */
 class Screen {
-    
+
     constructor() {
     this.paginateCallback = null;
     this.preloadedCallback = null;
@@ -36,9 +36,11 @@ start() {}
 
 /**
 Destroy and release the UI.
-@abstract
 */
-releaseUI() {}
+releaseUI() {
+    TheFragebogen.logger.info(this.constructor.name + ".releaseUI()", "");
+    this.node = null;
+}
 
 /**
 Returns the stored data in CSV format.

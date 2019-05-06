@@ -60,9 +60,7 @@ _createAnswerNode() {
 }
 
 releaseUI() {
-    this.node = null;
-    this.uiCreated = false;
-    this.enabled = false;
+    super.releaseUI();
 
     this.audioPlayDurations.push(this.audioNode.currentTime);
     this._updateAnswer();

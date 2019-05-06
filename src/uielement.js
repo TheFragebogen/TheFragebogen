@@ -6,7 +6,7 @@ Only provides a set of API that must be implemented by childs.
 @class UIElement
 */
 class UIElement {
-    
+
     constructor() {
     this.uiCreated = false;
     this.enabled = false;
@@ -34,10 +34,10 @@ createUI() {
 
 /**
 Destroys the UI.
-@abstract
 */
 releaseUI() {
-    TheFragebogen.logger.debug(this.constructor.name + ".releaseUI()", "This method might need to be overridden.");
+    this.uiCreated = false;
+    this.enabled = false;
 }
 
 /**

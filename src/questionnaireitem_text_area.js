@@ -82,9 +82,7 @@ setAnswer(answer) {
 }
 
 releaseUI() {
-    this.node = null;
-    this.uiCreated = false;
-    this.enabled = false;
+    super.releaseUI();
 
     this.textarea = null;
 }

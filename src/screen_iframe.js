@@ -72,9 +72,8 @@ isReady() {
 }
 
 releaseUI() {
-    this.node = null;
+    super.releaseUI();
     this.startTime = null;
-    TheFragebogen.logger.info(this.constructor.name + ".releaseUI()", this.duration);
 }
 
 getDataCSV() {

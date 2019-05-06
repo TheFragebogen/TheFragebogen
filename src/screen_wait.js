@@ -50,8 +50,8 @@ _onWaitTimeReached() {
 
 }
 releaseUI() {
+    super.releaseUI();
     clearTimeout(this.timeoutHandle);
     this.timeoutHandle = null;
-    this.node = null;
 }
 }

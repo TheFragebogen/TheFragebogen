@@ -56,9 +56,7 @@ _createAnswerNode() {
 }
 
 releaseUI() {
-    this.node = null;
-    this.uiCreated = false;
-    this.enabled = false;
+    super.releaseUI();
 
     this.videoPlayDurations.push(this.videoNode.currentTime);
     this._updateAnswer();

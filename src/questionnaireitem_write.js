@@ -202,11 +202,10 @@ setAnswer(answer) {
 }
 
 releaseUI() {
-    this.node = null;
-    this.uiCreated = false;
-    this.enabled = false;
-
+    //Store answer from UI component
     this.getAnswer();
+
+    super.releaseUI();
 
     this.context = null;
     this.pixelRatio = 1;

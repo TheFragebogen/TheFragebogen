@@ -71,7 +71,7 @@ createUI() {
 }
 
 releaseUI() {
-    this.node = null;
+    super.releaseUI();
     this.data = null;
 }
 

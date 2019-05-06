@@ -30,4 +30,10 @@ class QuestionnaireItemDefined extends QuestionnaireItem {
 getAnswerOptions() {
     return this.optionList;
 }
+
+releaseUI() {
+    super.releaseUI();
+
+    this.input = [];
+}
 }
