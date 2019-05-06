@@ -24,8 +24,9 @@ class QuestionnaireItemMediaVideo extends QuestionnaireItemMedia {
     @param {string|array<string>} url The URL of the media element to be loaded; if supported by the browser also data URI.
     @param {boolean} required Element must report ready before continue.
     @param {boolean} [readyOnError=true] Sets ready=true if an error occures.
+    @param {boolean} [videoPlaysInline=false] Play video within parent element.
     */
-    constructor(className, question, required, url, readyOnError) {
+    constructor(className, question, required, url, readyOnError, videoPlaysInline) {
         super(className, question, required, url, readyOnError);
 
         this.videoNode = null;
@@ -34,6 +35,7 @@ class QuestionnaireItemMediaVideo extends QuestionnaireItemMedia {
         this.videoCreationTime = null; // Point in time when the video gets created
         this.videoStartTimes = []; // Stores when the video started relative to videoCreationTime
         this.replayCount = 0; // Counts how often the video got replayed explicitly with replay()
+        this.videoPlaysInline = videoPlaysInline;
     }
 
     _createAnswerNode() {
@@ -73,6 +75,10 @@ class QuestionnaireItemMediaVideo extends QuestionnaireItemMedia {
         }
 
         this.videoNode = document.createElement('video');
+        if (this.videoPlaysInline) {
+            // Play video within parent element
+            this.videoNode.setAttribute("playsinline", "");
+        }
         this.videoNode.addEventListener("canplaythrough", () => this._onLoaded());
 
         for (let i = 0; i < this.url.length; i++) {
