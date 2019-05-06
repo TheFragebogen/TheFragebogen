@@ -150,8 +150,8 @@ _createAnswerNode() {
 }
 
 releaseUI() {
+    super.releaseUI();
     this.node = null;
-    this.uiCreated = false;
 }
 
 /**

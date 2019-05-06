@@ -34,6 +34,7 @@ _waitTimeCallback() {
 }
 
 releaseUI() {
+    super.releaseUI();
     if (this.timeoutHandle !== null) {
         clearTimeout(this.timeoutHandle);
         this.timeoutHandle = null;

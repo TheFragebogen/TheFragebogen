@@ -31,6 +31,7 @@ createUI() {
 }
 
 releaseUI() {
+    super.releaseUI();
     this.node = null;
 }
 

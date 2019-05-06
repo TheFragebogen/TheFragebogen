@@ -77,8 +77,7 @@ createUI() {
 }
 
 releaseUI() {
-    TheFragebogen.logger.info(this.constructor.name + ".release()", "");
-    this.node = null;
+    super.releaseUI();
     for (var index in this.uiElements) {
         this.uiElements[index].releaseUI();
     }

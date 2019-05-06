@@ -152,7 +152,7 @@ markRequired() {
 }
 
 releaseUI() {
-    this.node = null;
+    super.releaseUI();
 
     clearTimeout(this.timeoutHandle);
     this.timeoutHandle = null;

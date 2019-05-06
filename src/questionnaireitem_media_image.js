@@ -41,9 +41,7 @@ _createAnswerNode() {
 }
 
 releaseUI() {
-    this.node = null;
-    this.uiCreated = false;
-    this.enabled = false;
+    super.releaseUI();
 
     this.imageNode = null;
 }
