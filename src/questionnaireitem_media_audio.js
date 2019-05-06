@@ -40,14 +40,14 @@ class QuestionnaireItemMediaAudio extends QuestionnaireItemMedia {
 }
 
 _createAnswerNode() {
-    var node = document.createElement("div");
+    var answerNode = document.createElement("div");
 
     this._createMediaNode();
 
     this.progressbar = document.createElement("progress");
-    node.appendChild(this.progressbar);
+    answerNode.appendChild(this.progressbar);
 
-    node.appendChild(this.audioNode);
+    answerNode.appendChild(this.audioNode);
 
     this.audioNode.ontimeupdate = this._onprogress.bind(this);
     this.audioNode.onerror = this._onerror.bind(this);
@@ -56,7 +56,7 @@ _createAnswerNode() {
     this.audioNode.onplay = this._onplay.bind(this);
 
     this.audioCreationTime = new Date().getTime();
-    return node;
+    return answerNode;
 }
 
 releaseUI() {

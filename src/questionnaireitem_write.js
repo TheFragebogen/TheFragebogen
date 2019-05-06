@@ -51,7 +51,7 @@ class QuestionnaireItemWrite extends QuestionnaireItem {
 }
 
 _createAnswerNode() {
-    var node = document.createElement("div");
+    var answerNode = document.createElement("div");
     var canvas = document.createElement("canvas");
     if (this.width !== null) {
         canvas.width = this.width;
@@ -59,7 +59,7 @@ _createAnswerNode() {
     if (this.height !== null) {
         canvas.height = this.height;
     }
-    node.appendChild(canvas);
+    answerNode.appendChild(canvas);
 
     this.context = canvas.getContext("2d");
     this.context.lineJoin = "round";
@@ -97,7 +97,7 @@ _createAnswerNode() {
 
     this.context.scale(this.pixelRatio, this.pixelRatio);
     //END: EXPERIMENTAL
-    return node;
+    return answerNode;
 }
 
 /**

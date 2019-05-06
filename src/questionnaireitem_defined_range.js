@@ -27,8 +27,8 @@ class QuestionnaireItemDefinedRange extends QuestionnaireItemDefined {
 }
 
 _createAnswerNode() {
-    var node = document.createElement("div");
-    node.className = this.className;
+    var answerNode = document.createElement("div");
+    answerNode.className = this.className;
 
     this.input = document.createElement("input");
     this.input.type = "range";
@@ -36,10 +36,10 @@ _createAnswerNode() {
     this.input.max = this.max;
     this.input.addEventListener("change", this._handleChange.bind(this));
 
-    node.appendChild(this.input);
+    answerNode.appendChild(this.input);
 
     this._applyAnswerToUI();
-    return node;
+    return answerNode;
 }
 
 _handleChange(event) {

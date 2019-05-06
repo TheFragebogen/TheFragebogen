@@ -62,9 +62,11 @@ createUI() {
             continue;
         }
 
-        var node = this.uiElements[index].createUI();
-        if (node !== undefined && node !== null) {
-            this.node.appendChild(node);
+        var uiElementNode = this.uiElements[index].createUI();
+        if (uiElementNode instanceof HTMLElement) {
+            this.node.appendChild(uiElementNode);
+        } else {
+            TheFragebogen.logger.warn(this.constructor.name + ".createUI()", "Element[" + index + "].createUI() did not a HTMLElement.");
         }
     }
 

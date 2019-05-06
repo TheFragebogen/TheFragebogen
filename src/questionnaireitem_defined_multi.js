@@ -24,7 +24,7 @@ class QuestionnaireItemDefinedMulti extends QuestionnaireItemDefined {
 }
 
 _createAnswerNode() {
-    var node = document.createElement("div");
+    var answerNode = document.createElement("div");
 
     for (var i = 0; i < this.optionList.length; i++) {
         this.input[i] = document.createElement("input");
@@ -39,12 +39,12 @@ _createAnswerNode() {
         label.setAttribute("for", this.identifier + i);
         label.innerHTML = this.optionList[i];
 
-        node.appendChild(this.input[i]);
-        node.appendChild(label);
+        answerNode.appendChild(this.input[i]);
+        answerNode.appendChild(label);
     }
 
     this._applyAnswerToUI();
-    return node;
+    return answerNode;
 }
 
 _handleChange(event) {
