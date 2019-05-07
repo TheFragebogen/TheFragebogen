@@ -97,7 +97,7 @@ module.exports = function(grunt) {
             },
             dist: {
                 files: {
-                    'thefragebogen.es5.js': 'thefragebogen.js'
+                    'dist/thefragebogen.es5.js': 'thefragebogen.js'
                 }
             }
         },
@@ -107,7 +107,7 @@ module.exports = function(grunt) {
             },
             dist: {
                 files: {
-                    'thefragebogen.es5-min.js': ['thefragebogen.es5.js'] //'<%= concat_in_order.dist.dest %>'
+                    'dist/thefragebogen.es5-min.js': ['dist/thefragebogen.es5.js'] //'<%= concat_in_order.dist.dest %>'
                 }
             }
         }
@@ -127,7 +127,7 @@ module.exports = function(grunt) {
     grunt.registerTask('default', ['includereplace', 'revision', 'concat_in_order']);
 
     grunt.registerTask('doc', ['default', 'run:jsdoc']);
-    grunt.registerTask('dist', ['default', 'babel', 'uglify']);
+    grunt.registerTask('dist', ['default', 'babel', 'uglify', 'doc']);
     grunt.registerTask('format', ['jsbeautifier']);
     grunt.registerTask('help', ['run:help']);
     grunt.registerTask('lint', ['jshint']);
