@@ -20,6 +20,14 @@ module.exports = function(grunt) {
                 }
             }
         },
+        jsdoc: {
+            dist: {
+                src: ['src/*.js'],
+                options: {
+                    destination: 'doc'
+                }
+            }
+        },
         includereplace: {
             dist: {
                 options: {
@@ -120,13 +128,13 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-include-replace');
     grunt.loadNpmTasks("grunt-jsbeautifier");
     grunt.loadNpmTasks('grunt-contrib-jshint');
+    grunt.loadNpmTasks('grunt-jsdoc');
     grunt.loadNpmTasks('grunt-run');
     require("load-grunt-tasks")(grunt);
-
     //Task(s)
     grunt.registerTask('default', ['includereplace', 'revision', 'concat_in_order']);
 
-    grunt.registerTask('doc', ['default', 'run:jsdoc']);
+    grunt.registerTask('doc', ['jsdoc']);
     grunt.registerTask('dist', ['default', 'babel', 'uglify', 'doc']);
     grunt.registerTask('format', ['jsbeautifier']);
     grunt.registerTask('help', ['run:help']);
