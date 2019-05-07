@@ -24,7 +24,7 @@ _createAnswerNode() {
     const answerNode = document.createElement("div");
 
     this.input = document.createElement("input");
-    this.input.addEventListener("change", this._handleChange.bind(this));
+    this.input.addEventListener("change", (event) => this._handleChange(event));
 
     answerNode.appendChild(this.input);
 

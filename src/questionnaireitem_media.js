@@ -96,11 +96,11 @@ _pause() {
     TheFragebogen.logger.debug(this.constructor.name + "._pause()", "This method must be overridden if playback is desired.");
 }
 
-_onloading() {
+_onLoading() {
     TheFragebogen.logger.info(this.constructor.name + "._onloading()", "This method might be overriden.");
 }
 
-_onloaded() {
+_onLoaded() {
     TheFragebogen.logger.info(this.constructor.name + "._onloaded()", "Loading done for " + this.getURL() + ".");
 
     if (!this.isContentLoaded) {
@@ -114,7 +114,7 @@ _onloaded() {
     }
 }
 
-_onstalled() {
+_onStalled(event) {
     this.stallingCount += 1;
     this._updateAnswer();
     this._sendOnPreloadedCallback();
@@ -122,7 +122,7 @@ _onstalled() {
     TheFragebogen.logger.warn(this.constructor.name + "._onstalled()", "Stalling occured (" + this.stallingCount + ") for " + this.getURL());
 }
 
-_onerror() {
+_onError(event) {
     this.stallingCount += 1;
     this._updateAnswer();
     this._sendOnPreloadedCallback();
@@ -130,11 +130,11 @@ _onerror() {
     TheFragebogen.logger.error(this.constructor.name + "._onerror()", "Stalling occured (" + this.stallingCount + ") for " + this.getURL());
 }
 
-_onprogress() {
+_onProgress(event) {
     TheFragebogen.logger.debug(this.constructor.name + "._onprogress()", "This method must be overridden if progress reporting is desired.");
 }
 
-_onended() {
+_onEnded() {
     TheFragebogen.logger.info(this.constructor.name + "._onended", "Playback finished.");
 
     this.wasSuccessfullyPlayed = true;

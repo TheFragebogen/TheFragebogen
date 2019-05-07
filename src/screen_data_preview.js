@@ -63,7 +63,7 @@ createUI() {
     this.node.appendChild(tbl);
 
     if (this.paginateUI != null) {
-        this.paginateUI.setPaginateCallback(this._sendPaginateCallback.bind(this));
+        this.paginateUI.setPaginateCallback(() => this._sendPaginateCallback());
         this.node.appendChild(this.paginateUI.createUI());
     }
 

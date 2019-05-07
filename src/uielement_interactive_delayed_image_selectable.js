@@ -52,11 +52,10 @@ createUI() {
     if (this.imageDelay > 0) {
         const imageURL = this.imageURL;
         image.src = this.loadAnimationURL;
-        setTimeout(
-            function() {
+        setTimeout(() => {
                 image.src = imageURL;
                 this.isImageLoaded = true;
-            }.bind(this),
+            },
             this.imageDelay
         );
     } else {
@@ -64,9 +63,9 @@ createUI() {
     }
     this.node.appendChild(image);
 
-    image.addEventListener("click", this._onSelected.bind(this));
-    this.checkbox.addEventListener("changed", this._onSelected.bind(this));
-    this.node.addEventListener("click", this._onSelected.bind(this));
+    image.addEventListener("click", (event) => this._onSelected(event));
+    this.checkbox.addEventListener("changed", (event) => this._onSelected(event));
+    this.node.addEventListener("click", (event) => this._onSelected(event));
 
     this.uiCreated = true;
 

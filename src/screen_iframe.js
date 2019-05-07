@@ -41,26 +41,28 @@ createUI() {
     this.node.className = this.className;
     this.node.src = this.urlStart;
 
-    this.node.onload = function(event) {
-        this.urlChanges += 1;
-
-        TheFragebogen.logger.debug(this.constructor.name + ".iframe.onload()", this.urlStartChanges + " of " + this.maxUrlChanges + " viewed.");
-
-        if (this.urlChanges >= this.urlChangesToReady) {
-            this.duration = Date.now() - this.startTime;
-            this.urlChanges = 0;
-
-            try {
-                this.urlFinal = event.target.contentWindow.location.href;
-            } catch (error) {
-                TheFragebogen.logger.warn(this.constructor.name + ".iframe.onload()", "TheFragebogen-Error: Could not get urlFinal from iFrame. Security limitation?");
-                this.urlFinal = "TheFragebogen-Error: Could not get urlFinal of the iframe. Security limitation?";
-            }
-            this._sendPaginateCallback();
-        }
-    }.bind(this);
+    this.node.onload = event => this._onFrameLoad(event);
 
     return this.node;
+}
+
+_onFrameLoad(event) {
+    this.urlChanges += 1;
+
+    TheFragebogen.logger.debug(this.constructor.name + ".iframe.onload()", this.urlStartChanges + " of " + this.maxUrlChanges + " viewed.");
+
+    if (this.urlChanges >= this.urlChangesToReady) {
+        this.duration = Date.now() - this.startTime;
+        this.urlChanges = 0;
+
+        try {
+	    this.urlFinal = event.target.contentWindow.location.href;
+        } catch (error) {
+            TheFragebogen.logger.warn(this.constructor.name + ".iframe.onload()", "TheFragebogen-Error: Could not get urlFinal from iFrame. Security limitation?");
+	    this.urlFinal = "TheFragebogen-Error: Could not get urlFinal of the iframe. Security limitation?";
+        }
+        this._sendPaginateCallback();
+    }
 }
 
 start() {

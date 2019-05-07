@@ -70,7 +70,7 @@ setEnabled(enabled) {
         this._handleConnect();
 
         if (this.timeout !== 0) {
-            this.timeoutHandle = setTimeout((this._onTimeout).bind(this), this.timeout);
+            this.timeoutHandle = setTimeout(() => this._onTimeout(), this.timeout);
         }
     }
 }
@@ -81,10 +81,10 @@ _handleConnect() {
 
         this.node.className = this.className + "Connecting";
 
-        this.websocketConnection.onopen = this._onConnected.bind(this);
-        this.websocketConnection.onmessage = this._onMessage.bind(this);
-        this.websocketConnection.onerror = this._onWebsocketError.bind(this);
-        this.websocketConnection.onclose = this._onWebsocketClose.bind(this);
+        this.websocketConnection.onopen = () => this._onConnected();
+        this.websocketConnection.onmessage = (event) => this._onMessage(event);
+        this.websocketConnection.onerror = (event) => this._onWebsocketError(event);
+        this.websocketConnection.onclose = (event) => this._onWebsocketClose(event);
     }
 }
 
@@ -158,9 +158,7 @@ releaseUI() {
     this.timeoutHandle = null;
 
     if (this.websocketConnection !== null && (this.websocketConnection.readyState == WebSocket.CONNECTING || this.websocketConnection.readyState == WebSocket.OPEN)) {
-        this.websocketConnection.onclose = function() {
-            TheFragebogen.logger.info(this.constructor.name + ".connection.onclose()", "Connection closed.");
-        };
+        this.websocketConnection.onclose = () => TheFragebogen.logger.info(this.constructor.name + ".connection.onclose()", "Connection closed.");
         this.websocketConnection.close();
     }
     this.websocketConnection = null;

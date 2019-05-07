@@ -73,16 +73,14 @@ _createAnswerNode() {
         TheFragebogen.logger.debug(this.constructor.name + "_createAnswerNode()", "Already answered; restoring image.");
 
         const img = new Image();
-        img.onload = function() {
-            this.context.drawImage(img, 0, 0);
-        }.bind(this);
+        img.onload = () => this.context.drawImage(img, 0, 0);
         img.src = this.answer;
     }
 
-    canvas.onmousedown = (this.onWritingStart).bind(this);
-    canvas.onmousemove = (this.onWriting).bind(this);
-    canvas.onmouseup = (this.onWritingStop).bind(this);
-    canvas.onmouseout = (this.onWritingStop).bind(this);
+    canvas.onmousedown = (event) => this.onWritingStart(event);
+    canvas.onmousemove = (event) => this.onWriting(event);
+    canvas.onmouseup = () => this.onWritingStop();
+    canvas.onmouseout = () => this.onWritingStop();
 
     //BEGIN: EXPERIMENTAL
     //This uses allows us to be HDPI conform!

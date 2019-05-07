@@ -26,7 +26,7 @@ class QuestionnaireItemSystemWait extends QuestionnaireItemSystem {
 
 createUI() {
     this.setAnswer(null);
-    this.timeoutHandle = setTimeout((this._waitTimeCallback).bind(this), this.waitTime);
+    this.timeoutHandle = setTimeout(() => this._waitTimeCallback(), this.waitTime);
 }
 
 _waitTimeCallback() {

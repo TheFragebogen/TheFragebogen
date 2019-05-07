@@ -32,9 +32,7 @@ class ScreenUIElements extends Screen {
             TheFragebogen.logger.error(this.constructor.name + "()", "This argument (index " + i + " is not an UIElement: " + localArguments[i]);
         }
     }
-    this.uiElements = localArguments.filter(function(element) {
-        return element instanceof UIElement;
-    });
+    this.uiElements = localArguments.filter((element) => element instanceof UIElement);
 
     if (this.uiElements.length < 1) {
         TheFragebogen.logger.error(this.constructor.name + "()", "No UIElements were passed to constructor.");
@@ -71,7 +69,7 @@ createUI() {
     }
 
     if (this.paginateUI != null) {
-        this.paginateUI.setPaginateCallback(this._sendPaginateCallback.bind(this));
+        this.paginateUI.setPaginateCallback(() => this._sendPaginateCallback());
         this.node.appendChild(this.paginateUI.createUI());
     }
 
@@ -146,7 +144,7 @@ preload() {
     TheFragebogen.logger.debug(this.constructor.name + ".preload()", "called");
 
     for (let i = 0; i < this.uiElements.length; i++) {
-        this.uiElements[i].setOnPreloadedCallback(this._onUIElementPreloaded.bind(this));
+        this.uiElements[i].setOnPreloadedCallback(() => this._onUIElementPreloaded());
         this.uiElements[i].preload();
     }
 }

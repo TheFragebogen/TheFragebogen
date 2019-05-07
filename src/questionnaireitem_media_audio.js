@@ -49,11 +49,11 @@ _createAnswerNode() {
 
     answerNode.appendChild(this.audioNode);
 
-    this.audioNode.ontimeupdate = this._onprogress.bind(this);
-    this.audioNode.onerror = this._onerror.bind(this);
-    this.audioNode.onended = this._onended.bind(this);
-    this.audioNode.onstalled = this._onstalled.bind(this);
-    this.audioNode.onplay = this._onplay.bind(this);
+    this.audioNode.ontimeupdate = (event) => this._onProgress(event);
+    this.audioNode.onerror = (event) => this._onError(event);
+    this.audioNode.onended = () => this._onEnded();
+    this.audioNode.onstalled = () => this._onStalled();
+    this.audioNode.onplay = () => this._onPlay();
 
     this.audioCreationTime = new Date().getTime();
     return answerNode;
@@ -80,7 +80,7 @@ _createMediaNode() {
     }
 
     this.audioNode = new Audio();
-    this.audioNode.oncanplaythrough = this._onloaded.bind(this);
+    this.audioNode.oncanplaythrough = () => this._onLoaded();
 
     for (let i = 0; i < this.url.length; i++) {
         const audioSource = document.createElement("source");
@@ -111,8 +111,8 @@ _play() {
     try {
         this.audioNode.play();
     } catch (e) {
-        TheFragebogen.logger.warn(this.constructor.name + "()", "No supported format availble.");
-        this._onerror();
+        TheFragebogen.logger.warn(this.constructor.name + "()", "No supported format available.");
+        this._onError();
     }
 }
 
@@ -124,13 +124,13 @@ _pause() {
     this.audioNode.pause();
 }
 
-_onprogress() {
+_onProgress() {
     if (this.progressbar && !isNaN(this.audioNode.duration)) {
         this.progressbar.value = (this.audioNode.currentTime / this.audioNode.duration);
     }
 }
 
-_onplay() {
+_onPlay() {
     this.audioStartTimes.push((new Date().getTime() - this.audioCreationTime) / 1000);
     this._updateAnswer();
 }

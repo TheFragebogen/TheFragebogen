@@ -21,7 +21,7 @@ class ScreenUIElementsSequential extends ScreenUIElements {
 start() {
     for (let index in this.uiElements) {
         if (this.uiElements[index].setOnReadyStateChangedCallback instanceof Function) {
-            this.uiElements[index].setOnReadyStateChangedCallback((this._onUIElementReady).bind(this));
+            this.uiElements[index].setOnReadyStateChangedCallback(() => this._onUIElementReady());
         }
         this.uiElements[index].setEnabled(false);
     }

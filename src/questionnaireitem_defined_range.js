@@ -34,7 +34,7 @@ _createAnswerNode() {
     this.input.type = "range";
     this.input.min = this.min;
     this.input.max = this.max;
-    this.input.addEventListener("change", this._handleChange.bind(this));
+    this.input.addEventListener("change", (event) => this._handleChange(event));
 
     answerNode.appendChild(this.input);
 

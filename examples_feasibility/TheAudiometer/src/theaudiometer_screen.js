@@ -24,7 +24,7 @@ class TheAudiometerScreen extends Screen {
     this._hearinglevel = this._hearinglevelInitial;
     this._duration = duration;
 
-    this._beepGenerator = new TheAudiometerBeepGenerator(this._frequency, this._channel, (this._handleBeep).bind(this));
+    this._beepGenerator = new TheAudiometerBeepGenerator(this._frequency, this._channel, () => this._handleBeep());
 
     this._startTime = null;
 
@@ -40,12 +40,9 @@ createUI() {
     this.node.style.bottom = "0px";
     this.node.className = this.className;
 
-    this.node.onmousedown = function() {
-        this._decreaseHearinglevel = true;
-    }.bind(this);
-    this.node.onmouseup = function() {
-        this._decreaseHearinglevel = false;
-    }.bind(this);
+    this.node.onmousedown = () => this._decreaseHearinglevel = true;
+    this.node.onmouseup = () => this._decreaseHearinglevel = false;
+
     TheFragebogen.logger.info(this.constructor.name + "()", "Channel: " + this._channel + ", Frequency: " + this._frequency + " with the following hearing levels " + this._calibration.getHearinglevelAll(this._frequency, this._channel));
 
     return this.node;
