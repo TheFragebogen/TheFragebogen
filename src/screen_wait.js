@@ -35,7 +35,7 @@ createUI() {
 
 _startTimer() {
     TheFragebogen.logger.info(this.constructor.name + "._startTimer()", "New screen will be displayed in " + this.time + "ms.");
-    this.timeoutHandle = setTimeout((this._onWaitTimeReached).bind(this), this.time);
+    this.timeoutHandle = setTimeout(() => this._onWaitTimeReached(), this.time);
 }
 
 /**

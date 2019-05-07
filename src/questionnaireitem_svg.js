@@ -82,7 +82,7 @@ _createAnswerNode() {
         }
 
         this.answerMap[answerElements[i].id] = answerElements[i];
-        answerElements[i].onclick = (this._handleChange).bind(this);
+        answerElements[i].onclick = (event) => this._handleChange(event);
     }
 
     if (this.answer !== null) {

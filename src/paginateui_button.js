@@ -48,9 +48,7 @@ createUI() {
         const buttonBack = document.createElement("input");
         buttonBack.type = "button";
         buttonBack.value = this.labelBack;
-        buttonBack.onclick = function() {
-            this._sendPaginateCallback(this.relativeIdBack);
-        }.bind(this);
+        buttonBack.onclick = () => this._sendPaginateCallback(this.relativeIdBack);
         this.node.appendChild(buttonBack);
     }
 
@@ -58,9 +56,7 @@ createUI() {
         const buttonNext = document.createElement("input");
         buttonNext.type = "button";
         buttonNext.value = this.labelNext;
-        buttonNext.onclick = function() {
-            this._sendPaginateCallback(this.relativeIdNext);
-        }.bind(this);
+        buttonNext.onclick = () => this._sendPaginateCallback(this.relativeIdNext);
         this.node.appendChild(buttonNext);
     }
     return this.node;

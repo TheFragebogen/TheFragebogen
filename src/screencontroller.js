@@ -22,9 +22,7 @@ class ScreenController {
     for (let i in localArguments) {
         if (!(localArguments[i] instanceof Screen)) TheFragebogen.logger.error(this.constructor.name + "()", "This argument (index " + i + " is not a Screen: " + localArguments[i] + " and will be ignored.");
     }
-    this.screen = localArguments.filter(function(element) {
-        return element instanceof Screen;
-    });
+    this.screen = localArguments.filter((element) => element instanceof Screen);
 
     this.callbackScreenFinished = null;
 
@@ -50,13 +48,13 @@ init(parentNode) {
 
     for (let i = 0; i < this.screen.length; i++) {
         if (this.screen[i].setGetDataCallback instanceof Function) {
-            this.screen[i].setGetDataCallback((this.requestDataCSV).bind(this));
+            this.screen[i].setGetDataCallback(() => this.requestDataCSV());
         }
         if (this.screen[i].setGetRawDataCallback instanceof Function) {
-            this.screen[i].setGetRawDataCallback((this.requestDataArray).bind(this));
+            this.screen[i].setGetRawDataCallback(() => this.requestDataArray());
         }
         if (this.screen[i].setPaginateCallback instanceof Function) {
-            this.screen[i].setPaginateCallback((this.nextScreen).bind(this));
+            this.screen[i].setPaginateCallback((screen, relativeScreenId) => this.nextScreen(screen, relativeScreenId));
         }
     }
 
@@ -86,13 +84,13 @@ addScreen(screen) {
     this.screen.push(screen);
 
     if (screen.setGetDataCallback instanceof Function) {
-        screen.setGetDataCallback((this.requestDataCSV).bind(this));
+        this.screen[i].setGetDataCallback(() => this.requestDataCSV());
     }
     if (screen.setGetRawDataCallback instanceof Function) {
-        screen.setGetRawDataCallback((this.requestDataArray).bind(this));
+        this.screen[i].setGetRawDataCallback(() => this.requestDataArray());
     }
     if (screen.setPaginateCallback instanceof Function) {
-        screen.setPaginateCallback((this.nextScreen).bind(this));
+        this.screen[i].setPaginateCallback((screen, relativeScreenId) => this.nextScreen(screen, relativeScreenId));
     }
 
     return this.screen.length - 1;
@@ -310,7 +308,7 @@ preload(innerHTML) {
     this.screenContainerNode.innerHTML += innerHTML;
 
     for (let i = 0; i < this.screen.length; i++) {
-        this.screen[i].setOnPreloadedCallback((this.onScreenPreloaded).bind(this));
+        this.screen[i].setOnPreloadedCallback(() => this.onScreenPreloaded());
         this.screen[i].preload();
     }
 }
@@ -335,7 +333,7 @@ Start the screenController.
 */
 onPreloadingDone() {
     TheFragebogen.logger.info(this.constructor.name + "._onPreloadingDone()", "Preloading done. Let's go.");
-    setTimeout(this.start.bind(this), 2000);
+    setTimeout(() => this.start(), 2000);
     //TODO Do something about preloading errors?
 }
 }

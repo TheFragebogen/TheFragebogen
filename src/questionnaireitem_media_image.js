@@ -57,7 +57,7 @@ _createMediaNode() {
     }
 
     this.imageNode = new Image();
-    this.imageNode.onload = this._onloaded.bind(this);
+    this.imageNode.onload = () => this._onLoaded();
     this.imageNode.src = this.url[0];
 }
 }

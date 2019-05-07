@@ -36,7 +36,7 @@ _createAnswerNode() {
     this.textarea.rows = this.rows;
     this.textarea.cols = this.cols;
     this.textarea.placeholder = this.placeholder;
-    this.textarea.addEventListener("change", this._handleChange.bind(this));
+    this.textarea.addEventListener("change", (event) => this._handleChange(event));
 
     answerNode.appendChild(this.textarea);
 

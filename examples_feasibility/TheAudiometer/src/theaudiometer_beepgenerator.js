@@ -64,7 +64,7 @@ _beeping() {
     this._audioOscillator = this._audioContext.createOscillator();
     this._audioOscillator.connect(this._audioGain);
 
-    this._audioOscillator.onended = (this._beeping).bind(this);
+    this._audioOscillator.onended = () => this._beeping();
 
     this._audioOscillator.frequency.value = this._frequency;
 

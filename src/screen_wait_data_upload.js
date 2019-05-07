@@ -46,7 +46,7 @@ createUI() {
     this.node.appendChild(span);
 
     if (this.paginateUI != null) {
-        this.paginateUI.setPaginateCallback(this._sendPaginateCallback.bind(this));
+        this.paginateUI.setPaginateCallback(() => this._sendPaginateCallback());
         this.node.appendChild(this.paginateUI.createUI());
     }
 
@@ -78,9 +78,9 @@ callbackUpload(data) {
     this.request.open("POST", this.url, true);
     this.request.timeout = this.time;
 
-    this.request.ontimeout = (this._ontimeout).bind(this);
-    this.request.onload = (this._onload).bind(this);
-    this.request.onerror = (this._onerror).bind(this);
+    this.request.ontimeout = () => this._onTimeout();
+    this.request.onload = () => this._onLoad();
+    this.request.onerror = (event) => this._onError(event);
 
     this.request.send(this.httpParameterName + "=" + data);
 }
@@ -88,18 +88,18 @@ callbackUpload(data) {
 /**
 Callback if upload was successful; screen is then ready to continue.
 */
-_onload() {
+_onLoad() {
     if (this.request.readyState === 4 && this.request.status === 200) {
         TheFragebogen.logger.info(this.constructor.name + ".callbackUpload()", "Successful.");
         if (this.request.responseText !== "") {
-            TheFragebogen.logger.info(this.constructor.name + "._onload()", this.request.responseText);
+            TheFragebogen.logger.info(this.constructor.name + "._onLoad()", this.request.responseText);
         }
 
         this._sendPaginateCallback();
     } else {
-        TheFragebogen.logger.error(this.constructor.name + "._onload()", "Request to " + this.url + " failed with status code " + this.request.status);
+        TheFragebogen.logger.error(this.constructor.name + "._onLoad()", "Request to " + this.url + " failed with status code " + this.request.status);
         this.retryCount = 4;
-        this._onerror();
+        this._onError();
     }
 
     this.request = null;
@@ -108,11 +108,11 @@ _onload() {
 /**
 Callback if upload failed and schedules a retry.
 */
-_onerror() {
+_onError(event) {
     const span = document.createElement("span");
     span.innerHTML = "" + "Upload failed. Retrying in 5 seconds.";
     this.node.appendChild(span);
-    this.retry = setTimeout((this.callbackUpload).bind(this), 5000, this.data);
+    this.retry = setTimeout(() => this.callbackUpload(), 5000, this.data);
 
     TheFragebogen.logger.error(this.constructor.name + ".callbackUpload()", "Upload failed with HTTP code: " + this.request.status + ". Retrying in 5 seconds.");
 }
@@ -120,9 +120,9 @@ _onerror() {
 /**
 Callback if timeout.
 */
-_ontimeout() {
+_onTimeout() {
     TheFragebogen.logger.error(this.constructor.name + ".callbackUpload()", "Upload got timeout after " + this.time + "ms.");
-    this._onerror();
+    this._onError();
 }
 
 releaseUI() {

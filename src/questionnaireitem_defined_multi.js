@@ -33,7 +33,7 @@ _createAnswerNode() {
         this.input[i].name = this.identifier;
         this.input[i].value = i;
 
-        this.input[i].addEventListener("change", this._handleChange.bind(this));
+        this.input[i].addEventListener("change", (event) => this._handleChange(event));
 
         const label = document.createElement("label");
         label.setAttribute("for", this.identifier + i);
@@ -77,9 +77,7 @@ getAnswer() {
         }
     }
 
-    return result.filter(function(n) {
-        return n !== null;
-    });
+    return result.filter((n) => n !== null);
 }
 
 /**

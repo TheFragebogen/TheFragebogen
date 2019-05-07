@@ -31,7 +31,7 @@ createUI() {
 
     this.button = document.createElement("button");
     this.button.innerHTML = this.caption;
-    this.button.onclick = this._onclick.bind(this);
+    this.button.onclick = () => this._onClick();
 
     this.node.appendChild(this.button);
     return this.node;
@@ -47,7 +47,7 @@ setEnabled(enabled) {
     this.button.disabled = !this.enabled;
 }
 
-_onclick() {
+_onClick() {
     if (this.actionCallback) {
         this.actionCallback();
     }

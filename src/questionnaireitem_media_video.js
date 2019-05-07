@@ -45,11 +45,11 @@ _createAnswerNode() {
 
     answerNode.appendChild(this.videoNode);
 
-    this.videoNode.ontimeupdate = this._onprogress.bind(this);
-    this.videoNode.onerror = this._onerror.bind(this);
-    this.videoNode.onended = this._onended.bind(this);
-    this.videoNode.onstalled = this._onstalled.bind(this);
-    this.videoNode.onplay = this._onplay.bind(this);
+    this.videoNode.ontimeupdate = (event) =>this._onProgress(event);
+    this.videoNode.onerror = (event) => this._onError(event);
+    this.videoNode.onended = () => this._onEnded();
+    this.videoNode.onstalled = () => this._onStalled();
+    this.videoNode.onplay = this._onPlay();
 
     this.videoCreationTime = new Date().getTime();
     return answerNode;
@@ -75,7 +75,7 @@ _createMediaNode() {
     }
 
     this.videoNode = document.createElement('video');
-    this.videoNode.oncanplaythrough = this._onloaded.bind(this);
+    this.videoNode.oncanplaythrough = () => this._onLoaded();
 
     for (let i = 0; i < this.url.length; i++) {
         const videoSource = document.createElement("source");
@@ -108,7 +108,7 @@ _play() {
         this.videoNode.play();
     } catch (e) {
         TheFragebogen.logger.warn(this.constructor.name + "()", "No supported format availble.");
-        this._onerror();
+        this._onError();
     }
 }
 
@@ -120,11 +120,11 @@ _pause() {
     this.videoNode.pause();
 }
 
-_onprogress() {
+_onProgress() {
     //Nope
 }
 
-_onplay() {
+_onPlay() {
     this.videoStartTimes.push((new Date().getTime() - this.videoCreationTime) / 1000);
     this._updateAnswer();
 }

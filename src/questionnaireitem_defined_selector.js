@@ -24,7 +24,7 @@ _createAnswerNode() {
     const answerNode = document.createElement("div");
 
     this.select = document.createElement("select");
-    this.select.addEventListener("change", this._handleChange.bind(this));
+    this.select.addEventListener("change", (event) => this._handleChange(event));
 
     const optionNull = document.createElement("option");
     optionNull.value = "";

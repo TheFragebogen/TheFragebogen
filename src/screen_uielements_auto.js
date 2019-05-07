@@ -35,7 +35,7 @@ createUI() {
         }
 
         if (this.uiElements[index].setOnReadyStateChangedCallback instanceof Function) {
-            this.uiElements[index].setOnReadyStateChangedCallback(this._onUIElementReady.bind(this));
+            this.uiElements[index].setOnReadyStateChangedCallback(() => this._onUIElementReady());
         }
     }
 
