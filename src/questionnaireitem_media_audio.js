@@ -65,6 +65,10 @@ QuestionnaireItemMediaAudio.prototype._createMediaNode = function() {
     this.audioNode = new Audio();
     this.audioNode.oncanplaythrough = this._onloaded.bind(this);
     this.audioNode.src = this.url;
+
+    pTag = document.createElement("p");
+    pTag.innerHTML = "This is a fallback content. Your browser does not support the provided audio formats.";
+    this.audioNode.appendChild(pTag);
 };
 
 QuestionnaireItemMediaAudio.prototype._play = function() {
