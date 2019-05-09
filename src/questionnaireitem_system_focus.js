@@ -66,10 +66,6 @@ QuestionnaireItemSystemFocus.prototype.isReady = function() {
     return true;
 };
 
-QuestionnaireItemSystemFocus.prototype.getData = function() {
-    return this.getAnswer();
-};
-
 QuestionnaireItemSystemFocus.prototype._checkData = function(data) {
     if (!Array.isArray(data)) {
         return false;
