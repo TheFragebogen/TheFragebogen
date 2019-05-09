@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <meta charset="utf-8">
+        <title>WebSocket client</title>
+
+        <script type="text/javascript">
+        class UIController {
+            constructor() {
+                this.serverUrl = document.getElementById("serverUrl");
+                this.connectionStatus = document.getElementById("connectionStatus");
+                this.textMessage = document.getElementById("message");
+                this.messages = document.getElementById("messages");
+
+                this.buttonConnect = document.getElementById("buttonConnect");
+                this.buttonConnect.onclick = () => {
+                    this.websocketClose();
+                    this.websocketOpen();
+                };
+
+                this.buttonSend = document.getElementById("buttonSend");
+                this.buttonSend.onclick = () => {
+                    this.sendMessage();
+                }
+
+                this.websocket = null;
+            }
+            //UI callbacks
+            websocketOpen() {
+                this.websocket = new WebSocket(this.serverUrl.value);
+                this.websocket.onopen = () => this.onOpen();
+                this.websocket.onclose = () => this.onClose();
+                this.websocket.onmessage = (event) => this.onMessage(event);
+                this.websocket.onerror = function(event) {
+                    alert(event.data);
+                };
+
+                this.connectionStatus.textContent = "OPENING ...";
+                this.serverUrldisabled = "disabled";
+            }
+
+            sendMessage() {
+                var msg = this.textMessage.value;
+                var data = {
+                    type: "message",
+                    timeStamp: new Date(),
+                    origin: "you",
+                    data: msg
+                }
+                this.addMessage("you", data.timeStamp, msg);
+                this.websocket.send(msg);
+
+                this.textMessage.value = "";
+            }
+
+            websocketClose() {
+                if (this.websocket) {
+                    console.log("CLOSING ...");
+                    this.websocket.close();
+                }
+            }
+
+            addMessage(source, date, msg) {
+                var text = "(" + date.getTime() + ") " + source + " sent \"" + msg + "\"";
+                this.messages.innerHTML += "<br>" + text;
+            }
+
+            //Event listeners
+            onOpen() {
+                console.log("OPENED: " + serverUrl.value);
+                this.connectionStatus.textContent = "OPENED";
+                this.textMessage.disabled = "";
+                this.buttonSend.disabled = "";
+            }
+
+            onClose() {
+                console.log("CLOSED: " + serverUrl.value);
+                this.websocket = null;
+                this.connectionStatus.textContent = "CLOSED";
+
+                this.serverUrl.disabled = "";
+                this.buttonConnect.show();
+                this.textMessage.disabled = "disabled";
+                this.buttonSend.disabled = "disabled";
+            }
+
+            onMessage(event) {
+                console.log("RECEIVED: " + event.data);
+                this.addMessage(event.originalTarget.url, new Date(), event.data);
+
+            }
+        }
+
+        </script>
+    </head>
+
+    <body onload="new UIController()">
+        <div>
+            <fieldset>
+                <legend>Server Location</legend>
+                <div>
+                    <label>URL:</label>
+                    <input type="text" id="serverUrl" value="ws://localhost:8080">
+                    <button id="buttonConnect">Connect/Disconnect</button>
+                </div>
+                <div>
+                    <label>Status:</label>
+                    <span id="connectionStatus">CLOSED</span>
+                </div>
+            </fieldset>
+            <fieldset id="requestArea">
+                <legend>Request</legend>
+                <div>
+                    <textarea id="message"></textarea>
+                </div>
+                <div>
+                    <button id="buttonSend" disabled="disabled">Send</button>
+                </div>
+            </fieldset>
+            <fieldset id="messageArea">
+                <div id="messages"></div>
+            </fieldset>
+        </div>
+    </body>
+
+</html>
