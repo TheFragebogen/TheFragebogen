@@ -20,6 +20,10 @@ function QuestionnaireItemMediaImage(className, question, required, url, readyOn
 
     TheFragebogen.logger.debug("QuestionnaireItemMediaImage()", "Set: className as " + this.className + ", height as " + this.height + ", width as " + this.width);
 
+    if (this.url.length != 1) {
+        TheFragebogen.logger.warn("QuestionnaireItemMediaImage()", "called with multiple resources as url. Falling back to the first element in the array.");
+    }
+
     this.imageNode = null;
 }
 QuestionnaireItemMediaImage.prototype = Object.create(QuestionnaireItemMedia.prototype);
@@ -55,5 +59,5 @@ QuestionnaireItemMediaImage.prototype._createMediaNode = function() {
 
     this.imageNode = new Image();
     this.imageNode.onload = this._onloaded.bind(this);
-    this.imageNode.src = this.url;
+    this.imageNode.src = this.url[0];
 };

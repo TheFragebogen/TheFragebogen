@@ -59,6 +59,13 @@ QuestionnaireItemMediaVideo.prototype._createMediaNode = function() {
 
     this.videoNode = document.createElement('video');
     this.videoNode.oncanplaythrough = this._onloaded.bind(this);
+
+    for (var i = 0; i < this.url.length; i++) {
+        var videoSource = document.createElement("source");
+        videoSource.src = this.url[i];
+        this.videoNode.appendChild(videoSource);
+    }
+
     this.videoNode.src = this.url;
 
     pTag = document.createElement("p");
