@@ -61,10 +61,16 @@ QuestionnaireItemMediaVideo.prototype._createMediaNode = function() {
     this.videoNode.oncanplaythrough = this._onloaded.bind(this);
 
     for (var i = 0; i < this.url.length; i++) {
-        videoSource = document.createElement("source");
+        var videoSource = document.createElement("source");
         videoSource.src = this.url[i];
         this.videoNode.appendChild(videoSource);
     }
+
+    this.videoNode.src = this.url;
+
+    pTag = document.createElement("p");
+    pTag.innerHTML = "This is a fallback content. Your browser does not support the provided video formats.";
+    this.videoNode.appendChild(pTag);
 };
 
 QuestionnaireItemMediaVideo.prototype._play = function() {
