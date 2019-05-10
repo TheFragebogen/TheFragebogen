@@ -66,8 +66,6 @@ QuestionnaireItemMediaVideo.prototype._createMediaNode = function() {
         this.videoNode.appendChild(videoSource);
     }
 
-    this.videoNode.src = this.url;
-
     pTag = document.createElement("p");
     pTag.innerHTML = "This is a fallback content. Your browser does not support the provided video formats.";
     this.videoNode.appendChild(pTag);
