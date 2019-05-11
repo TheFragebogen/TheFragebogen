@@ -114,6 +114,7 @@ QuestionnaireItemMedia.prototype._onloaded = function() {
 
 QuestionnaireItemMedia.prototype._onstalled = function() {
     this.stallingCount += 1;
+    this._updateAnswer();
     this._sendOnPreloadedCallback();
 
     TheFragebogen.logger.warn(this.constructor.name + "._onstalled()", "Stalling occured (" + this.stallingCount + ") for " + this.getURL());
@@ -121,6 +122,7 @@ QuestionnaireItemMedia.prototype._onstalled = function() {
 
 QuestionnaireItemMedia.prototype._onerror = function() {
     this.stallingCount += 1;
+    this._updateAnswer();
     this._sendOnPreloadedCallback();
 
     TheFragebogen.logger.error(this.constructor.name + "._onerror()", "Stalling occured (" + this.stallingCount + ") for " + this.getURL());
@@ -154,4 +156,8 @@ QuestionnaireItemMedia.prototype._checkData = function(data) {
 
 QuestionnaireItemMedia.prototype.setData = function(data) {
     return this._checkData(data);
+};
+
+QuestionnaireItemMedia.prototype._updateAnswer = function() {
+    TheFragebogen.logger.debug(this.constructor.name + "._updateAnswer()", "This method must be overridden if progress reporting is desired.");
 };

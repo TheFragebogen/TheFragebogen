@@ -1,6 +1,13 @@
 /**
 A QuestionnaireItemMedia that plays a video.
 NOTE: Useful to capture failure to loads.
+This item reports as an array video playback statistics [url, duration, stallingCount, replayCount, videoStartTimes, videoPlayDurations].
+url corresponds to the array of all sources for this element.
+The duration is the total video length in seconds.
+stallingCount counts how often a stalling event occured.
+replayCount counts how often the video got replayed explicitly by the user.
+videoStartTimes are the points in time, relative to creation of the video, when the video started playing.
+videoPlayDurations are the times in seconds how long the audio played each time.
 
 @class QuestionnaireItemMediaVideo
 @augments UIElement
@@ -21,6 +28,11 @@ function QuestionnaireItemMediaVideo(className, question, required, url, readyOn
     TheFragebogen.logger.debug(this.constructor.name + "()", "Set: className as " + this.className + ", urls as " + this.height + ", width as " + this.width);
 
     this.videoNode = null;
+
+    this.videoPlayDurations = []; // Stores how long the video got watched each time
+    this.videoCreationTime = null; // Point in time when the video gets created
+    this.videoStartTimes = []; // Stores when the video started relative to videoCreationTime
+    this.replayCount = 0; // Counts how often the video got replayed explicitly with replay()
 }
 QuestionnaireItemMediaVideo.prototype = Object.create(QuestionnaireItemMedia.prototype);
 QuestionnaireItemMediaVideo.prototype.constructor = QuestionnaireItemMediaVideo;
@@ -35,7 +47,10 @@ QuestionnaireItemMediaVideo.prototype._createAnswerNode = function() {
     this.videoNode.ontimeupdate = this._onprogress.bind(this);
     this.videoNode.onerror = this._onerror.bind(this);
     this.videoNode.onended = this._onended.bind(this);
+    this.videoNode.onstalled = this._onstalled.bind(this);
+    this.videoNode.onplay = this._onplay.bind(this);
 
+    this.videoCreationTime = new Date().getTime();
     return node;
 };
 
@@ -43,6 +58,9 @@ QuestionnaireItemMediaVideo.prototype.releaseUI = function() {
     this.node = null;
     this.uiCreated = false;
     this.enabled = false;
+
+    this.videoPlayDurations.push(this.videoNode.currentTime);
+    this._updateAnswer();
 
     this.videoNode = null;
 };
@@ -71,6 +89,16 @@ QuestionnaireItemMediaVideo.prototype._createMediaNode = function() {
     this.videoNode.appendChild(pTag);
 };
 
+QuestionnaireItemMediaVideo.prototype.replay = function() {
+    this.videoPlayDurations.push(this.videoNode.currentTime);
+    this.replayCount += 1;
+    this._updateAnswer();
+
+    this.videoNode.pause();
+    this.videoNode.currentTime = 0.0;
+    this.videoNode.play();
+};
+
 QuestionnaireItemMediaVideo.prototype._play = function() {
     if (this.videoNode === null) {
         TheFragebogen.logger.warn(this.constructor.name + "()", "Cannot start playback without this.videoNode.");
@@ -95,4 +123,13 @@ QuestionnaireItemMediaVideo.prototype._pause = function() {
 
 QuestionnaireItemMediaVideo.prototype._onprogress = function() {
     //Nope
+};
+
+QuestionnaireItemMediaVideo.prototype._onplay = function() {
+    this.videoStartTimes.push((new Date().getTime() - this.videoCreationTime) / 1000);
+    this._updateAnswer();
+};
+
+QuestionnaireItemMediaVideo.prototype._updateAnswer = function() {
+    this.answer = [this.url, this.videoNode.duration, this.stallingCount, this.replayCount, this.videoStartTimes, this.videoPlayDurations];
 };

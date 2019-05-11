@@ -1,6 +1,13 @@
 /**
 A QuestionnaireItemMedia that plays an audio file.
 NOTE: Useful to capture failure to loads.
+This item reports as an array audio playback statistics [url, duration, stallingCount, replayCount, audioStartTimes, audioPlayDurations].
+url corresponds to the array of all sources for this element.
+The duration is the total audio length in seconds.
+stallingCount counts how often a stalling event occured.
+replayCount counts how often the audio got replayed explicitly by the user.
+audioStartTimes are the points in time, relative to creation of the audio, when the audio started playing.
+audioPlayDurations are the times in seconds how long the audio played each time.
 
 @class QuestionnaireItemMediaAudio
 @augments UIElement
@@ -22,6 +29,11 @@ function QuestionnaireItemMediaAudio(className, question, required, url, readyOn
 
     this.audioNode = null;
     this.progressbar = null;
+
+    this.audioPlayDurations = []; // Stores how long the audio got listend to each time
+    this.audioCreationTime = null; // Point in time when the audio gets created
+    this.audioStartTimes = []; // Stores when the audio started relative to audioCreationTime
+    this.replayCount = 0; // Counts how often the audio got replayed explicitly with replay()
 }
 QuestionnaireItemMediaAudio.prototype = Object.create(QuestionnaireItemMedia.prototype);
 QuestionnaireItemMediaAudio.prototype.constructor = QuestionnaireItemMediaAudio;
@@ -39,7 +51,10 @@ QuestionnaireItemMediaAudio.prototype._createAnswerNode = function() {
     this.audioNode.ontimeupdate = this._onprogress.bind(this);
     this.audioNode.onerror = this._onerror.bind(this);
     this.audioNode.onended = this._onended.bind(this);
+    this.audioNode.onstalled = this._onstalled.bind(this);
+    this.audioNode.onplay = this._onplay.bind(this);
 
+    this.audioCreationTime = new Date().getTime();
     return node;
 };
 
@@ -47,6 +62,9 @@ QuestionnaireItemMediaAudio.prototype.releaseUI = function() {
     this.node = null;
     this.uiCreated = false;
     this.enabled = false;
+
+    this.audioPlayDurations.push(this.audioNode.currentTime);
+    this._updateAnswer();
 
     this.audioNode = null;
     this.progressbar = null;
@@ -76,6 +94,16 @@ QuestionnaireItemMediaAudio.prototype._createMediaNode = function() {
     this.audioNode.appendChild(pTag);
 };
 
+QuestionnaireItemMediaAudio.prototype.replay = function() {
+    this.audioPlayDurations.push(this.audioNode.currentTime);
+    this.replayCount += 1;
+    this._updateAnswer();
+
+    this.audioNode.pause();
+    this.audioNode.currentTime = 0.0;
+    this.audioNode.play();
+};
+
 QuestionnaireItemMediaAudio.prototype._play = function() {
     if (this.audioNode === null) {
         TheFragebogen.logger.warn(this.constructor.name + "()", "Cannot start playback without this.audioNode.");
@@ -101,4 +129,13 @@ QuestionnaireItemMediaAudio.prototype._onprogress = function() {
     if (this.progressbar && !isNaN(this.audioNode.duration)) {
         this.progressbar.value = (this.audioNode.currentTime / this.audioNode.duration);
     }
+};
+
+QuestionnaireItemMediaAudio.prototype._onplay = function() {
+    this.audioStartTimes.push((new Date().getTime() - this.audioCreationTime) / 1000);
+    this._updateAnswer();
+};
+
+QuestionnaireItemMediaAudio.prototype._updateAnswer = function() {
+    this.answer = [this.url, this.audioNode.duration, this.stallingCount, this.replayCount, this.audioStartTimes, this.audioPlayDurations];
 };
