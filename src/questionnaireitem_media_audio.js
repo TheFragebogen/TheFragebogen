@@ -64,7 +64,6 @@ QuestionnaireItemMediaAudio.prototype._createMediaNode = function() {
 
     this.audioNode = new Audio();
     this.audioNode.oncanplaythrough = this._onloaded.bind(this);
-    this.audioNode.src = this.url;
 
     for (var i = 0; i < this.url.length; i++) {
         var audioSource = document.createElement("source");
