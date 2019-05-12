@@ -92,20 +92,20 @@ class QuestionnaireItemWaitWebsocket extends QuestionnaireItem {
         this.node.className = this.className + "Connected";
 
         if (this.messageSend === undefined) {
-            TheFragebogen.logger.info(this.constructor.name + ".connection.onopen()", "Connection opened.");
+            TheFragebogen.logger.info(this.constructor.name + ".connection._onConnected()", "Connection opened.");
         }
 
         this.websocketConnection.send(this.messageSend);
-        TheFragebogen.logger.info(this.constructor.name + ".connection.onopen()", "Connection opened and message <<" + this.messageSend + ">> delivered.");
+        TheFragebogen.logger.info(this.constructor.name + ".connection._onConnected()", "Connection opened and message <<" + this.messageSend + ">> delivered.");
     }
 
     _onMessage(event) {
         if (event.data && event.data !== this.messageReceive) {
-            TheFragebogen.logger.warn(this.constructor.name + ".connection.onmessage()", "Received unknown message: <<" + event.data + ">>; waiting for <<" + this.messageReceive + ">>");
+            TheFragebogen.logger.warn(this.constructor.name + ".connection._onMessage()", "Received unknown message: <<" + event.data + ">>; waiting for <<" + this.messageReceive + ">>");
             return;
         }
 
-        TheFragebogen.logger.info(this.constructor.name + ".connection.onmessage()", "Received correct message.");
+        TheFragebogen.logger.info(this.constructor.name + ".connection._onMessage()", "Received correct message.");
         this.answer = new Date().toString();
         this.node.className = this.className + "Ready";
 
@@ -114,12 +114,12 @@ class QuestionnaireItemWaitWebsocket extends QuestionnaireItem {
 
     _onWebsocketError(error) {
         this.node.className = this.className + "Reconnecting";
-        TheFragebogen.logger.warn(this.constructor.name + ".connection.onerror()", error);
+        TheFragebogen.logger.warn(this.constructor.name + ".connection._onWebsocketError()", error);
         //Reconnect handled by onclose
     }
 
     _onWebsocketClose() {
-        TheFragebogen.logger.warn(this.constructor.name + ".connection.onclose()", "Connection closed.");
+        TheFragebogen.logger.warn(this.constructor.name + ".connection._onWebsocketClose()", "Connection closed.");
 
         if (this.isReady()) {
             return;
@@ -127,7 +127,7 @@ class QuestionnaireItemWaitWebsocket extends QuestionnaireItem {
 
         //Retry?
         if (this.reconnectAttempts === -1 || this.connectionFailures < this.reconnectAttempts) {
-            TheFragebogen.logger.warn(this.constructor.name + ".connection.onclose.setTimeout._anonymousFunction()", "Trying to reconnect...");
+            TheFragebogen.logger.warn(this.constructor.name + ".connection._onWebsocketClose.setTimeout._anonymousFunction()", "Trying to reconnect...");
 
             this.websocketConnection = null;
             this._handleConnect();
@@ -136,7 +136,7 @@ class QuestionnaireItemWaitWebsocket extends QuestionnaireItem {
         }
 
         //Failed permanently: That's bad...
-        TheFragebogen.logger.error(this.constructor.name + ".connection.onclose()", "Maximal number of attempts reached. QuestionnaireItemWaitWebsocket will not try to reconnect again!");
+        TheFragebogen.logger.error(this.constructor.name + ".connection._onWebsocketClose()", "Maximal number of attempts reached. QuestionnaireItemWaitWebsocket will not try to reconnect again!");
         this.ready = true;
         this._sendReadyStateChanged();
     }
@@ -144,7 +144,7 @@ class QuestionnaireItemWaitWebsocket extends QuestionnaireItem {
     _onTimeout() {
         this._sendReadyStateChanged();
 
-        TheFragebogen.logger.warn(this.constructor.name + "._handleTimeout()", "Waiting got timeout after " + (!this.connectionFailures ? (this.timeout + "ms.") : (this.connectionFailures + " attempt(s).")));
+        TheFragebogen.logger.warn(this.constructor.name + "._onTimeout()", "Waiting got timeout after " + (!this.connectionFailures ? (this.timeout + "ms.") : (this.connectionFailures + " attempt(s).")));
     }
 
     markRequired() {
@@ -158,7 +158,7 @@ class QuestionnaireItemWaitWebsocket extends QuestionnaireItem {
         this.timeoutHandle = null;
 
         if (this.websocketConnection !== null && (this.websocketConnection.readyState == WebSocket.CONNECTING || this.websocketConnection.readyState == WebSocket.OPEN)) {
-            this.websocketConnection.onclose = () => TheFragebogen.logger.info(this.constructor.name + ".connection.onclose()", "Connection closed.");
+            this.websocketConnection.onclose = () => TheFragebogen.logger.info(this.constructor.name + ".connection._releaseUI()", "Connection closed.");
             this.websocketConnection.close();
         }
         this.websocketConnection = null;
