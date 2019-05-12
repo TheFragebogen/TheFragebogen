@@ -42,7 +42,8 @@ UIElementButton.prototype.releaseUI = function() {
 };
 
 UIElementButton.prototype.setEnabled = function(enabled) {
-    this.button.disabled = !enabled;
+    this.enabled = enabled;
+    this.button.disabled = !this.enabled;
 };
 
 UIElementButton.prototype._onclick = function() {
@@ -69,5 +70,5 @@ UIElementButton.prototype.setData = function(data) {
 
 UIElementButton.prototype.setVisible = function(visible) {
     this.visible = visible;
-    this.node.className.hidden = visible ? "" : "hidden";
+    this.node.hidden = this.visible ? "" : "hidden";
 };
