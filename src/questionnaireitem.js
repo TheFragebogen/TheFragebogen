@@ -149,7 +149,6 @@ class QuestionnaireItem extends UIElementInteractive {
 
     releaseUI() {
         super.releaseUI();
-        this.node = null;
     }
 
     /**

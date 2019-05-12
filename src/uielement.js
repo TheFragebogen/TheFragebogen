@@ -54,10 +54,10 @@ class UIElement {
     releaseUI() {
         this.uiCreated = false;
         this.enabled = false;
+        this.node = null;
     }
 
     /**
-    @abstract
     @return {boolean} Is the UI of this element enabled?
     */
     isEnabled() {
@@ -74,7 +74,6 @@ class UIElement {
     }
 
     /**
-    @abstract
     @return {boolean} Is the UI of this element visible?
     */
     isVisible() {
@@ -84,8 +83,9 @@ class UIElement {
     /**
     Set UI visible state.
     @abstract
+    @param {boolean} visible
     */
-    setVisible() {
+    setVisible(visible) {
         TheFragebogen.logger.warn(this.constructor.name + ".setVisible()", "This method must be overridden.");
     }
 
@@ -117,7 +117,6 @@ class UIElement {
 
     /**
     All external resources loaded?
-    @abstract
     @returns {boolean}
     */
     isPreloaded() {

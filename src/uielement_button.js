@@ -36,7 +36,7 @@ class UIElementButton extends UIElement {
     }
 
     releaseUI() {
-        this.node = null;
+        super.releaseUI();
         this.button = null;
     }
 
