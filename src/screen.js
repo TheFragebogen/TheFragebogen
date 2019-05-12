@@ -94,8 +94,8 @@ class Screen {
     isReady() {
         return true;
     }
-    /**
 
+    /**
     Sets the `PaginateUI` for the screen.
     NOTE: Can only be called successfully if `screen.createUI()` is `false`.
     NOTE: This function is _only_ implemented by screens that provide _manual_ pagination.
