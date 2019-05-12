@@ -55,5 +55,5 @@ UIElementHTML.prototype.setData = function(data) {
 
 UIElementHTML.prototype.setVisible = function(visible) {
     this.visible = visible;
-    this.node.className.hidden = visible ? "" : "hidden";
+    this.node.hidden = this.visible ? "" : "hidden";
 };
