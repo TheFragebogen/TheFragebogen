@@ -27,207 +27,207 @@ class QuestionnaireItemWrite extends QuestionnaireItem {
     @param {number} [eraserSize=10] The radius of the eraser in px.
     */
     constructor(className, question, required, backgroundImg, width, height, drawColor, drawSize, eraserSize) {
-    super(className, question, required);
+        super(className, question, required);
 
-    this.className = className;
-    this.backgroundImg = backgroundImg !== undefined ? backgroundImg : "";
-    this.height = !isNaN(height) && height > 0 ? height : 240;
-    this.width = !isNaN(width) && width > 0 ? width : 320;
+        this.className = className;
+        this.backgroundImg = backgroundImg !== undefined ? backgroundImg : "";
+        this.height = !isNaN(height) && height > 0 ? height : 240;
+        this.width = !isNaN(width) && width > 0 ? width : 320;
 
-    this.pixelRatio = 1; //HDPI support.
-    this.drawColor = (typeof(drawColor) === "string" ? drawColor : "black");
-    this.drawSize = !isNaN(drawSize) && drawSize > 0 ? drawSize : 1;
-    this.eraserSize = !isNaN(eraserSize) && eraserSize > 0 ? eraserSize : 10;
+        this.pixelRatio = 1; //HDPI support.
+        this.drawColor = (typeof(drawColor) === "string" ? drawColor : "black");
+        this.drawSize = !isNaN(drawSize) && drawSize > 0 ? drawSize : 1;
+        this.eraserSize = !isNaN(eraserSize) && eraserSize > 0 ? eraserSize : 10;
 
-    TheFragebogen.logger.debug(this.constructor.name + "()", "Set: backgroundImg as " + this.backgroundImg + ", height as " + this.height + ", width as " + this.width + ", drawColor as " + this.drawColor + ", drawSize as " + this.drawSize + " and eraserSize as " + this.eraserSize);
+        TheFragebogen.logger.debug(this.constructor.name + "()", "Set: backgroundImg as " + this.backgroundImg + ", height as " + this.height + ", width as " + this.width + ", drawColor as " + this.drawColor + ", drawSize as " + this.drawSize + " and eraserSize as " + this.eraserSize);
 
-    this.painting = false;
-    this.penWasDown = false;
-    this.eraserMode = false; //True: eraser, False: draw
-    this.lastDrawX = null;
-    this.lastDrawY = null;
+        this.painting = false;
+        this.penWasDown = false;
+        this.eraserMode = false; //True: eraser, False: draw
+        this.lastDrawX = null;
+        this.lastDrawY = null;
 
-    this.context = null;
-}
-
-_createAnswerNode() {
-    const answerNode = document.createElement("div");
-    const canvas = document.createElement("canvas");
-    if (this.width !== null) {
-        canvas.width = this.width;
-    }
-    if (this.height !== null) {
-        canvas.height = this.height;
-    }
-    answerNode.appendChild(canvas);
-
-    this.context = canvas.getContext("2d");
-    this.context.lineJoin = "round";
-
-    //Center background image
-    if (this.backgroundImg !== null) {
-        canvas.style.background = "url('" + this.backgroundImg + "') 50% 50% / contain no-repeat";
+        this.context = null;
     }
 
-    if (this.isAnswered()) {
-        TheFragebogen.logger.debug(this.constructor.name + "_createAnswerNode()", "Already answered; restoring image.");
+    _createAnswerNode() {
+        const answerNode = document.createElement("div");
+        const canvas = document.createElement("canvas");
+        if (this.width !== null) {
+            canvas.width = this.width;
+        }
+        if (this.height !== null) {
+            canvas.height = this.height;
+        }
+        answerNode.appendChild(canvas);
 
-        const img = new Image();
-        img.onload = () => this.context.drawImage(img, 0, 0);
-        img.src = this.answer;
-    }
+        this.context = canvas.getContext("2d");
+        this.context.lineJoin = "round";
 
-    canvas.onmousedown = (event) => this.onWritingStart(event);
-    canvas.onmousemove = (event) => this.onWriting(event);
-    canvas.onmouseup = () => this.onWritingStop();
-    canvas.onmouseout = () => this.onWritingStop();
-
-    //BEGIN: EXPERIMENTAL
-    //This uses allows us to be HDPI conform!
-    //Only works in Chrome so far! And it is a hack! See: http://www.html5rocks.com/en/tutorials/canvas/hidpi/
-    this.pixelRatio = window.devicePixelRatio || 1 / this.context.webkitBackingStorePixelRatio || 1;
-
-    canvas.style.width = canvas.width;
-    canvas.style.height = canvas.height;
-
-    canvas.width = canvas.width * this.pixelRatio;
-    canvas.height = canvas.height * this.pixelRatio;
-
-    this.context.scale(this.pixelRatio, this.pixelRatio);
-    //END: EXPERIMENTAL
-    return answerNode;
-}
-
-/**
-Pen is down on the paper.
-*/
-onWritingStart(event) {
-    if (!this.isEnabled()) {
-        return;
-    }
-
-    this.painting = true;
-    this.eraserMode = event.button !== 0; //The not-left mouse button is the eraser
-    this.penWasDown = false;
-
-    this.onWriting(event);
-}
-
-/**
-Pen is moving on the paper.
-*/
-onWriting(event) {
-    if (!this.isEnabled() || !this.painting) {
-        return;
-    }
-
-    const x = event.pageX - event.target.offsetLeft;
-    const y = event.pageY - event.target.offsetTop;
-
-    this.context.beginPath();
-
-    if (this.eraserMode) {
-        this.context.globalCompositeOperation = "destination-out";
-        this.context.arc(x, y, this.eraserSize, 0, Math.PI * 2, false);
-        this.context.fill();
-    } else {
-        this.context.globalCompositeOperation = "source-over";
-        if (this.penWasDown) {
-            this.context.moveTo(this.lastDrawX, this.lastDrawY);
-        } else {
-            this.context.moveTo(x - 1, y);
+        //Center background image
+        if (this.backgroundImg !== null) {
+            canvas.style.background = "url('" + this.backgroundImg + "') 50% 50% / contain no-repeat";
         }
 
-        this.context.lineTo(x, y);
-        this.context.strokeStyle = this.drawColor;
-        this.context.lineWidth = this.drawSize;
-        this.context.stroke();
-    }
+        if (this.isAnswered()) {
+            TheFragebogen.logger.debug(this.constructor.name + "_createAnswerNode()", "Already answered; restoring image.");
 
-    //The following lines cannot be put above, because it must be done after the draw.
-    this.penWasDown = true;
-    this.lastDrawX = x;
-    this.lastDrawY = y;
-}
-
-/**
-Pen left paper, so save the answer.
-*/
-onWritingStop() {
-    this.painting = false;
-
-    if (this.isAnswered()) {
-        this.markRequired();
-    }
-    this._sendReadyStateChanged();
-}
-
-getAnswer() {
-    if (this.isUIcreated() && this.isAnswered()) {
-        this.answer = this.context.canvas.toDataURL("image/png");
-    }
-
-    return this.answer;
-}
-
-setAnswer(answer) {
-    if (answer === null) {
-        this.answer = null;
-        if (this.isUIcreated()) {
-            this.context.clearRect(0, 0, this.context.canvas.width, this.context.canvas.height);
-        }
-        return true;
-    }
-    if (typeof(answer) === "string") {
-        this.answer = answer;
-        if (this.isUIcreated()) {
-            this.context.clearRect(0, 0, this.context.canvas.width, this.context.canvas.height);
             const img = new Image();
-            img.src = answer;
+            img.onload = () => this.context.drawImage(img, 0, 0);
+            img.src = this.answer;
+        }
 
-            const ratio_w = img.width / parseInt(this.context.canvas.style.width);
-            const ratio_h = img.height / parseInt(this.context.canvas.style.height);
+        canvas.onmousedown = (event) => this.onWritingStart(event);
+        canvas.onmousemove = (event) => this.onWriting(event);
+        canvas.onmouseup = () => this.onWritingStop();
+        canvas.onmouseout = () => this.onWritingStop();
 
-            this.context.scale(1 / ratio_w, 1 / ratio_h);
-            this.context.drawImage(img, 0, 0);
-            this.context.scale(ratio_w, ratio_h);
+        //BEGIN: EXPERIMENTAL
+        //This uses allows us to be HDPI conform!
+        //Only works in Chrome so far! And it is a hack! See: http://www.html5rocks.com/en/tutorials/canvas/hidpi/
+        this.pixelRatio = window.devicePixelRatio || 1 / this.context.webkitBackingStorePixelRatio || 1;
+
+        canvas.style.width = canvas.width;
+        canvas.style.height = canvas.height;
+
+        canvas.width = canvas.width * this.pixelRatio;
+        canvas.height = canvas.height * this.pixelRatio;
+
+        this.context.scale(this.pixelRatio, this.pixelRatio);
+        //END: EXPERIMENTAL
+        return answerNode;
+    }
+
+    /**
+    Pen is down on the paper.
+    */
+    onWritingStart(event) {
+        if (!this.isEnabled()) {
+            return;
+        }
+
+        this.painting = true;
+        this.eraserMode = event.button !== 0; //The not-left mouse button is the eraser
+        this.penWasDown = false;
+
+        this.onWriting(event);
+    }
+
+    /**
+    Pen is moving on the paper.
+    */
+    onWriting(event) {
+        if (!this.isEnabled() || !this.painting) {
+            return;
+        }
+
+        const x = event.pageX - event.target.offsetLeft;
+        const y = event.pageY - event.target.offsetTop;
+
+        this.context.beginPath();
+
+        if (this.eraserMode) {
+            this.context.globalCompositeOperation = "destination-out";
+            this.context.arc(x, y, this.eraserSize, 0, Math.PI * 2, false);
+            this.context.fill();
+        } else {
+            this.context.globalCompositeOperation = "source-over";
+            if (this.penWasDown) {
+                this.context.moveTo(this.lastDrawX, this.lastDrawY);
+            } else {
+                this.context.moveTo(x - 1, y);
+            }
+
+            this.context.lineTo(x, y);
+            this.context.strokeStyle = this.drawColor;
+            this.context.lineWidth = this.drawSize;
+            this.context.stroke();
+        }
+
+        //The following lines cannot be put above, because it must be done after the draw.
+        this.penWasDown = true;
+        this.lastDrawX = x;
+        this.lastDrawY = y;
+    }
+
+    /**
+    Pen left paper, so save the answer.
+    */
+    onWritingStop() {
+        this.painting = false;
+
+        if (this.isAnswered()) {
+            this.markRequired();
         }
         this._sendReadyStateChanged();
-        return true;
     }
-    TheFragebogen.logger.warn(this.constructor.name + ".setAnswer()", "Invalid answer: " + answer + ".");
-    return false;
-}
 
-releaseUI() {
-    //Store answer from UI component
-    this.getAnswer();
+    getAnswer() {
+        if (this.isUIcreated() && this.isAnswered()) {
+            this.answer = this.context.canvas.toDataURL("image/png");
+        }
 
-    super.releaseUI();
+        return this.answer;
+    }
 
-    this.context = null;
-    this.pixelRatio = 1;
-    this.lastDrawX = null;
-    this.lastDrawY = null;
-    this.penWasDown = false;
-    this.painting = false;
-    this.eraserMode = false;
-}
+    setAnswer(answer) {
+        if (answer === null) {
+            this.answer = null;
+            if (this.isUIcreated()) {
+                this.context.clearRect(0, 0, this.context.canvas.width, this.context.canvas.height);
+            }
+            return true;
+        }
+        if (typeof(answer) === "string") {
+            this.answer = answer;
+            if (this.isUIcreated()) {
+                this.context.clearRect(0, 0, this.context.canvas.width, this.context.canvas.height);
+                const img = new Image();
+                img.src = answer;
 
-getData() {
-    return [this.getQuestion(), this.getAnswer()];
-}
+                const ratio_w = img.width / parseInt(this.context.canvas.style.width);
+                const ratio_h = img.height / parseInt(this.context.canvas.style.height);
 
-_checkData(data) {
-    return data[0] === this.question;
-}
-
-setData(data) {
-    if (!this._checkData(data)) {
+                this.context.scale(1 / ratio_w, 1 / ratio_h);
+                this.context.drawImage(img, 0, 0);
+                this.context.scale(ratio_w, ratio_h);
+            }
+            this._sendReadyStateChanged();
+            return true;
+        }
+        TheFragebogen.logger.warn(this.constructor.name + ".setAnswer()", "Invalid answer: " + answer + ".");
         return false;
     }
 
-    this.setAnswer(data[1]);
-    return true;
-}
+    releaseUI() {
+        //Store answer from UI component
+        this.getAnswer();
+
+        super.releaseUI();
+
+        this.context = null;
+        this.pixelRatio = 1;
+        this.lastDrawX = null;
+        this.lastDrawY = null;
+        this.penWasDown = false;
+        this.painting = false;
+        this.eraserMode = false;
+    }
+
+    getData() {
+        return [this.getQuestion(), this.getAnswer()];
+    }
+
+    _checkData(data) {
+        return data[0] === this.question;
+    }
+
+    setData(data) {
+        if (!this._checkData(data)) {
+            return false;
+        }
+
+        this.setAnswer(data[1]);
+        return true;
+    }
 }

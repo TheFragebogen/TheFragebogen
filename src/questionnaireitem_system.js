@@ -11,18 +11,18 @@ These will be answered automatically and should not provide a UI.
 class QuestionnaireItemSystem extends QuestionnaireItem {
 
     constructor() {
-    super(arguments);
-}
+        super(arguments);
+    }
 
-createUI() {
-    //NOPE
-}
+    createUI() {
+        //NOPE
+    }
 
-setVisible(visible) {
-    //NOPE
-}
+    setVisible(visible) {
+        //NOPE
+    }
 
-isVisible() {
-    return false;
-}
+    isVisible() {
+        return false;
+    }
 }

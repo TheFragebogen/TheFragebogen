@@ -18,25 +18,25 @@ class QuestionnaireItemSVGNASATLX extends QuestionnaireItemSVG {
     @param {string} [captionLeft] The caption of the right label.
     */
     constructor(className, question, required, captionLeft, captionRight) {
-    super(className, question, required);
+        super(className, question, required);
 
-    this.captionLeft = captionLeft;
-    this.captionRight = captionRight;
-}
+        this.captionLeft = captionLeft;
+        this.captionRight = captionRight;
+    }
 
-_setupSVG() {
-    this.scaleImage.setAttribute("viewBox", "0 5 115 20");
-    this.scaleImage.innerHTML = '@@include("../svg_scales/nasa_tlx_scale_include.svg")';
+    _setupSVG() {
+        this.scaleImage.setAttribute("viewBox", "0 5 115 20");
+        this.scaleImage.innerHTML = '@@include("../svg_scales/nasa_tlx_scale_include.svg")';
 
-    this.scaleImage.getElementById("labelLeft").textContent = this.captionLeft;
-    this.scaleImage.getElementById("labelRight").textContent = this.captionRight;
-}
+        this.scaleImage.getElementById("labelLeft").textContent = this.captionLeft;
+        this.scaleImage.getElementById("labelRight").textContent = this.captionRight;
+    }
 
-_getAnswerElements() {
-    return this.scaleImage.getElementsByTagName("rect");
-}
+    _getAnswerElements() {
+        return this.scaleImage.getElementsByTagName("rect");
+    }
 
-getAnswerOptions(data) {
-    return "0-20";
-}
+    getAnswerOptions(data) {
+        return "0-20";
+    }
 }

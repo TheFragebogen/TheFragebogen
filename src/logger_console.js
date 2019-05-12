@@ -19,10 +19,10 @@ class LogMessage {
     @param {string} msg the message itself
     */
     constructor(logLevel, location, msg) {
-    this.logLevel = "" + logLevel;
-    this.location = "" + location;
-    this.msg = msg;
-}
+        this.logLevel = "" + logLevel;
+        this.location = "" + location;
+        this.msg = msg;
+    }
 }
 
 /**
@@ -35,38 +35,38 @@ DEVELOPER: All the messages (instances of class `LogMessage`) are saved in an ar
 class LogConsole {
 
     constructor() {
-    this.logMessages = [];
-    this.debug("LogConsole.constructor()", "Start");
-}
-
-debug(location, msg) {
-    this.logMessages.push(new LogMessage("DEBUG", location, msg));
-    if (console.debug === undefined) {
-        //For IE console.debug is not defined.
-        console.debug = console.log;
+        this.logMessages = [];
+        this.debug("LogConsole.constructor()", "Start");
     }
-    console.debug("DEBUG: " + location + ": " + msg);
-}
 
-info(location, msg) {
-    this.logMessages.push(new LogMessage("INFO", location, msg));
-    console.info("INFO: " + location + ": " + msg);
-}
+    debug(location, msg) {
+        this.logMessages.push(new LogMessage("DEBUG", location, msg));
+        if (console.debug === undefined) {
+            //For IE console.debug is not defined.
+            console.debug = console.log;
+        }
+        console.debug("DEBUG: " + location + ": " + msg);
+    }
 
-warn(location, msg) {
-    this.logMessages.push(new LogMessage("WARN", location, msg));
-    console.warn("WARN: " + location + ": " + msg);
-}
+    info(location, msg) {
+        this.logMessages.push(new LogMessage("INFO", location, msg));
+        console.info("INFO: " + location + ": " + msg);
+    }
 
-error(location, msg) {
-    this.logMessages.push(new LogMessage("ERROR", location, msg));
-    console.error("ERROR: " + location + ": " + msg);
-}
+    warn(location, msg) {
+        this.logMessages.push(new LogMessage("WARN", location, msg));
+        console.warn("WARN: " + location + ": " + msg);
+    }
 
-fatal(location, msg) {
-    this.logMessages.push(new LogMessage("FATAL", location, msg));
-    console.error("FATAL: " + location + ": " + msg);
-}
+    error(location, msg) {
+        this.logMessages.push(new LogMessage("ERROR", location, msg));
+        console.error("ERROR: " + location + ": " + msg);
+    }
+
+    fatal(location, msg) {
+        this.logMessages.push(new LogMessage("FATAL", location, msg));
+        console.error("FATAL: " + location + ": " + msg);
+    }
 }
 
 /**

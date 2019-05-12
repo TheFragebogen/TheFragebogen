@@ -16,39 +16,39 @@ class ScreenWaitDataDownload extends ScreenWaitData {
     @param {string} [filename="TheFragebogen.csv"] Name of the file to be downloaded
     */
     constructor(className, message, filename) {
-    super(className === "string" ? className : "", 300, typeof(message) === "string" ? message : "Downloading data");
+        super(className === "string" ? className : "", 300, typeof(message) === "string" ? message : "Downloading data");
 
-    this.filename = (typeof(filename) === "string" ? filename : "TheFragebogen.csv");
+        this.filename = (typeof(filename) === "string" ? filename : "TheFragebogen.csv");
 
-    TheFragebogen.logger.debug(this.constructor.name + "()", "Set: filename as " + this.filename);
-}
+        TheFragebogen.logger.debug(this.constructor.name + "()", "Set: filename as " + this.filename);
+    }
 
-createUI() {
-    this.node = document.createElement("div");
+    createUI() {
+        this.node = document.createElement("div");
 
-    const span = document.createElement("span");
-    span.innerHTML = this.html;
-    this.node.appendChild(span);
+        const span = document.createElement("span");
+        span.innerHTML = this.html;
+        this.node.appendChild(span);
 
-    return this.node;
-}
+        return this.node;
+    }
 
-/**
-On start(), the screenController.requestDataCSV() is called with this.callbackDownload() as callback.
-ScreenController needs to set the callback accordingly.
-*/
-start() {
-    this._sendGetDataCallback();
-    this.callbackDownload(this.data);
-}
+    /**
+    On start(), the screenController.requestDataCSV() is called with this.callbackDownload() as callback.
+    ScreenController needs to set the callback accordingly.
+    */
+    start() {
+        this._sendGetDataCallback();
+        this.callbackDownload(this.data);
+    }
 
-/**
-Callback to download data.
-@param {string} data
-*/
-callbackDownload(data) {
-    TheFragebogen.logger.info(this.constructor.name + ".callbackDownload()", data);
-    downloadData(this.filename, data);
-    this._sendPaginateCallback();
-}
+    /**
+    Callback to download data.
+    @param {string} data
+    */
+    callbackDownload(data) {
+        TheFragebogen.logger.info(this.constructor.name + ".callbackDownload()", data);
+        downloadData(this.filename, data);
+        this._sendPaginateCallback();
+    }
 }

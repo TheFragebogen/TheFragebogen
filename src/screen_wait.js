@@ -13,45 +13,45 @@ class ScreenWait extends Screen {
     @param {string} [html="Please wait..."] The HTML content to be presented.
     */
     constructor(className, time, html) {
-    super();
+        super();
 
-    this.className = className;
-    this.time = !isNaN(time) ? Math.abs(time) * 1000 : 2;
-    this.html = typeof(html) === "string" ? html : "Please wait...";
+        this.className = className;
+        this.time = !isNaN(time) ? Math.abs(time) * 1000 : 2;
+        this.html = typeof(html) === "string" ? html : "Please wait...";
 
-    this.timeoutHandle = null;
-    this.readyCallback = null;
+        this.timeoutHandle = null;
+        this.readyCallback = null;
 
-    TheFragebogen.logger.debug(this.constructor.name, "Set: time as " + this.time + " and html as " + this.html);
-}
+        TheFragebogen.logger.debug(this.constructor.name, "Set: time as " + this.time + " and html as " + this.html);
+    }
 
-createUI() {
-    this.node = document.createElement("div");
-    this.node.className = this.className;
-    this.node.innerHTML = this.html;
+    createUI() {
+        this.node = document.createElement("div");
+        this.node.className = this.className;
+        this.node.innerHTML = this.html;
 
-    return this.node;
-}
+        return this.node;
+    }
 
-_startTimer() {
-    TheFragebogen.logger.info(this.constructor.name + "._startTimer()", "New screen will be displayed in " + this.time + "ms.");
-    this.timeoutHandle = setTimeout(() => this._onWaitTimeReached(), this.time);
-}
+    _startTimer() {
+        TheFragebogen.logger.info(this.constructor.name + "._startTimer()", "New screen will be displayed in " + this.time + "ms.");
+        this.timeoutHandle = setTimeout(() => this._onWaitTimeReached(), this.time);
+    }
 
-/**
-Starts the timer.
-*/
-start() {
-    this._startTimer();
-}
+    /**
+    Starts the timer.
+    */
+    start() {
+        this._startTimer();
+    }
 
-_onWaitTimeReached() {
-    this._sendPaginateCallback();
+    _onWaitTimeReached() {
+        this._sendPaginateCallback();
 
-}
-releaseUI() {
-    super.releaseUI();
-    clearTimeout(this.timeoutHandle);
-    this.timeoutHandle = null;
-}
+    }
+    releaseUI() {
+        super.releaseUI();
+        clearTimeout(this.timeoutHandle);
+        this.timeoutHandle = null;
+    }
 }

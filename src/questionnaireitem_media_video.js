@@ -26,110 +26,110 @@ class QuestionnaireItemMediaVideo extends QuestionnaireItemMedia {
     @param {boolean} [readyOnError=true] Sets ready=true if an error occures.
     */
     constructor(className, question, required, url, readyOnError) {
-    super(className, question, required, url, readyOnError);
+        super(className, question, required, url, readyOnError);
 
-    TheFragebogen.logger.debug(this.constructor.name + "()", "Set: className as " + this.className + ", urls as " + this.height + ", width as " + this.width);
+        TheFragebogen.logger.debug(this.constructor.name + "()", "Set: className as " + this.className + ", urls as " + this.height + ", width as " + this.width);
 
-    this.videoNode = null;
+        this.videoNode = null;
 
-    this.videoPlayDurations = []; // Stores how long the video got watched each time
-    this.videoCreationTime = null; // Point in time when the video gets created
-    this.videoStartTimes = []; // Stores when the video started relative to videoCreationTime
-    this.replayCount = 0; // Counts how often the video got replayed explicitly with replay()
-}
-
-_createAnswerNode() {
-    const answerNode = document.createElement("div");
-
-    this._createMediaNode();
-
-    answerNode.appendChild(this.videoNode);
-
-    this.videoNode.ontimeupdate = (event) =>this._onProgress(event);
-    this.videoNode.onerror = (event) => this._onError(event);
-    this.videoNode.onended = () => this._onEnded();
-    this.videoNode.onstalled = () => this._onStalled();
-    this.videoNode.onplay = this._onPlay();
-
-    this.videoCreationTime = new Date().getTime();
-    return answerNode;
-}
-
-releaseUI() {
-    super.releaseUI();
-
-    this.videoPlayDurations.push(this.videoNode.currentTime);
-    this._updateAnswer();
-
-    this.videoNode = null;
-}
-
-_loadMedia() {
-    this._createMediaNode();
-}
-
-_createMediaNode() {
-    if (this.videoNode !== null) {
-        TheFragebogen.logger.debug(this.constructor.name + "()", "audioNode was already created.");
-        return;
+        this.videoPlayDurations = []; // Stores how long the video got watched each time
+        this.videoCreationTime = null; // Point in time when the video gets created
+        this.videoStartTimes = []; // Stores when the video started relative to videoCreationTime
+        this.replayCount = 0; // Counts how often the video got replayed explicitly with replay()
     }
 
-    this.videoNode = document.createElement('video');
-    this.videoNode.oncanplaythrough = () => this._onLoaded();
+    _createAnswerNode() {
+        const answerNode = document.createElement("div");
 
-    for (let i = 0; i < this.url.length; i++) {
-        const videoSource = document.createElement("source");
-        videoSource.src = this.url[i];
-        this.videoNode.appendChild(videoSource);
+        this._createMediaNode();
+
+        answerNode.appendChild(this.videoNode);
+
+        this.videoNode.ontimeupdate = (event) => this._onProgress(event);
+        this.videoNode.onerror = (event) => this._onError(event);
+        this.videoNode.onended = () => this._onEnded();
+        this.videoNode.onstalled = () => this._onStalled();
+        this.videoNode.onplay = this._onPlay();
+
+        this.videoCreationTime = new Date().getTime();
+        return answerNode;
     }
 
-    pTag = document.createElement("p");
-    pTag.innerHTML = "This is a fallback content. Your browser does not support the provided video formats.";
-    this.videoNode.appendChild(pTag);
-}
+    releaseUI() {
+        super.releaseUI();
 
-replay() {
-    this.videoPlayDurations.push(this.videoNode.currentTime);
-    this.replayCount += 1;
-    this._updateAnswer();
+        this.videoPlayDurations.push(this.videoNode.currentTime);
+        this._updateAnswer();
 
-    this.videoNode.pause();
-    this.videoNode.currentTime = 0.0;
-    this.videoNode.play();
-}
-
-_play() {
-    if (this.videoNode === null) {
-        TheFragebogen.logger.warn(this.constructor.name + "()", "Cannot start playback without this.videoNode.");
-        return;
+        this.videoNode = null;
     }
 
-    try {
+    _loadMedia() {
+        this._createMediaNode();
+    }
+
+    _createMediaNode() {
+        if (this.videoNode !== null) {
+            TheFragebogen.logger.debug(this.constructor.name + "()", "audioNode was already created.");
+            return;
+        }
+
+        this.videoNode = document.createElement('video');
+        this.videoNode.oncanplaythrough = () => this._onLoaded();
+
+        for (let i = 0; i < this.url.length; i++) {
+            const videoSource = document.createElement("source");
+            videoSource.src = this.url[i];
+            this.videoNode.appendChild(videoSource);
+        }
+
+        pTag = document.createElement("p");
+        pTag.innerHTML = "This is a fallback content. Your browser does not support the provided video formats.";
+        this.videoNode.appendChild(pTag);
+    }
+
+    replay() {
+        this.videoPlayDurations.push(this.videoNode.currentTime);
+        this.replayCount += 1;
+        this._updateAnswer();
+
+        this.videoNode.pause();
+        this.videoNode.currentTime = 0.0;
         this.videoNode.play();
-    } catch (e) {
-        TheFragebogen.logger.warn(this.constructor.name + "()", "No supported format availble.");
-        this._onError();
     }
-}
 
-_pause() {
-    if (this.videoNode === null) {
-        TheFragebogen.logger.warn(this.constructor.name + "()", "Cannot start playback without this.videoNode.");
-        return;
+    _play() {
+        if (this.videoNode === null) {
+            TheFragebogen.logger.warn(this.constructor.name + "()", "Cannot start playback without this.videoNode.");
+            return;
+        }
+
+        try {
+            this.videoNode.play();
+        } catch (e) {
+            TheFragebogen.logger.warn(this.constructor.name + "()", "No supported format availble.");
+            this._onError();
+        }
     }
-    this.videoNode.pause();
-}
 
-_onProgress() {
-    //Nope
-}
+    _pause() {
+        if (this.videoNode === null) {
+            TheFragebogen.logger.warn(this.constructor.name + "()", "Cannot start playback without this.videoNode.");
+            return;
+        }
+        this.videoNode.pause();
+    }
 
-_onPlay() {
-    this.videoStartTimes.push((new Date().getTime() - this.videoCreationTime) / 1000);
-    this._updateAnswer();
-}
+    _onProgress() {
+        //Nope
+    }
 
-_updateAnswer() {
-    this.answer = [this.url, this.videoNode.duration, this.stallingCount, this.replayCount, this.videoStartTimes, this.videoPlayDurations];
-}
+    _onPlay() {
+        this.videoStartTimes.push((new Date().getTime() - this.videoCreationTime) / 1000);
+        this._updateAnswer();
+    }
+
+    _updateAnswer() {
+        this.answer = [this.url, this.videoNode.duration, this.stallingCount, this.replayCount, this.videoStartTimes, this.videoPlayDurations];
+    }
 }

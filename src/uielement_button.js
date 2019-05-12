@@ -13,64 +13,64 @@ class UIElementButton extends UIElement {
     @param {method} actionCallback Callback function for onclick event
     */
     constructor(className, caption, actionCallback) {
-    super();
+        super();
 
-    this.className = className;
-    this.caption = caption;
-    this.actionCallback = actionCallback;
+        this.className = className;
+        this.caption = caption;
+        this.actionCallback = actionCallback;
 
-    this.node = null;
-    this.button = null;
+        this.node = null;
+        this.button = null;
 
-    TheFragebogen.logger.debug(this.constructor.name + "()", "className as " + this.className + " and caption as " + this.caption);
-}
-
-createUI() {
-    this.node = document.createElement("div");
-    this.node.className = this.className;
-
-    this.button = document.createElement("button");
-    this.button.innerHTML = this.caption;
-    this.button.onclick = () => this._onClick();
-
-    this.node.appendChild(this.button);
-    return this.node;
-}
-
-releaseUI() {
-    this.node = null;
-    this.button = null;
-}
-
-setEnabled(enabled) {
-    this.enabled = enabled;
-    this.button.disabled = !this.enabled;
-}
-
-_onClick() {
-    if (this.actionCallback) {
-        this.actionCallback();
+        TheFragebogen.logger.debug(this.constructor.name + "()", "className as " + this.className + " and caption as " + this.caption);
     }
-}
 
-/**
-Returns the caption
-@returns {array} caption data stored in the index 0 of the array
-*/
-getData() {
-    return [this.caption];
-}
+    createUI() {
+        this.node = document.createElement("div");
+        this.node.className = this.className;
 
-_checkData(data) {
-    return data[0] === this.caption;
-}
+        this.button = document.createElement("button");
+        this.button.innerHTML = this.caption;
+        this.button.onclick = () => this._onClick();
 
-setData(data) {
-    return this._checkData(data);
-}
+        this.node.appendChild(this.button);
+        return this.node;
+    }
 
-setVisible(visible) {
-    this.visible = visible;
-    this.node.hidden = this.visible ? "" : "hidden";
-}
+    releaseUI() {
+        this.node = null;
+        this.button = null;
+    }
+
+    setEnabled(enabled) {
+        this.enabled = enabled;
+        this.button.disabled = !this.enabled;
+    }
+
+    _onClick() {
+        if (this.actionCallback) {
+            this.actionCallback();
+        }
+    }
+
+    /**
+    Returns the caption
+    @returns {array} caption data stored in the index 0 of the array
+    */
+    getData() {
+        return [this.caption];
+    }
+
+    _checkData(data) {
+        return data[0] === this.caption;
+    }
+
+    setData(data) {
+        return this._checkData(data);
+    }
+
+    setVisible(visible) {
+        this.visible = visible;
+        this.node.hidden = this.visible ? "" : "hidden";
+    }
 }

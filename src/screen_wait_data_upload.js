@@ -23,118 +23,118 @@ class ScreenWaitDataUpload extends ScreenWaitData {
     @param {boolean} [nextScreenOnFail=true] Continue to next screen if upload failed.
     */
     constructor(className, url, timeout, message, httpParameterName, failMessage, nextScreenOnFail) {
-    super(className, !isNaN(timeout) ? Math.abs(timeout) : 4, typeof(message) === "string" ? message : "Uploading data. Please wait...");
+        super(className, !isNaN(timeout) ? Math.abs(timeout) : 4, typeof(message) === "string" ? message : "Uploading data. Please wait...");
 
-    this.failMessage = (typeof(failMessage) === "string" ? failMessage : "Upload failed. Data will be downloaded to local computer now.");
-    this.httpParameterName = (typeof(httpParameterName) === "string" ? httpParameterName : "data");
-    this.nextScreenOnFail = (typeof(nextScreenOnFail) === "boolean") ? nextScreenOnFail : true;
+        this.failMessage = (typeof(failMessage) === "string" ? failMessage : "Upload failed. Data will be downloaded to local computer now.");
+        this.httpParameterName = (typeof(httpParameterName) === "string" ? httpParameterName : "data");
+        this.nextScreenOnFail = (typeof(nextScreenOnFail) === "boolean") ? nextScreenOnFail : true;
 
-    this.url = url;
-    this.request = null;
-    this.retryCount = 0;
-    this.data = null;
-    this.retry = 0;
+        this.url = url;
+        this.request = null;
+        this.retryCount = 0;
+        this.data = null;
+        this.retry = 0;
 
-    TheFragebogen.logger.debug(this.constructor.name + "()", "Set: httpParameterName as " + this.httpParameterName);
-}
-
-createUI() {
-    this.node = document.createElement("div");
-
-    const span = document.createElement("span");
-    span.innerHTML = this.html;
-    this.node.appendChild(span);
-
-    if (this.paginateUI != null) {
-        this.paginateUI.setPaginateCallback(() => this._sendPaginateCallback());
-        this.node.appendChild(this.paginateUI.createUI());
+        TheFragebogen.logger.debug(this.constructor.name + "()", "Set: httpParameterName as " + this.httpParameterName);
     }
 
-    return this.node;
-}
+    createUI() {
+        this.node = document.createElement("div");
 
-/**
-On start(), the screenController.requestDataCSV() is called with this.callbackUpload() as callback.
-*/
-start() {
-    this.retryCount = 0;
+        const span = document.createElement("span");
+        span.innerHTML = this.html;
+        this.node.appendChild(span);
 
-    this._sendGetDataCallback();
-    this.callbackUpload(this.data);
-}
-
-/**
-Callback to upload data.
-@param {string} data
-*/
-callbackUpload(data) {
-    TheFragebogen.logger.info(this.constructor.name + ".callbackUpload()", "Starting upload to " + this.url);
-
-    this.retry = null;
-    this.retryCount++;
-    this.data = data;
-
-    this.request = new XMLHttpRequest();
-    this.request.open("POST", this.url, true);
-    this.request.timeout = this.time;
-
-    this.request.ontimeout = () => this._onTimeout();
-    this.request.onload = () => this._onLoad();
-    this.request.onerror = (event) => this._onError(event);
-
-    this.request.send(this.httpParameterName + "=" + data);
-}
-
-/**
-Callback if upload was successful; screen is then ready to continue.
-*/
-_onLoad() {
-    if (this.request.readyState === 4 && this.request.status === 200) {
-        TheFragebogen.logger.info(this.constructor.name + ".callbackUpload()", "Successful.");
-        if (this.request.responseText !== "") {
-            TheFragebogen.logger.info(this.constructor.name + "._onLoad()", this.request.responseText);
+        if (this.paginateUI != null) {
+            this.paginateUI.setPaginateCallback(() => this._sendPaginateCallback());
+            this.node.appendChild(this.paginateUI.createUI());
         }
 
-        this._sendPaginateCallback();
-    } else {
-        TheFragebogen.logger.error(this.constructor.name + "._onLoad()", "Request to " + this.url + " failed with status code " + this.request.status);
-        this.retryCount = 4;
+        return this.node;
+    }
+
+    /**
+    On start(), the screenController.requestDataCSV() is called with this.callbackUpload() as callback.
+    */
+    start() {
+        this.retryCount = 0;
+
+        this._sendGetDataCallback();
+        this.callbackUpload(this.data);
+    }
+
+    /**
+    Callback to upload data.
+    @param {string} data
+    */
+    callbackUpload(data) {
+        TheFragebogen.logger.info(this.constructor.name + ".callbackUpload()", "Starting upload to " + this.url);
+
+        this.retry = null;
+        this.retryCount++;
+        this.data = data;
+
+        this.request = new XMLHttpRequest();
+        this.request.open("POST", this.url, true);
+        this.request.timeout = this.time;
+
+        this.request.ontimeout = () => this._onTimeout();
+        this.request.onload = () => this._onLoad();
+        this.request.onerror = (event) => this._onError(event);
+
+        this.request.send(this.httpParameterName + "=" + data);
+    }
+
+    /**
+    Callback if upload was successful; screen is then ready to continue.
+    */
+    _onLoad() {
+        if (this.request.readyState === 4 && this.request.status === 200) {
+            TheFragebogen.logger.info(this.constructor.name + ".callbackUpload()", "Successful.");
+            if (this.request.responseText !== "") {
+                TheFragebogen.logger.info(this.constructor.name + "._onLoad()", this.request.responseText);
+            }
+
+            this._sendPaginateCallback();
+        } else {
+            TheFragebogen.logger.error(this.constructor.name + "._onLoad()", "Request to " + this.url + " failed with status code " + this.request.status);
+            this.retryCount = 4;
+            this._onError();
+        }
+
+        this.request = null;
+    }
+
+    /**
+    Callback if upload failed and schedules a retry.
+    */
+    _onError(event) {
+        const span = document.createElement("span");
+        span.innerHTML = "" + "Upload failed. Retrying in 5 seconds.";
+        this.node.appendChild(span);
+        this.retry = setTimeout(() => this.callbackUpload(), 5000, this.data);
+
+        TheFragebogen.logger.error(this.constructor.name + ".callbackUpload()", "Upload failed with HTTP code: " + this.request.status + ". Retrying in 5 seconds.");
+    }
+
+    /**
+    Callback if timeout.
+    */
+    _onTimeout() {
+        TheFragebogen.logger.error(this.constructor.name + ".callbackUpload()", "Upload got timeout after " + this.time + "ms.");
         this._onError();
     }
 
-    this.request = null;
-}
+    releaseUI() {
+        super.releaseUI();
 
-/**
-Callback if upload failed and schedules a retry.
-*/
-_onError(event) {
-    const span = document.createElement("span");
-    span.innerHTML = "" + "Upload failed. Retrying in 5 seconds.";
-    this.node.appendChild(span);
-    this.retry = setTimeout(() => this.callbackUpload(), 5000, this.data);
+        if (this.retry !== null) {
+            clearTimeout(this.retry);
+        }
 
-    TheFragebogen.logger.error(this.constructor.name + ".callbackUpload()", "Upload failed with HTTP code: " + this.request.status + ". Retrying in 5 seconds.");
-}
-
-/**
-Callback if timeout.
-*/
-_onTimeout() {
-    TheFragebogen.logger.error(this.constructor.name + ".callbackUpload()", "Upload got timeout after " + this.time + "ms.");
-    this._onError();
-}
-
-releaseUI() {
-    super.releaseUI();
-
-    if (this.retry !== null) {
-        clearTimeout(this.retry);
+        if (this.request instanceof XMLHttpRequest) {
+            this.request.abort();
+        }
+        this.request = null;
     }
-
-    if (this.request instanceof XMLHttpRequest) {
-        this.request.abort();
-    }
-    this.request = null;
-}
 }

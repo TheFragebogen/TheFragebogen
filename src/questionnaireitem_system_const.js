@@ -15,29 +15,29 @@ class QuestionnaireItemSystemConst extends QuestionnaireItemSystem {
     @param {string} answer Second slot for information.
     */
     constructor(question, answer) {
-    super(null, question, false);
-    this.answer = answer;
-}
-
-createUI() {}
-
-releaseUI() {}
-
-getData() {
-    return [this.getQuestion(), this.getAnswer()];
-}
-
-_checkData(data) {
-    return (data[0] === this.question && data[1] === this.answer);
-}
-
-setData(data) {
-    if (!this._checkData(data)) {
-        return false;
+        super(null, question, false);
+        this.answer = answer;
     }
 
-    this.question = data[0];
-    this.setAnswer(data[1]);
-    return true;
-}
+    createUI() {}
+
+    releaseUI() {}
+
+    getData() {
+        return [this.getQuestion(), this.getAnswer()];
+    }
+
+    _checkData(data) {
+        return (data[0] === this.question && data[1] === this.answer);
+    }
+
+    setData(data) {
+        if (!this._checkData(data)) {
+            return false;
+        }
+
+        this.question = data[0];
+        this.setAnswer(data[1]);
+        return true;
+    }
 }

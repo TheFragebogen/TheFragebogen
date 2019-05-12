@@ -18,25 +18,25 @@ class QuestionnaireItemSVGVisualAnalogueScale extends QuestionnaireItemSVG {
     @param {string} [captionLeft] The caption of the right label.
     */
     constructor(className, question, required, captionLeft, captionRight) {
-    super(className, question, required);
+        super(className, question, required);
 
-    this.captionLeft = captionLeft;
-    this.captionRight = captionRight;
-}
+        this.captionLeft = captionLeft;
+        this.captionRight = captionRight;
+    }
 
-_setupSVG() {
-    this.scaleImage.setAttribute("viewBox", "0 2 170 19.39");
-    this.scaleImage.innerHTML = '@@include("../svg_scales/visual_analogue_scale100pt_include.svg")';
+    _setupSVG() {
+        this.scaleImage.setAttribute("viewBox", "0 2 170 19.39");
+        this.scaleImage.innerHTML = '@@include("../svg_scales/visual_analogue_scale100pt_include.svg")';
 
-    this.scaleImage.getElementById("labelLeft").textContent = this.captionLeft;
-    this.scaleImage.getElementById("labelRight").textContent = this.captionRight;
-}
+        this.scaleImage.getElementById("labelLeft").textContent = this.captionLeft;
+        this.scaleImage.getElementById("labelRight").textContent = this.captionRight;
+    }
 
-_getAnswerElements() {
-    return this.scaleImage.getElementsByTagName("ellipse");
-}
+    _getAnswerElements() {
+        return this.scaleImage.getElementsByTagName("ellipse");
+    }
 
-getAnswerOptions(data) {
-    return "10-109";
-}
+    getAnswerOptions(data) {
+        return "10-109";
+    }
 }

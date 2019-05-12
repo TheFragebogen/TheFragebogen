@@ -12,51 +12,51 @@ class UIElementHTML extends UIElement {
     @param {string} html HTML
     */
     constructor(className, html) {
-    super();
+        super();
 
-    this.className = className;
-    this.html = html;
+        this.className = className;
+        this.html = html;
 
-    this.node = null;
+        this.node = null;
 
-    TheFragebogen.logger.debug(this.constructor.name + "()", "className as " + this.className + " and html as " + this.html);
-}
+        TheFragebogen.logger.debug(this.constructor.name + "()", "className as " + this.className + " and html as " + this.html);
+    }
 
-createUI() {
-    this.node = document.createElement("div");
-    this.node.className = this.className;
-    this.node.innerHTML = this.html;
+    createUI() {
+        this.node = document.createElement("div");
+        this.node.className = this.className;
+        this.node.innerHTML = this.html;
 
-    return this.node;
-}
+        return this.node;
+    }
 
-releaseUI() {
-    super.releaseUI();
-    this.node = null;
-}
+    releaseUI() {
+        super.releaseUI();
+        this.node = null;
+    }
 
-setEnabled(enabled) {
-    //NOPE
-}
+    setEnabled(enabled) {
+        //NOPE
+    }
 
-/**
-Returns the HTML
-@returns {array} html data stored in the index 0 of the array
-*/
-getData() {
-    return [this.html];
-}
+    /**
+    Returns the HTML
+    @returns {array} html data stored in the index 0 of the array
+    */
+    getData() {
+        return [this.html];
+    }
 
-_checkData(data) {
-    return data[0] === this.html;
-}
+    _checkData(data) {
+        return data[0] === this.html;
+    }
 
-setData(data) {
-    return this._checkData(data);
-}
+    setData(data) {
+        return this._checkData(data);
+    }
 
-setVisible(visible) {
-    this.visible = visible;
-    this.node.hidden = this.visible ? "" : "hidden";
-}
+    setVisible(visible) {
+        this.visible = visible;
+        this.node.hidden = this.visible ? "" : "hidden";
+    }
 }
