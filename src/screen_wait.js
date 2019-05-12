@@ -13,9 +13,8 @@ class ScreenWait extends Screen {
     @param {string} [html="Please wait..."] The HTML content to be presented.
     */
     constructor(className, time, html) {
-        super();
+        super(className);
 
-        this.className = className;
         this.time = !isNaN(time) ? Math.abs(time) * 1000 : 2;
         this.html = typeof(html) === "string" ? html : "Please wait...";
 
@@ -27,8 +26,8 @@ class ScreenWait extends Screen {
 
     createUI() {
         this.node = document.createElement("div");
-        this.node.className = this.className;
         this.node.innerHTML = this.html;
+        this.applyCSS();
 
         return this.node;
     }

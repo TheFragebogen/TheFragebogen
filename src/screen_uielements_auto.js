@@ -19,7 +19,7 @@ class ScreenUIElementsAuto extends ScreenUIElements {
 
     createUI() {
         this.node = document.createElement("div");
-        this.node.className = this.className;
+        this.applyCSS();
 
         for (let index in this.uiElements) {
             if (!(this.uiElements[index] instanceof UIElement)) {

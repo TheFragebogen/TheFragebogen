@@ -20,9 +20,7 @@ class ScreenUIElements extends Screen {
 
         const localArguments = Array.prototype.slice.call(arguments);
 
-        if (className === undefined || className === null || !(className instanceof String)) {
-            this.className = "";
-        } else {
+        if (className instanceof String) {
             this.className = className;
             localArguments.splice(0, 1);
         }
@@ -52,7 +50,7 @@ class ScreenUIElements extends Screen {
 
     createUI() {
         this.node = document.createElement("div");
-        this.node.className = this.className;
+        this.applyCSS();
 
         for (let index in this.uiElements) {
             if (this.uiElements[index].createUI === undefined) {

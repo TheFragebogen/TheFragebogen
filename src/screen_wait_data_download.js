@@ -16,7 +16,7 @@ class ScreenWaitDataDownload extends ScreenWaitData {
     @param {string} [filename="TheFragebogen.csv"] Name of the file to be downloaded
     */
     constructor(className, message, filename) {
-        super(className === "string" ? className : "", 300, typeof(message) === "string" ? message : "Downloading data");
+        super(className, 300, typeof(message) === "string" ? message : "Downloading data");
 
         this.filename = (typeof(filename) === "string" ? filename : "TheFragebogen.csv");
 
@@ -25,6 +25,7 @@ class ScreenWaitDataDownload extends ScreenWaitData {
 
     createUI() {
         this.node = document.createElement("div");
+        this.applyCSS();
 
         const span = document.createElement("span");
         span.innerHTML = this.html;

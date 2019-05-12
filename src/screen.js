@@ -8,10 +8,16 @@ In TheFragebogen only one screen is shown at a time.
 */
 class Screen {
 
-    constructor() {
+    /**
+    @param {string} [className] CSS class
+    */
+    constructor(className) {
+        this.className = className;
+
         this.paginateCallback = null;
         this.preloadedCallback = null;
         this.preloaded = true;
+
         this.node = null;
     }
 
@@ -27,6 +33,16 @@ class Screen {
     @abstract
     */
     createUI() {}
+
+    /**
+    Applies the set className.
+    Usually called during createUI().
+    */
+    applyCSS() {
+        if (this.isUIcreated() && this.className !== undefined) {
+            this.node.className = this.className;
+        }
+    }
 
     /**
     (optional) Inform the screen its UI gets shown.

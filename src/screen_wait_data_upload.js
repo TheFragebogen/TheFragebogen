@@ -40,6 +40,7 @@ class ScreenWaitDataUpload extends ScreenWaitData {
 
     createUI() {
         this.node = document.createElement("div");
+        this.applyCSS();
 
         const span = document.createElement("span");
         span.innerHTML = this.html;

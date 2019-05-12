@@ -19,9 +19,7 @@ class ScreenIFrame extends Screen {
     @param {number} [urlChangesToReady] Number of URL changes until ready is reported.
     */
     constructor(className, url, urlChangesToReady) {
-        super();
-
-        this.className = className;
+        super(className);
 
         this.startTime = null;
         this.duration = null;
@@ -38,7 +36,8 @@ class ScreenIFrame extends Screen {
     createUI() {
         this.urlChanges = -1; //Ignore the first load
         this.node = document.createElement("iframe");
-        this.node.className = this.className;
+        this.applyCSS();
+
         this.node.src = this.urlStart;
 
         this.node.addEventListener("load", event => this._onFrameLoad(event));

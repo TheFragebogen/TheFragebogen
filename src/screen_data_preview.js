@@ -15,7 +15,7 @@ class ScreenDataPreview extends Screen {
     @param {string} [className] CSS class
     */
     constructor(className) {
-        super();
+        super(className);
 
         this.data = null;
         this.className = className;
@@ -43,7 +43,7 @@ class ScreenDataPreview extends Screen {
 
         this.node = document.createElement("div");
         this.node.innerHTML = "<h1>Data Preview</h1>";
-        this.node.className = this.className;
+        this.applyCSS();
 
         const tblBody = document.createElement("tbody");
         for (let i = 0; i < this.data.length; i++) {
