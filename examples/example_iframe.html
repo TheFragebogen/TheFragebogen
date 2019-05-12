@@ -7,6 +7,19 @@
         <link rel="stylesheet" type="text/css" href="example.css">
 
         <style>
+        html {
+            height: 100%;
+        }
+
+        body {
+            min-height: 80%;
+        }
+
+        .iframe {
+            width: 80%;
+            height: 30em;
+        }
+
         .Required {
             outline: none;
             border-color: red;
@@ -59,7 +72,7 @@
         screens.push(screen1);
 
         //This screen another webpage using an iframe.
-        var screen2 = new ScreenIFrame(undefined, "http://www.TheFragebogen.de", 1);
+        var screen2 = new ScreenIFrame("iframe", "http://www.TheFragebogen.de", 1);
         screens.push(screen2);
 
         var screen2 = new ScreenUIElements(
