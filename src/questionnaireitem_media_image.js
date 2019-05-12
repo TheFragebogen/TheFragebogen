@@ -14,14 +14,12 @@ class QuestionnaireItemMediaImage extends QuestionnaireItemMedia {
     @param {string} [className] CSS class
     @param {string} [question]
     @param {boolean} [required=false]
-    @param {string} url The URL of the media element to be loaded; if supported by the browser also data URI.
+    @param {string|array<string>} url The URL of the media element to be loaded; if supported by the browser also data URI.
     @param {boolean} required Element must report ready before continue.
     @param {boolean} [readyOnError=true] Sets ready=true if an error occures.
     */
     constructor(className, question, required, url, readyOnError) {
         super(className, question, required, url, readyOnError);
-
-        TheFragebogen.logger.debug("QuestionnaireItemMediaImage()", "Set: className as " + this.className + ", height as " + this.height + ", width as " + this.width);
 
         if (this.url.length != 1) {
             TheFragebogen.logger.warn("QuestionnaireItemMediaImage()", "called with multiple resources as url. Falling back to the first element in the array.");

@@ -21,14 +21,12 @@ class QuestionnaireItemMediaVideo extends QuestionnaireItemMedia {
     @param {string} [className] CSS class
     @param {string} [question]
     @param {boolean} [required=false]
-    @param {string} url The URL of the media element to be loaded; if supported by the browser also data URI.
+    @param {string|array<string>} url The URL of the media element to be loaded; if supported by the browser also data URI.
     @param {boolean} required Element must report ready before continue.
     @param {boolean} [readyOnError=true] Sets ready=true if an error occures.
     */
     constructor(className, question, required, url, readyOnError) {
         super(className, question, required, url, readyOnError);
-
-        TheFragebogen.logger.debug(this.constructor.name + "()", "Set: className as " + this.className + ", urls as " + this.height + ", width as " + this.width);
 
         this.videoNode = null;
 
