@@ -76,21 +76,4 @@ class QuestionnaireItemDate extends QuestionnaireItem {
 
         this.input = null;
     }
-
-    getData() {
-        return [this.getQuestion(), this.pattern, this.getAnswer()];
-    }
-
-    _checkData(data) {
-        return (data[0] === this.question) && (data[1] === this.pattern);
-    }
-
-    setData(data) {
-        if (!this._checkData(data)) {
-            return false;
-        }
-
-        this.setAnswer(data[2]);
-        return true;
-    }
 }

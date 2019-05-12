@@ -58,33 +58,7 @@ class QuestionnaireItemSystemFocus extends QuestionnaireItemSystem {
         }
     }
 
-    getData() {
-        return [this.getQuestion(), this.getAnswer()];
-    }
-
     isReady() {
-        return true;
-    }
-
-    _checkData(data) {
-        if (!Array.isArray(data)) {
-            return false;
-        }
-
-        for (let i = 0; i < data.length; i++) {
-            if (!Array.isArray(data[i]) || typeof data[i][0] !== "boolean" || !Number.isInteger(data[i][1])) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    setData(data) {
-        if (!this._checkData(data)) {
-            return false;
-        }
-
-        this.setAnswer(data);
         return true;
     }
 }

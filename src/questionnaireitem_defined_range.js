@@ -79,21 +79,4 @@ class QuestionnaireItemDefinedRange extends QuestionnaireItemDefined {
 
         this.input = null;
     }
-
-    getData() {
-        return [this.getQuestion(), [this.min, this.max], this.getAnswer()];
-    }
-
-    _checkData(data) {
-        return (data[0] === this.question) && (data[1][0] === this.min) && (data[1][1] === this.max);
-    }
-
-    setData(data) {
-        if (!this._checkData(data)) {
-            return false;
-        }
-
-        this.setAnswer(data[2]);
-        return true;
-    }
 }

@@ -53,22 +53,6 @@ class UIElementButton extends UIElement {
         }
     }
 
-    /**
-    Returns the caption
-    @returns {array} caption data stored in the index 0 of the array
-    */
-    getData() {
-        return [this.caption];
-    }
-
-    _checkData(data) {
-        return data[0] === this.caption;
-    }
-
-    setData(data) {
-        return this._checkData(data);
-    }
-
     setVisible(visible) {
         this.visible = visible;
         this.node.hidden = this.visible ? "" : "hidden";

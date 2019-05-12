@@ -138,7 +138,7 @@ class QuestionnaireItemMedia extends QuestionnaireItem {
         TheFragebogen.logger.info(this.constructor.name + "._onended", "Playback finished.");
 
         this.wasSuccessfullyPlayed = true;
-        this.setAnswer(this.getData());
+        this._updateAnswer();
 
         this._sendReadyStateChanged();
         this.markRequired();
@@ -148,19 +148,10 @@ class QuestionnaireItemMedia extends QuestionnaireItem {
         this.answer = answer;
     }
 
-    getData() {
-        return [this.url, this.time];
-    }
-
-    _checkData(data) {
-        return (data[0] === this.getURL()) && (data[1] === this.getStallingCount());
-    }
-
-    setData(data) {
-        return this._checkData(data);
-    }
-
+    /**
+    Overwrite this method to add additional data to be reported.
+    */
     _updateAnswer() {
-        TheFragebogen.logger.debug(this.constructor.name + "._updateAnswer()", "This method must be overridden if progress reporting is desired.");
+        this.answer = [this.url, this.time];
     }
 }

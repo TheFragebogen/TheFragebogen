@@ -40,20 +40,4 @@ class QuestionnaireItemSystemWait extends QuestionnaireItemSystem {
             this.timeoutHandle = null;
         }
     }
-
-    getData() {
-        return [this.waitTime];
-    }
-
-    _checkData(data) {
-        return (data[0] === this.waitTime);
-    }
-
-    setData(data) {
-        if (!this._checkData(data)) {
-            return false;
-        }
-
-        return true;
-    }
 }

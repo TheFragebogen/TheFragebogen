@@ -41,34 +41,6 @@ class UIElement {
     }
 
     /**
-    Returns data stored by the object.
-    @abstract
-    @return {object}
-    */
-    getData() {
-        TheFragebogen.logger.debug(this.constructor.name + ".getData()", "This method might need to be overridden.");
-    }
-
-    /**
-    Evaluates if the newData is valid for this object.
-    @abstract
-    @param {} [newData]
-    */
-    _checkData(newData) {
-        TheFragebogen.logger.debug(this.constructor.name + "._checkData()", "This method might need to be overridden.");
-    }
-
-    /**
-    Sets the provided data.
-    A check using `_checkData(newData)` must be conducted.
-    @abstract
-    @param {} [newData]
-    */
-    setData() {
-        TheFragebogen.logger.debug(this.constructor.name + ".setData()", "This method might need to be overridden.");
-    }
-
-    /**
     @abstract
     @return {boolean} Is the UI of this element enabled?
     */

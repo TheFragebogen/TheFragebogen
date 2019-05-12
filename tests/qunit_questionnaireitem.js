@@ -54,7 +54,7 @@ QUnit.test("UIElements: lifecycle", function(assert) {
 
 /**
 Testing of QuestionnaireItems: answers, data, required, and setPaginateCallback.
-Checks: isRequired(), isReady(),setAnswer(), getAnswer(), releaseUI(), getData(), setData().
+Checks: isRequired(), isReady(),setAnswer(), getAnswer(), releaseUI().
 */
 QUnit.test("QuestionnaireItems: Answers, getData and required", function(assert) {
     function test(element, answer) {
@@ -77,16 +77,6 @@ QUnit.test("QuestionnaireItems: Answers, getData and required", function(assert)
         element.setAnswer(answer);
         element.releaseUI();
         assert.ok(element.getAnswer() == answer, element.constructor.name + ": checking getAnswer() after releaseUI().");
-
-        assert.ok(element.getData() instanceof Array, element.constructor.name + ": getData() returns an array.");
-        assert.ok(element.getData()[0] === "Hallo", element.constructor.name + ": getData()[0] contains the question.");
-
-        var data = element.getData();
-        element.setAnswer(null);
-        element.setData(data);
-        assert.ok(element.getAnswer() == answer, element.constructor.name + ": getData() restores answer correctly.");
-
-        assert.ok(JSON.stringify(element.getData()) === JSON.stringify(data), element.constructor.name + ": getData() returns the same results after setData().");
     }
 
     test(new QuestionnaireItemDate("testCSS", "Hallo", true));

@@ -180,23 +180,6 @@ class QuestionnaireItemSVG extends QuestionnaireItem {
         this.crossImage = null;
     }
 
-    getData() {
-        return [this.getQuestion(), this.getAnswer()];
-    }
-
-    _checkData(data) {
-        return data[0] === this.question;
-    }
-
-    setData(data) {
-        if (!this._checkData(data)) {
-            return false;
-        }
-
-        this.setAnswer(data[1]);
-        return true;
-    }
-
     getAnswerOptions() {
         TheFragebogen.logger.warn(this.constructor.name + ".getAnswerOptions()", "Should be overriden.");
     }

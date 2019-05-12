@@ -87,21 +87,4 @@ class QuestionnaireItemDefinedSelector extends QuestionnaireItemDefined {
         this.input = [];
         this.select = null;
     }
-
-    getData() {
-        return [this.getQuestion(), this.optionList, this.getAnswer()];
-    }
-
-    _checkData(data) {
-        return (data[0] === this.question) && (JSON.stringify(data[1]) === JSON.stringify(this.optionList));
-    }
-
-    setData(data) {
-        if (!this._checkData(data)) {
-            return false;
-        }
-
-        this.setAnswer(data[2]);
-        return true;
-    }
 }

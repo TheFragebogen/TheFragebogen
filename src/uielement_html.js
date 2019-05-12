@@ -39,22 +39,6 @@ class UIElementHTML extends UIElement {
         //NOPE
     }
 
-    /**
-    Returns the HTML
-    @returns {array} html data stored in the index 0 of the array
-    */
-    getData() {
-        return [this.html];
-    }
-
-    _checkData(data) {
-        return data[0] === this.html;
-    }
-
-    setData(data) {
-        return this._checkData(data);
-    }
-
     setVisible(visible) {
         this.visible = visible;
         this.node.hidden = this.visible ? "" : "hidden";

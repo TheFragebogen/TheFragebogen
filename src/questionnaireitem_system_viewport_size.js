@@ -25,8 +25,4 @@ class QuestionnaireItemSystemViewportSize extends QuestionnaireItemSystem {
     }
 
     releaseUI() {}
-
-    getData() {
-        return [this.getQuestion(), this.getAnswer()];
-    }
 }
