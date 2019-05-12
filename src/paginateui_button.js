@@ -48,7 +48,7 @@ Implements a button to continue to the following `Screen`.
              const buttonBack = document.createElement("input");
              buttonBack.type = "button";
              buttonBack.value = this.labelBack;
-             buttonBack.onclick = () => this._sendPaginateCallback(this.relativeIdBack);
+             buttonBack.addEventListener("click", () => this._sendPaginateCallback(this.relativeIdBack));
              this.node.appendChild(buttonBack);
          }
 
@@ -56,7 +56,7 @@ Implements a button to continue to the following `Screen`.
              const buttonNext = document.createElement("input");
              buttonNext.type = "button";
              buttonNext.value = this.labelNext;
-             buttonNext.onclick = () => this._sendPaginateCallback(this.relativeIdNext);
+             buttonNext.addEventListener("click", () => this._sendPaginateCallback(this.relativeIdNext));
              this.node.appendChild(buttonNext);
          }
          return this.node;

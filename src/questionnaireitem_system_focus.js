@@ -20,16 +20,16 @@ class QuestionnaireItemSystemFocus extends QuestionnaireItemSystem {
         this.answer = [];
         this.timeOfLastFocusEvent = null;
         this.inFocus = null;
+
+        this.onLostFocus = () => this._onLostFocus();
+        this.onGainedFocus = () => this._onGainedFocus();
     }
 
     createUI() {
         this.timeOfLastFocusEvent = new Date().getTime();
         this.inFocus = null; // Current state of the focus is unknown
 
-        this.onLostFocus = () => this._onLostFocus();
         window.addEventListener("blur", this.onLostFocus, false);
-
-        this.onGainedFocus = () => this._onGainedFocus();
         window.addEventListener("focus", this.onGainedFocus, false);
     }
 

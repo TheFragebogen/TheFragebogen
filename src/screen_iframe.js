@@ -41,7 +41,7 @@ class ScreenIFrame extends Screen {
         this.node.className = this.className;
         this.node.src = this.urlStart;
 
-        this.node.onload = event => this._onFrameLoad(event);
+        this.node.addEventListener("load", event => this._onFrameLoad(event));
 
         return this.node;
     }

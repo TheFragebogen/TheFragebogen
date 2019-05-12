@@ -73,14 +73,14 @@ class QuestionnaireItemWrite extends QuestionnaireItem {
             TheFragebogen.logger.debug(this.constructor.name + "_createAnswerNode()", "Already answered; restoring image.");
 
             const img = new Image();
-            img.onload = () => this.context.drawImage(img, 0, 0);
+            img.addEventListener("load", () => this.context.drawImage(img, 0, 0));
             img.src = this.answer;
         }
 
-        canvas.onmousedown = (event) => this.onWritingStart(event);
-        canvas.onmousemove = (event) => this.onWriting(event);
-        canvas.onmouseup = () => this.onWritingStop();
-        canvas.onmouseout = () => this.onWritingStop();
+        canvas.addEventListener("mousedown", (event) => this.onWritingStart(event));
+        canvas.addEventListener("mousemove", (event) => this.onWriting(event));
+        canvas.addEventListener("mouseup", () => this.onWritingStop());
+        canvas.addEventListener("mouseout", () => this.onWritingStop());
 
         //BEGIN: EXPERIMENTAL
         //This uses allows us to be HDPI conform!

@@ -57,7 +57,7 @@ class QuestionnaireItemMediaImage extends QuestionnaireItemMedia {
         }
 
         this.imageNode = new Image();
-        this.imageNode.onload = () => this._onLoaded();
+        this.imageNode.addEventListener("load", () => this._onLoaded());
         this.imageNode.src = this.url[0];
     }
 }

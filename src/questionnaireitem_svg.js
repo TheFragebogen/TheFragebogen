@@ -82,7 +82,7 @@ class QuestionnaireItemSVG extends QuestionnaireItem {
             }
 
             this.answerMap[answerElements[i].id] = answerElements[i];
-            answerElements[i].onclick = (event) => this._handleChange(event);
+            answerElements[i].addEventListener("click", (event) => this._handleChange(event));
         }
 
         if (this.answer !== null) {

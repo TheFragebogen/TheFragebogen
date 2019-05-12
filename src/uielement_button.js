@@ -31,7 +31,7 @@ class UIElementButton extends UIElement {
 
         this.button = document.createElement("button");
         this.button.innerHTML = this.caption;
-        this.button.onclick = () => this._onClick();
+        this.button.addEventListener("click", () => this._onClick());
 
         this.node.appendChild(this.button);
         return this.node;

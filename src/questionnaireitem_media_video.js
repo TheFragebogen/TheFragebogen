@@ -45,11 +45,11 @@ class QuestionnaireItemMediaVideo extends QuestionnaireItemMedia {
 
         answerNode.appendChild(this.videoNode);
 
-        this.videoNode.ontimeupdate = (event) => this._onProgress(event);
-        this.videoNode.onerror = (event) => this._onError(event);
-        this.videoNode.onended = () => this._onEnded();
-        this.videoNode.onstalled = () => this._onStalled();
-        this.videoNode.onplay = this._onPlay();
+        this.videoNode.addEventListener("timeupdate", (event) => this._onProgress(event));
+        this.videoNode.addEventListener("error", (event) => this._onError(event));
+        this.videoNode.addEventListener("ended", () => this._onEnded());
+        this.videoNode.addEventListener("stalled", () => this._onStalled());
+        this.videoNode.addEventListener("play", this._onPlay());
 
         this.videoCreationTime = new Date().getTime();
         return answerNode;
@@ -75,7 +75,7 @@ class QuestionnaireItemMediaVideo extends QuestionnaireItemMedia {
         }
 
         this.videoNode = document.createElement('video');
-        this.videoNode.oncanplaythrough = () => this._onLoaded();
+        this.videoNode.addEventListener("canplaythrough", () => this._onLoaded());
 
         for (let i = 0; i < this.url.length; i++) {
             const videoSource = document.createElement("source");

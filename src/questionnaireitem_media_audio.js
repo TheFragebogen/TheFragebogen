@@ -49,11 +49,11 @@ class QuestionnaireItemMediaAudio extends QuestionnaireItemMedia {
 
         answerNode.appendChild(this.audioNode);
 
-        this.audioNode.ontimeupdate = (event) => this._onProgress(event);
-        this.audioNode.onerror = (event) => this._onError(event);
-        this.audioNode.onended = () => this._onEnded();
-        this.audioNode.onstalled = () => this._onStalled();
-        this.audioNode.onplay = () => this._onPlay();
+        this.audioNode.addEventListener("timeupdate", (event) => this._onProgress(event));
+        this.audioNode.addEventListener("error", (event) => this._onError(event));
+        this.audioNode.addEventListener("ended", () => this._onEnded());
+        this.audioNode.addEventListener("stalled", () => this._onStalled());
+        this.audioNode.addEventListener("play", () => this._onPlay());
 
         this.audioCreationTime = new Date().getTime();
         return answerNode;
@@ -80,7 +80,7 @@ class QuestionnaireItemMediaAudio extends QuestionnaireItemMedia {
         }
 
         this.audioNode = new Audio();
-        this.audioNode.oncanplaythrough = () => this._onLoaded();
+        this.audioNode.addEventListener("canplaythrough", () => this._onLoaded());
 
         for (let i = 0; i < this.url.length; i++) {
             const audioSource = document.createElement("source");

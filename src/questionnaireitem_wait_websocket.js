@@ -81,10 +81,10 @@ class QuestionnaireItemWaitWebsocket extends QuestionnaireItem {
 
             this.node.className = this.className + "Connecting";
 
-            this.websocketConnection.onopen = () => this._onConnected();
-            this.websocketConnection.onmessage = (event) => this._onMessage(event);
-            this.websocketConnection.onerror = (event) => this._onWebsocketError(event);
-            this.websocketConnection.onclose = (event) => this._onWebsocketClose(event);
+            this.websocketConnection.addEventListener("open", () => this._onConnected());
+            this.websocketConnection.addEventListener("message", (event) => this._onMessage(event));
+            this.websocketConnection.addEventListener("error", (event) => this._onWebsocketError(event));
+            this.websocketConnection.addEventListener("close", (event) => this._onWebsocketClose(event));
         }
     }
 
