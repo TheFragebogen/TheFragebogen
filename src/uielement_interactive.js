@@ -6,8 +6,12 @@ A UIElement that has an interactive UI and thus might not be ready in the beginn
 @augments UIElement
 */
 class UIElementInteractive extends UIElement {
-    constructor() {
-        super();
+
+    /**
+    @param {string} [className] CSS class
+    */
+    constructor(className) {
+        super(className);
         this.enabled = false;
         this.onReadyStateChanged = null;
     }

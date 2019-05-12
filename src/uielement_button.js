@@ -13,13 +13,11 @@ class UIElementButton extends UIElement {
     @param {method} actionCallback Callback function for onclick event
     */
     constructor(className, caption, actionCallback) {
-        super();
+        super(className);
 
-        this.className = className;
         this.caption = caption;
         this.actionCallback = actionCallback;
 
-        this.node = null;
         this.button = null;
 
         TheFragebogen.logger.debug(this.constructor.name + "()", "className as " + this.className + " and caption as " + this.caption);
@@ -27,7 +25,7 @@ class UIElementButton extends UIElement {
 
     createUI() {
         this.node = document.createElement("div");
-        this.node.className = this.className;
+        this.applyCSS();
 
         this.button = document.createElement("button");
         this.button.innerHTML = this.caption;

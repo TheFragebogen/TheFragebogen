@@ -20,9 +20,7 @@ class UIElementInteractiveDelayedImageSelectable extends UIElementInteractive {
     @param {int} [readyMode=0] 0: immediately, 1: selected, 2: not selected, 3: ready on delayed load, 4: case 1 & 3; 5: case 2 & 3
     */
     constructor(className, loadAnimationURL, imageURL, imageCaption, imageDelay, readyMode) {
-        super();
-
-        this.className = className;
+        super(className);
 
         this.loadAnimationURL = loadAnimationURL;
         this.imageURL = imageURL;
@@ -38,7 +36,7 @@ class UIElementInteractiveDelayedImageSelectable extends UIElementInteractive {
 
     createUI() {
         this.node = document.createElement("span");
-        this.node.className = this.className;
+        this.applyCSS();
 
         this.checkbox = document.createElement("input");
         this.checkbox.type = "checkbox";

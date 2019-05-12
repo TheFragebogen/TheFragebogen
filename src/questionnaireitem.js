@@ -19,11 +19,8 @@ class QuestionnaireItem extends UIElementInteractive {
     @param {boolean} [required=false] Is this QuestionnaireItem required to be answered?
     */
     constructor(className, question, required) {
-        super();
+        super(className);
 
-        this.node = null;
-
-        this.className = className;
         this.question = question;
         this.required = required;
         this.answer = null;
@@ -122,7 +119,7 @@ class QuestionnaireItem extends UIElementInteractive {
         this.uiCreated = true;
 
         this.node = document.createElement("div");
-        this.node.className = this.className;
+        this.applyCSS();
 
         this.node.appendChild(this._createQuestionNode());
         this.node.appendChild(this._createAnswerNode());
@@ -163,7 +160,7 @@ class QuestionnaireItem extends UIElementInteractive {
             return;
         }
 
-        const classNameRequired = this.className + "Required";
+        const classNameRequired = (this.className !== undefined ? this.className : "") + "Required";
         if (!this.isReady()) {
             this.node.classList.add(classNameRequired);
         } else {

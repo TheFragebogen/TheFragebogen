@@ -7,13 +7,19 @@ Only provides a set of API that must be implemented by childs.
 */
 class UIElement {
 
-    constructor() {
+    /**
+    @param {string} [className] CSS class
+    */
+    constructor(className) {
+        this.className = className;
+
         this.uiCreated = false;
         this.enabled = false;
         this.visible = true;
         this.preloaded = true;
 
         this.preloadedCallback = null;
+        this.node = null;
     }
 
     /**
@@ -30,6 +36,16 @@ class UIElement {
     */
     createUI() {
         TheFragebogen.logger.debug(this.constructor.name + ".createUI()", "This method must be overridden.");
+    }
+
+    /**
+    Applies the set className.
+    Usually called during createUI().
+    */
+    applyCSS() {
+        if (this.isUIcreated() && this.className !== undefined) {
+            this.node.className = this.className;
+        }
     }
 
     /**

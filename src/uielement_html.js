@@ -12,20 +12,17 @@ class UIElementHTML extends UIElement {
     @param {string} html HTML
     */
     constructor(className, html) {
-        super();
+        super(className);
 
-        this.className = className;
         this.html = html;
-
-        this.node = null;
 
         TheFragebogen.logger.debug(this.constructor.name + "()", "className as " + this.className + " and html as " + this.html);
     }
 
     createUI() {
         this.node = document.createElement("div");
-        this.node.className = this.className;
         this.node.innerHTML = this.html;
+        this.applyCSS();
 
         return this.node;
     }
