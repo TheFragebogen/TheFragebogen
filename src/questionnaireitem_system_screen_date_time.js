@@ -11,27 +11,27 @@ The answer is the time and date when the function createUI() is called.
 class QuestionnaireItemSystemScreenDateTime extends QuestionnaireItemSystem {
 
     constructor() {
-    super(null, "DateTime", false);
-}
-
-createUI() {
-    this.answer = new Date().toString();
-}
-
-getData() {
-    return [this.getQuestion(), this.getAnswer()];
-}
-
-_checkData(data) {
-    return (data[0] === this.question);
-}
-
-setData(data) {
-    if (!this._checkData(data)) {
-        return false;
+        super(null, "DateTime", false);
     }
 
-    this.setAnswer(data[1]);
-    return true;
-}
+    createUI() {
+        this.answer = new Date().toString();
+    }
+
+    getData() {
+        return [this.getQuestion(), this.getAnswer()];
+    }
+
+    _checkData(data) {
+        return (data[0] === this.question);
+    }
+
+    setData(data) {
+        if (!this._checkData(data)) {
+            return false;
+        }
+
+        this.setAnswer(data[1]);
+        return true;
+    }
 }

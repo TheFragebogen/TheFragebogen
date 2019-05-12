@@ -26,116 +26,116 @@ class QuestionnaireItemMediaAudio extends QuestionnaireItemMedia {
     @param {boolean} [readyOnError=true] Sets ready=true if an error occures.
     */
     constructor(className, question, required, url, readyOnError) {
-    super(className, question, required, url, readyOnError);
+        super(className, question, required, url, readyOnError);
 
-    TheFragebogen.logger.debug(this.constructor.name + "()", "Set: className as " + this.className + ", urls as " + this.height + ", width as " + this.width);
+        TheFragebogen.logger.debug(this.constructor.name + "()", "Set: className as " + this.className + ", urls as " + this.height + ", width as " + this.width);
 
-    this.audioNode = null;
-    this.progressbar = null;
+        this.audioNode = null;
+        this.progressbar = null;
 
-    this.audioPlayDurations = []; // Stores how long the audio got listend to each time
-    this.audioCreationTime = null; // Point in time when the audio gets created
-    this.audioStartTimes = []; // Stores when the audio started relative to audioCreationTime
-    this.replayCount = 0; // Counts how often the audio got replayed explicitly with replay()
-}
-
-_createAnswerNode() {
-    const answerNode = document.createElement("div");
-
-    this._createMediaNode();
-
-    this.progressbar = document.createElement("progress");
-    answerNode.appendChild(this.progressbar);
-
-    answerNode.appendChild(this.audioNode);
-
-    this.audioNode.ontimeupdate = (event) => this._onProgress(event);
-    this.audioNode.onerror = (event) => this._onError(event);
-    this.audioNode.onended = () => this._onEnded();
-    this.audioNode.onstalled = () => this._onStalled();
-    this.audioNode.onplay = () => this._onPlay();
-
-    this.audioCreationTime = new Date().getTime();
-    return answerNode;
-}
-
-releaseUI() {
-    super.releaseUI();
-
-    this.audioPlayDurations.push(this.audioNode.currentTime);
-    this._updateAnswer();
-
-    this.audioNode = null;
-    this.progressbar = null;
-}
-
-_loadMedia() {
-    this._createMediaNode();
-}
-
-_createMediaNode() {
-    if (this.audioNode !== null) {
-        TheFragebogen.logger.debug(this.constructor.name + "()", "audioNode was already created.");
-        return;
+        this.audioPlayDurations = []; // Stores how long the audio got listend to each time
+        this.audioCreationTime = null; // Point in time when the audio gets created
+        this.audioStartTimes = []; // Stores when the audio started relative to audioCreationTime
+        this.replayCount = 0; // Counts how often the audio got replayed explicitly with replay()
     }
 
-    this.audioNode = new Audio();
-    this.audioNode.oncanplaythrough = () => this._onLoaded();
+    _createAnswerNode() {
+        const answerNode = document.createElement("div");
 
-    for (let i = 0; i < this.url.length; i++) {
-        const audioSource = document.createElement("source");
-        audioSource.src = this.url[i];
-        this.audioNode.appendChild(audioSource);
+        this._createMediaNode();
+
+        this.progressbar = document.createElement("progress");
+        answerNode.appendChild(this.progressbar);
+
+        answerNode.appendChild(this.audioNode);
+
+        this.audioNode.ontimeupdate = (event) => this._onProgress(event);
+        this.audioNode.onerror = (event) => this._onError(event);
+        this.audioNode.onended = () => this._onEnded();
+        this.audioNode.onstalled = () => this._onStalled();
+        this.audioNode.onplay = () => this._onPlay();
+
+        this.audioCreationTime = new Date().getTime();
+        return answerNode;
     }
 
-    pTag = document.createElement("p");
-    pTag.innerHTML = "This is a fallback content. Your browser does not support the provided audio formats.";
-    this.audioNode.appendChild(pTag);
-}
+    releaseUI() {
+        super.releaseUI();
 
-replay() {
-    this.audioPlayDurations.push(this.audioNode.currentTime);
-    this.replayCount += 1;
-    this._updateAnswer();
+        this.audioPlayDurations.push(this.audioNode.currentTime);
+        this._updateAnswer();
 
-    this.audioNode.pause();
-    this.audioNode.currentTime = 0.0;
-    this.audioNode.play();
-}
-
-_play() {
-    if (this.audioNode === null) {
-        TheFragebogen.logger.warn(this.constructor.name + "()", "Cannot start playback without this.audioNode.");
-        return;
+        this.audioNode = null;
+        this.progressbar = null;
     }
-    try {
+
+    _loadMedia() {
+        this._createMediaNode();
+    }
+
+    _createMediaNode() {
+        if (this.audioNode !== null) {
+            TheFragebogen.logger.debug(this.constructor.name + "()", "audioNode was already created.");
+            return;
+        }
+
+        this.audioNode = new Audio();
+        this.audioNode.oncanplaythrough = () => this._onLoaded();
+
+        for (let i = 0; i < this.url.length; i++) {
+            const audioSource = document.createElement("source");
+            audioSource.src = this.url[i];
+            this.audioNode.appendChild(audioSource);
+        }
+
+        pTag = document.createElement("p");
+        pTag.innerHTML = "This is a fallback content. Your browser does not support the provided audio formats.";
+        this.audioNode.appendChild(pTag);
+    }
+
+    replay() {
+        this.audioPlayDurations.push(this.audioNode.currentTime);
+        this.replayCount += 1;
+        this._updateAnswer();
+
+        this.audioNode.pause();
+        this.audioNode.currentTime = 0.0;
         this.audioNode.play();
-    } catch (e) {
-        TheFragebogen.logger.warn(this.constructor.name + "()", "No supported format available.");
-        this._onError();
     }
-}
 
-_pause() {
-    if (this.audioNode === null) {
-        TheFragebogen.logger.warn(this.constructor.name + "()", "Cannot start playback without this.audioNode.");
-        return;
+    _play() {
+        if (this.audioNode === null) {
+            TheFragebogen.logger.warn(this.constructor.name + "()", "Cannot start playback without this.audioNode.");
+            return;
+        }
+        try {
+            this.audioNode.play();
+        } catch (e) {
+            TheFragebogen.logger.warn(this.constructor.name + "()", "No supported format available.");
+            this._onError();
+        }
     }
-    this.audioNode.pause();
-}
 
-_onProgress() {
-    if (this.progressbar && !isNaN(this.audioNode.duration)) {
-        this.progressbar.value = (this.audioNode.currentTime / this.audioNode.duration);
+    _pause() {
+        if (this.audioNode === null) {
+            TheFragebogen.logger.warn(this.constructor.name + "()", "Cannot start playback without this.audioNode.");
+            return;
+        }
+        this.audioNode.pause();
     }
-}
 
-_onPlay() {
-    this.audioStartTimes.push((new Date().getTime() - this.audioCreationTime) / 1000);
-    this._updateAnswer();
-}
+    _onProgress() {
+        if (this.progressbar && !isNaN(this.audioNode.duration)) {
+            this.progressbar.value = (this.audioNode.currentTime / this.audioNode.duration);
+        }
+    }
 
-_updateAnswer() {
-    this.answer = [this.url, this.audioNode.duration, this.stallingCount, this.replayCount, this.audioStartTimes, this.audioPlayDurations];
-}
+    _onPlay() {
+        this.audioStartTimes.push((new Date().getTime() - this.audioCreationTime) / 1000);
+        this._updateAnswer();
+    }
+
+    _updateAnswer() {
+        this.answer = [this.url, this.audioNode.duration, this.stallingCount, this.replayCount, this.audioStartTimes, this.audioPlayDurations];
+    }
 }

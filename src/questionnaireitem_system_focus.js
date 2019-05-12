@@ -15,76 +15,76 @@ All event listeners are attached as non-capturing.
 class QuestionnaireItemSystemFocus extends QuestionnaireItemSystem {
 
     constructor() {
-    QuestionnaireItemSystem.call(this, null, "Focus", false);
+        QuestionnaireItemSystem.call(this, null, "Focus", false);
 
-    this.answer = [];
-    this.timeOfLastFocusEvent = null;
-    this.inFocus = null;
-}
+        this.answer = [];
+        this.timeOfLastFocusEvent = null;
+        this.inFocus = null;
+    }
 
-createUI() {
-    this.timeOfLastFocusEvent = new Date().getTime();
-    this.inFocus = null; // Current state of the focus is unknown
-
-    this.onLostFocus = () => this._onLostFocus();
-    window.addEventListener("blur", this.onLostFocus, false);
-
-    this.onGainedFocus = () => this._onGainedFocus();
-    window.addEventListener("focus", this.onGainedFocus, false);
-}
-
-releaseUI() {
-    window.removeEventListener("blur", this.onLostFocus, false);
-    window.removeEventListener("focus", this.onGainedFocus, false);
-
-    this.inFocus = this.inFocus === null ? true : this.inFocus; // Focus might have never changed, so it could still be null
-    this.getAnswer().push([this.inFocus, new Date().getTime() - this.timeOfLastFocusEvent]);
-}
-
-_onLostFocus() {
-    // Blur event can be triggered multiple times in a row
-    if (this.inFocus !== false) {
-        this.getAnswer().push([true, new Date().getTime() - this.timeOfLastFocusEvent]);
-        this.inFocus = false;
+    createUI() {
         this.timeOfLastFocusEvent = new Date().getTime();
-    }
-}
+        this.inFocus = null; // Current state of the focus is unknown
 
-_onGainedFocus() {
-    if (this.inFocus !== true) {
-        this.getAnswer().push([false, new Date().getTime() - this.timeOfLastFocusEvent]);
-        this.inFocus = true;
-        this.timeOfLastFocusEvent = new Date().getTime();
-    }
-}
+        this.onLostFocus = () => this._onLostFocus();
+        window.addEventListener("blur", this.onLostFocus, false);
 
-getData() {
-    return [this.getQuestion(), this.getAnswer()];
-}
-
-isReady() {
-    return true;
-}
-
-_checkData(data) {
-    if (!Array.isArray(data)) {
-        return false;
+        this.onGainedFocus = () => this._onGainedFocus();
+        window.addEventListener("focus", this.onGainedFocus, false);
     }
 
-    for (let i = 0; i < data.length; i++) {
-        if (!Array.isArray(data[i]) || typeof data[i][0] !== "boolean" || !Number.isInteger(data[i][1])) {
-            return false;
+    releaseUI() {
+        window.removeEventListener("blur", this.onLostFocus, false);
+        window.removeEventListener("focus", this.onGainedFocus, false);
+
+        this.inFocus = this.inFocus === null ? true : this.inFocus; // Focus might have never changed, so it could still be null
+        this.getAnswer().push([this.inFocus, new Date().getTime() - this.timeOfLastFocusEvent]);
+    }
+
+    _onLostFocus() {
+        // Blur event can be triggered multiple times in a row
+        if (this.inFocus !== false) {
+            this.getAnswer().push([true, new Date().getTime() - this.timeOfLastFocusEvent]);
+            this.inFocus = false;
+            this.timeOfLastFocusEvent = new Date().getTime();
         }
     }
-    return true;
-}
 
-setData(data) {
-    if (!this._checkData(data)) {
-        return false;
+    _onGainedFocus() {
+        if (this.inFocus !== true) {
+            this.getAnswer().push([false, new Date().getTime() - this.timeOfLastFocusEvent]);
+            this.inFocus = true;
+            this.timeOfLastFocusEvent = new Date().getTime();
+        }
     }
 
-    this.setAnswer(data);
-    return true;
-}
+    getData() {
+        return [this.getQuestion(), this.getAnswer()];
+    }
+
+    isReady() {
+        return true;
+    }
+
+    _checkData(data) {
+        if (!Array.isArray(data)) {
+            return false;
+        }
+
+        for (let i = 0; i < data.length; i++) {
+            if (!Array.isArray(data[i]) || typeof data[i][0] !== "boolean" || !Number.isInteger(data[i][1])) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    setData(data) {
+        if (!this._checkData(data)) {
+            return false;
+        }
+
+        this.setAnswer(data);
+        return true;
+    }
 }

@@ -17,36 +17,36 @@ class QuestionnaireItemSVGQuality7pt extends QuestionnaireItemSVG {
     @param {string[]} [labels=["NOTE: Default labels are defined in the SVG."]] The labels (7 items; evaluated to string)
     */
     constructor(className, question, required, labels) {
-    super(className, question, required);
+        super(className, question, required);
 
-    this.labels = labels;
-}
-
-_setupSVG() {
-    this.scaleImage = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-    this.scaleImage.setAttribute("viewBox", "0 2 136.76 21.39");
-    this.scaleImage.innerHTML = '@@include("../svg_scales/quality7pt_scale_include.svg")';
-
-    if (this.labels instanceof Array && this.labels.length === 7) {
-        TheFragebogen.logger.debug(this.constructor.name + "._setupSVG()", "Using custom labels: " + this.labels);
-
-        this.scaleImage.getElementById("label10").textContent = this.labels[0];
-        this.scaleImage.getElementById("label20").textContent = this.labels[1];
-        this.scaleImage.getElementById("label30").textContent = this.labels[2];
-        this.scaleImage.getElementById("label40").textContent = this.labels[3];
-        this.scaleImage.getElementById("label50").textContent = this.labels[4];
-        this.scaleImage.getElementById("label60").textContent = this.labels[5];
-        this.scaleImage.getElementById("label70").textContent = this.labels[6];
-    } else {
-        TheFragebogen.logger.info(this.constructor.name + "._setupSVG()", "Using default scale labels.");
+        this.labels = labels;
     }
-}
 
-_getAnswerElements() {
-    return this.scaleImage.getElementsByTagName("ellipse");
-}
+    _setupSVG() {
+        this.scaleImage = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+        this.scaleImage.setAttribute("viewBox", "0 2 136.76 21.39");
+        this.scaleImage.innerHTML = '@@include("../svg_scales/quality7pt_scale_include.svg")';
 
-getAnswerOptions() {
-    return "10-70";
-}
+        if (this.labels instanceof Array && this.labels.length === 7) {
+            TheFragebogen.logger.debug(this.constructor.name + "._setupSVG()", "Using custom labels: " + this.labels);
+
+            this.scaleImage.getElementById("label10").textContent = this.labels[0];
+            this.scaleImage.getElementById("label20").textContent = this.labels[1];
+            this.scaleImage.getElementById("label30").textContent = this.labels[2];
+            this.scaleImage.getElementById("label40").textContent = this.labels[3];
+            this.scaleImage.getElementById("label50").textContent = this.labels[4];
+            this.scaleImage.getElementById("label60").textContent = this.labels[5];
+            this.scaleImage.getElementById("label70").textContent = this.labels[6];
+        } else {
+            TheFragebogen.logger.info(this.constructor.name + "._setupSVG()", "Using default scale labels.");
+        }
+    }
+
+    _getAnswerElements() {
+        return this.scaleImage.getElementsByTagName("ellipse");
+    }
+
+    getAnswerOptions() {
+        return "10-70";
+    }
 }

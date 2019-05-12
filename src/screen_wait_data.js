@@ -15,26 +15,26 @@ class ScreenWaitData extends ScreenWait {
     @param {string} message The message to display (HTML)
     */
     constructor(className, time, message) {
-    super(className, time, message);
+        super(className, time, message);
 
-    this.data = null;
+        this.data = null;
 
-    this.getDataCallback = null;
-}
-
-setGetDataCallback(getDataCallback) {
-    if (getDataCallback instanceof Function) {
-        TheFragebogen.logger.debug(this.constructor.name + ".setGetDataCallback()", "called");
-        this.getDataCallback = getDataCallback;
-        return true;
+        this.getDataCallback = null;
     }
-    return false;
-}
 
-_sendGetDataCallback() {
-    if (this.getDataCallback instanceof Function) {
-        TheFragebogen.logger.debug(this.constructor.name + "._sendGetDataCallback()", "called");
-        this.data = this.getDataCallback();
+    setGetDataCallback(getDataCallback) {
+        if (getDataCallback instanceof Function) {
+            TheFragebogen.logger.debug(this.constructor.name + ".setGetDataCallback()", "called");
+            this.getDataCallback = getDataCallback;
+            return true;
+        }
+        return false;
     }
-}
+
+    _sendGetDataCallback() {
+        if (this.getDataCallback instanceof Function) {
+            TheFragebogen.logger.debug(this.constructor.name + "._sendGetDataCallback()", "called");
+            this.data = this.getDataCallback();
+        }
+    }
 }

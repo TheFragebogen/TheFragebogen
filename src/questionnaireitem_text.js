@@ -15,80 +15,80 @@ class QuestionnaireItemText extends QuestionnaireItem {
     @param {boolean} [required=false]
     */
     constructor(className, question, required) {
-    super(className, question, required);
+        super(className, question, required);
 
-    this.input = null;
-}
-
-_createAnswerNode() {
-    const answerNode = document.createElement("div");
-
-    this.input = document.createElement("input");
-    this.input.addEventListener("change", (event) => this._handleChange(event));
-
-    answerNode.appendChild(this.input);
-
-    this._applyAnswerToUI();
-    return answerNode;
-}
-
-_handleChange(event) {
-    if (this.input.value === "") {
-        this.setAnswer(null);
-    } else {
-        this.setAnswer(this.input.value);
+        this.input = null;
     }
 
-    TheFragebogen.logger.info(this.constructor.name + "._handleChange()", this.getAnswer() + ".");
-}
+    _createAnswerNode() {
+        const answerNode = document.createElement("div");
 
-_applyAnswerToUI() {
-    if (!this.isUIcreated()) {
-        return;
-    }
+        this.input = document.createElement("input");
+        this.input.addEventListener("change", (event) => this._handleChange(event));
 
-    if (this.isAnswered()) {
-        this.input.value = this.getAnswer();
-    }
-}
+        answerNode.appendChild(this.input);
 
-/**
-@param {string} answer answer
-@returns {boolean}
-*/
-setAnswer(answer) {
-    if (answer === null) {
-        this.answer = null;
         this._applyAnswerToUI();
+        return answerNode;
+    }
+
+    _handleChange(event) {
+        if (this.input.value === "") {
+            this.setAnswer(null);
+        } else {
+            this.setAnswer(this.input.value);
+        }
+
+        TheFragebogen.logger.info(this.constructor.name + "._handleChange()", this.getAnswer() + ".");
+    }
+
+    _applyAnswerToUI() {
+        if (!this.isUIcreated()) {
+            return;
+        }
+
+        if (this.isAnswered()) {
+            this.input.value = this.getAnswer();
+        }
+    }
+
+    /**
+    @param {string} answer answer
+    @returns {boolean}
+    */
+    setAnswer(answer) {
+        if (answer === null) {
+            this.answer = null;
+            this._applyAnswerToUI();
+            return true;
+        }
+
+        this.answer = answer;
+        this._applyAnswerToUI();
+        this._sendReadyStateChanged();
         return true;
     }
 
-    this.answer = answer;
-    this._applyAnswerToUI();
-    this._sendReadyStateChanged();
-    return true;
-}
+    releaseUI() {
+        super.releaseUI();
 
-releaseUI() {
-    super.releaseUI();
-
-    this.input = null;
-}
-
-getData() {
-    return [this.getQuestion(), this.getAnswer()];
-}
-
-_checkData(data) {
-    return (data[0] === this.question);
-}
-
-setData(data) {
-    if (!this._checkData(data)) {
-        return false;
+        this.input = null;
     }
 
-    this.setAnswer(data[1]);
-    return true;
-}
+    getData() {
+        return [this.getQuestion(), this.getAnswer()];
+    }
+
+    _checkData(data) {
+        return (data[0] === this.question);
+    }
+
+    setData(data) {
+        if (!this._checkData(data)) {
+            return false;
+        }
+
+        this.setAnswer(data[1]);
+        return true;
+    }
 }

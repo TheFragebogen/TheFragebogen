@@ -20,147 +20,147 @@ class QuestionnaireItemMedia extends QuestionnaireItem {
     @param {boolean} [readyOnError] Set `ready=true` if an error occures.
     */
     constructor(className, question, required, url, readyOnError) {
-    super(className, question, required);
+        super(className, question, required);
 
-    this.url = Array.isArray(url) ? url : [url];
-    this.isContentLoaded = false;
-    this.stallingCount = 0;
-    this.wasSuccessfullyPlayed = false;
-    this.readyOnError = readyOnError;
+        this.url = Array.isArray(url) ? url : [url];
+        this.isContentLoaded = false;
+        this.stallingCount = 0;
+        this.wasSuccessfullyPlayed = false;
+        this.readyOnError = readyOnError;
 
-    this.errorOccured = false;
-}
-
-load() {
-    TheFragebogen.logger.info(this.constructor.name + ".load()", "Start loading for " + this.getURL() + ".");
-}
-
-isLoaded() {
-    return this.isContentLoaded;
-}
-
-isReady() {
-    if (!this.readyOnError && this.errorOccured) {
-        return false;
+        this.errorOccured = false;
     }
 
-    return this.isRequired() ? this.wasSuccessfullyPlayed : true;
-}
-
-getURL() {
-    return this.url;
-}
-
-getStallingCount() {
-    return this.stallingCount;
-}
-
-setEnabled(enabled) {
-    if (!this.isUIcreated()) {
-        TheFragebogen.logger.warn(this.constructor.name + ".setEnabled()", "Cannot start playback on setEnabled without createUI().");
-        return;
+    load() {
+        TheFragebogen.logger.info(this.constructor.name + ".load()", "Start loading for " + this.getURL() + ".");
     }
-    this.enabled = enabled;
 
-    if (enabled) {
-        this._play();
-    } else {
-        this._pause();
+    isLoaded() {
+        return this.isContentLoaded;
     }
-}
 
-preload() {
-    TheFragebogen.logger.debug(this.constructor.name + ".preload()", "Start preloading.");
+    isReady() {
+        if (!this.readyOnError && this.errorOccured) {
+            return false;
+        }
 
-    this.preloaded = false;
+        return this.isRequired() ? this.wasSuccessfullyPlayed : true;
+    }
 
-    this._loadMedia();
-}
+    getURL() {
+        return this.url;
+    }
 
-_loadMedia() {
-    TheFragebogen.logger.warn(this.constructor.name + "._loadMedia()", "This method must be overridden for correct preloading.");
-}
+    getStallingCount() {
+        return this.stallingCount;
+    }
 
-//Media-related callbacks
-/**
-Start playback of playable media.
-*/
-_play() {
-    TheFragebogen.logger.debug(this.constructor.name + "._play()", "This method must be overridden if playback is desired.");
-}
+    setEnabled(enabled) {
+        if (!this.isUIcreated()) {
+            TheFragebogen.logger.warn(this.constructor.name + ".setEnabled()", "Cannot start playback on setEnabled without createUI().");
+            return;
+        }
+        this.enabled = enabled;
 
-/**
-Pause playback of playable media.
-*/
-_pause() {
-    TheFragebogen.logger.debug(this.constructor.name + "._pause()", "This method must be overridden if playback is desired.");
-}
+        if (enabled) {
+            this._play();
+        } else {
+            this._pause();
+        }
+    }
 
-_onLoading() {
-    TheFragebogen.logger.info(this.constructor.name + "._onloading()", "This method might be overriden.");
-}
+    preload() {
+        TheFragebogen.logger.debug(this.constructor.name + ".preload()", "Start preloading.");
 
-_onLoaded() {
-    TheFragebogen.logger.info(this.constructor.name + "._onloaded()", "Loading done for " + this.getURL() + ".");
+        this.preloaded = false;
 
-    if (!this.isContentLoaded) {
-        this.isContentLoaded = true;
+        this._loadMedia();
+    }
+
+    _loadMedia() {
+        TheFragebogen.logger.warn(this.constructor.name + "._loadMedia()", "This method must be overridden for correct preloading.");
+    }
+
+    //Media-related callbacks
+    /**
+    Start playback of playable media.
+    */
+    _play() {
+        TheFragebogen.logger.debug(this.constructor.name + "._play()", "This method must be overridden if playback is desired.");
+    }
+
+    /**
+    Pause playback of playable media.
+    */
+    _pause() {
+        TheFragebogen.logger.debug(this.constructor.name + "._pause()", "This method must be overridden if playback is desired.");
+    }
+
+    _onLoading() {
+        TheFragebogen.logger.info(this.constructor.name + "._onloading()", "This method might be overriden.");
+    }
+
+    _onLoaded() {
+        TheFragebogen.logger.info(this.constructor.name + "._onloaded()", "Loading done for " + this.getURL() + ".");
+
+        if (!this.isContentLoaded) {
+            this.isContentLoaded = true;
+            this._sendOnPreloadedCallback();
+        }
+
+        //Autostart playback?
+        if (this.isUIcreated()) {
+            this.setEnabled(this.enabled);
+        }
+    }
+
+    _onStalled(event) {
+        this.stallingCount += 1;
+        this._updateAnswer();
         this._sendOnPreloadedCallback();
+
+        TheFragebogen.logger.warn(this.constructor.name + "._onstalled()", "Stalling occured (" + this.stallingCount + ") for " + this.getURL());
     }
 
-    //Autostart playback?
-    if (this.isUIcreated()) {
-        this.setEnabled(this.enabled);
+    _onError(event) {
+        this.stallingCount += 1;
+        this._updateAnswer();
+        this._sendOnPreloadedCallback();
+
+        TheFragebogen.logger.error(this.constructor.name + "._onerror()", "Stalling occured (" + this.stallingCount + ") for " + this.getURL());
     }
-}
 
-_onStalled(event) {
-    this.stallingCount += 1;
-    this._updateAnswer();
-    this._sendOnPreloadedCallback();
+    _onProgress(event) {
+        TheFragebogen.logger.debug(this.constructor.name + "._onprogress()", "This method must be overridden if progress reporting is desired.");
+    }
 
-    TheFragebogen.logger.warn(this.constructor.name + "._onstalled()", "Stalling occured (" + this.stallingCount + ") for " + this.getURL());
-}
+    _onEnded() {
+        TheFragebogen.logger.info(this.constructor.name + "._onended", "Playback finished.");
 
-_onError(event) {
-    this.stallingCount += 1;
-    this._updateAnswer();
-    this._sendOnPreloadedCallback();
+        this.wasSuccessfullyPlayed = true;
+        this.setAnswer(this.getData());
 
-    TheFragebogen.logger.error(this.constructor.name + "._onerror()", "Stalling occured (" + this.stallingCount + ") for " + this.getURL());
-}
+        this._sendReadyStateChanged();
+        this.markRequired();
+    }
 
-_onProgress(event) {
-    TheFragebogen.logger.debug(this.constructor.name + "._onprogress()", "This method must be overridden if progress reporting is desired.");
-}
+    setAnswer(answer) {
+        this.answer = answer;
+    }
 
-_onEnded() {
-    TheFragebogen.logger.info(this.constructor.name + "._onended", "Playback finished.");
+    getData() {
+        return [this.url, this.time];
+    }
 
-    this.wasSuccessfullyPlayed = true;
-    this.setAnswer(this.getData());
+    _checkData(data) {
+        return (data[0] === this.getURL()) && (data[1] === this.getStallingCount());
+    }
 
-    this._sendReadyStateChanged();
-    this.markRequired();
-}
+    setData(data) {
+        return this._checkData(data);
+    }
 
-setAnswer(answer) {
-    this.answer = answer;
-}
-
-getData() {
-    return [this.url, this.time];
-}
-
-_checkData(data) {
-    return (data[0] === this.getURL()) && (data[1] === this.getStallingCount());
-}
-
-setData(data) {
-    return this._checkData(data);
-}
-
-_updateAnswer() {
-    TheFragebogen.logger.debug(this.constructor.name + "._updateAnswer()", "This method must be overridden if progress reporting is desired.");
-}
+    _updateAnswer() {
+        TheFragebogen.logger.debug(this.constructor.name + "._updateAnswer()", "This method must be overridden if progress reporting is desired.");
+    }
 }

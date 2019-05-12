@@ -14,42 +14,42 @@ class ScreenUIElementsAuto extends ScreenUIElements {
     @param {...UIElement} arguments an array containing the UIElements of the screen
     */
     constructor(...args) {
-    super(...args);
-}
+        super(...args);
+    }
 
-createUI() {
-    this.node = document.createElement("div");
-    this.node.className = this.className;
+    createUI() {
+        this.node = document.createElement("div");
+        this.node.className = this.className;
 
-    for (let index in this.uiElements) {
-        if (!(this.uiElements[index] instanceof UIElement)) {
-            TheFragebogen.logger.warn(this.constructor.name + ".createUI()", "Element[" + index + "] has no 'createUI' method");
-            continue;
+        for (let index in this.uiElements) {
+            if (!(this.uiElements[index] instanceof UIElement)) {
+                TheFragebogen.logger.warn(this.constructor.name + ".createUI()", "Element[" + index + "] has no 'createUI' method");
+                continue;
+            }
+
+            const uiElementNode = this.uiElements[index].createUI();
+            if (uiElementNode instanceof HTMLElement) {
+                this.node.appendChild(uiElementNode);
+            } else {
+                TheFragebogen.logger.warn(this.constructor.name + ".createUI()", "Element[" + index + "].createUI() did not a HTMLElement.");
+            }
+
+            if (this.uiElements[index].setOnReadyStateChangedCallback instanceof Function) {
+                this.uiElements[index].setOnReadyStateChangedCallback(() => this._onUIElementReady());
+            }
         }
 
-        const uiElementNode = this.uiElements[index].createUI();
-        if (uiElementNode instanceof HTMLElement) {
-            this.node.appendChild(uiElementNode);
-        } else {
-            TheFragebogen.logger.warn(this.constructor.name + ".createUI()", "Element[" + index + "].createUI() did not a HTMLElement.");
-        }
+        return this.node;
+    }
 
-        if (this.uiElements[index].setOnReadyStateChangedCallback instanceof Function) {
-            this.uiElements[index].setOnReadyStateChangedCallback(() => this._onUIElementReady());
+    _onUIElementReady() {
+        if (this.isReady()) {
+            this._sendPaginateCallback();
         }
     }
 
-    return this.node;
-}
-
-_onUIElementReady() {
-    if (this.isReady()) {
-        this._sendPaginateCallback();
+    setPaginateUI(paginateUI) {
+        TheFragebogen.logger.warn(this.constructor.name + ".setPaginateUI()", "Does not support pagination.");
+        return false;
     }
-}
-
-setPaginateUI(paginateUI) {
-    TheFragebogen.logger.warn(this.constructor.name + ".setPaginateUI()", "Does not support pagination.");
-    return false;
-}
 }

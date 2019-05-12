@@ -19,45 +19,45 @@ class QuestionnaireItemMediaImage extends QuestionnaireItemMedia {
     @param {boolean} [readyOnError=true] Sets ready=true if an error occures.
     */
     constructor(className, question, required, url, readyOnError) {
-    super(className, question, required, url, readyOnError);
+        super(className, question, required, url, readyOnError);
 
-    TheFragebogen.logger.debug("QuestionnaireItemMediaImage()", "Set: className as " + this.className + ", height as " + this.height + ", width as " + this.width);
+        TheFragebogen.logger.debug("QuestionnaireItemMediaImage()", "Set: className as " + this.className + ", height as " + this.height + ", width as " + this.width);
 
-    if (this.url.length != 1) {
-        TheFragebogen.logger.warn("QuestionnaireItemMediaImage()", "called with multiple resources as url. Falling back to the first element in the array.");
+        if (this.url.length != 1) {
+            TheFragebogen.logger.warn("QuestionnaireItemMediaImage()", "called with multiple resources as url. Falling back to the first element in the array.");
+        }
+
+        this.imageNode = null;
     }
 
-    this.imageNode = null;
-}
+    _createAnswerNode() {
+        const answerNode = document.createElement("div");
 
-_createAnswerNode() {
-    const answerNode = document.createElement("div");
+        this._createMediaNode();
 
-    this._createMediaNode();
+        answerNode.appendChild(this.imageNode);
 
-    answerNode.appendChild(this.imageNode);
-
-    return answerNode;
-}
-
-releaseUI() {
-    super.releaseUI();
-
-    this.imageNode = null;
-}
-
-_loadMedia() {
-    this._createMediaNode();
-}
-
-_createMediaNode() {
-    if (this.imageNode !== null) {
-        TheFragebogen.logger.debug("QuestionnaireItemMediaImage()", "Images was already created.");
-        return;
+        return answerNode;
     }
 
-    this.imageNode = new Image();
-    this.imageNode.onload = () => this._onLoaded();
-    this.imageNode.src = this.url[0];
-}
+    releaseUI() {
+        super.releaseUI();
+
+        this.imageNode = null;
+    }
+
+    _loadMedia() {
+        this._createMediaNode();
+    }
+
+    _createMediaNode() {
+        if (this.imageNode !== null) {
+            TheFragebogen.logger.debug("QuestionnaireItemMediaImage()", "Images was already created.");
+            return;
+        }
+
+        this.imageNode = new Image();
+        this.imageNode.onload = () => this._onLoaded();
+        this.imageNode.src = this.url[0];
+    }
 }
