@@ -50,7 +50,6 @@ class QuestionnaireItemWaitWebsocket extends QuestionnaireItem {
         this.reconnectAttempts = !isNaN(reconnectAttempts) ? reconnectAttempts : -1;
         this.timeout = !isNaN(timeout) ? Math.abs(timeout) * 1000 : 0;
 
-        this.node = null;
         this.websocketConnection = null;
         this.connectionFailures = 0;
 

@@ -29,7 +29,6 @@ class UIElementHTML extends UIElement {
 
     releaseUI() {
         super.releaseUI();
-        this.node = null;
     }
 
     setEnabled(enabled) {
