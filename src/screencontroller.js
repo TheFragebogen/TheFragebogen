@@ -22,7 +22,11 @@ class ScreenController {
         for (let i in localArguments) {
             if (!(localArguments[i] instanceof Screen)) TheFragebogen.logger.error(this.constructor.name + "()", "This argument (index " + i + " is not a Screen: " + localArguments[i] + " and will be ignored.");
         }
-        this.screen = localArguments.filter((element) => element instanceof Screen);
+        this.screen = [];
+        var screenList = localArguments.filter((element) => element instanceof Screen);
+        for (let i = 0; i < screenList.length; i++) {
+            this.addScreen(screenList[i]);
+        }
 
         this.callbackScreenFinished = null;
 
@@ -46,18 +50,6 @@ class ScreenController {
 
         this.screenContainerNode = parentNode;
 
-        for (let i = 0; i < this.screen.length; i++) {
-            if (this.screen[i].setGetDataCallback instanceof Function) {
-                this.screen[i].setGetDataCallback(() => this.requestDataCSV());
-            }
-            if (this.screen[i].setGetRawDataCallback instanceof Function) {
-                this.screen[i].setGetRawDataCallback(() => this.requestDataArray());
-            }
-            if (this.screen[i].setPaginateCallback instanceof Function) {
-                this.screen[i].setPaginateCallback((screen, relativeScreenId) => this.nextScreen(screen, relativeScreenId));
-            }
-        }
-
         this.currentScreenIndex = 0;
     }
 
@@ -70,7 +62,7 @@ class ScreenController {
     }
 
     /**
-    Add an additional screen at the end.Appends a screen and returns the index.
+    Add an additional screen at the end.
     @param {Screen} screen
     @returns {number} The index of the just added screen; in case of failure -1.
     */
@@ -84,17 +76,20 @@ class ScreenController {
         this.screen.push(screen);
 
         if (screen.setGetDataCallback instanceof Function) {
-            this.screen[i].setGetDataCallback(() => this.requestDataCSV());
+            screen.setGetDataCallback(() => this.requestDataCSV());
         }
         if (screen.setGetRawDataCallback instanceof Function) {
-            this.screen[i].setGetRawDataCallback(() => this.requestDataArray());
+            screen.setGetRawDataCallback(() => this.requestDataArray());
         }
         if (screen.setPaginateCallback instanceof Function) {
-            this.screen[i].setPaginateCallback((screen, relativeScreenId) => this.nextScreen(screen, relativeScreenId));
+            screen.setPaginateCallback((screen, relativeScreenId) => this.nextScreen(screen, relativeScreenId));
         }
 
         return this.screen.length - 1;
     }
+
+    /**
+     */
 
     /**
     Starts the screenController, i.e., showing the screen in their respective order.
