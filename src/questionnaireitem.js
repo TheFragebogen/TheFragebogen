@@ -47,9 +47,10 @@ class QuestionnaireItem extends UIElementInteractive {
     /**
     Sets the answer.
     DEVELOPER: If the answer is accepted, the method `this._sendReadyStateChanged()` must be called.
+    @param {object} answer The answer to be set.
     @abstract
     */
-    setAnswer() {
+    setAnswer(answer) {
         this._sendReadyStateChanged();
         TheFragebogen.logger.debug(this.constructor.name + ".setAnswer()", "This method might need to be overridden.");
     }

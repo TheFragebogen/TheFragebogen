@@ -73,7 +73,7 @@ class QuestionnaireItemWrite extends QuestionnaireItem {
 
             const img = new Image();
             img.addEventListener("load", () => this.context.drawImage(img, 0, 0));
-            img.src = this.answer;
+            img.src = this.getAnswer();
         }
 
         canvas.addEventListener("mousedown", (event) => this.onWritingStart(event));
@@ -166,7 +166,7 @@ class QuestionnaireItemWrite extends QuestionnaireItem {
             this.answer = this.context.canvas.toDataURL("image/png");
         }
 
-        return this.answer;
+        return super.getAnswer();
     }
 
     setAnswer(answer) {
