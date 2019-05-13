@@ -7,7 +7,7 @@ The duration is the total video length in seconds.
 stallingCount counts how often a stalling event occured.
 replayCount counts how often the video got replayed explicitly by the user.
 videoStartTimes are the points in time, relative to creation of the video, when the video started playing.
-videoPlayDurations are the times in seconds how long the audio played each time.
+videoPlayDurations are the times in seconds how long the video played each time.
 
 @class QuestionnaireItemMediaVideo
 @augments UIElement
@@ -68,7 +68,7 @@ class QuestionnaireItemMediaVideo extends QuestionnaireItemMedia {
 
     _createMediaNode() {
         if (this.videoNode !== null) {
-            TheFragebogen.logger.debug(this.constructor.name + "()", "audioNode was already created.");
+            TheFragebogen.logger.debug(this.constructor.name + "()", "videoNode was already created.");
             return;
         }
 
