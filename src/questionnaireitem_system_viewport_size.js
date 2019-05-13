@@ -13,7 +13,7 @@ It gets measured at the time of createUI().
 class QuestionnaireItemSystemViewportSize extends QuestionnaireItemSystem {
 
     constructor() {
-        QuestionnaireItemSystem.call(this, null, "Viewport size", false);
+        super(null, "Viewport size", false);
     }
 
     createUI() {

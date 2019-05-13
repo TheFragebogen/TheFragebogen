@@ -15,7 +15,7 @@ All event listeners are attached as non-capturing.
 class QuestionnaireItemSystemFocus extends QuestionnaireItemSystem {
 
     constructor() {
-        QuestionnaireItemSystem.call(this, null, "Focus", false);
+        super(null, "Focus", false);
 
         this.answer = [];
         this.timeOfLastFocusEvent = null;
