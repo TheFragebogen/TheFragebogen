@@ -19,7 +19,8 @@ class ScreenController {
         if (arguments.length === 0) TheFragebogen.logger.fatal(this.constructor.name + ".constructor", "No screen available.");
 
         const localArguments = [].concat.apply([], arguments); //Flatten the potential array.
-        for (let i in localArguments) {
+
+        for (let i = 0; i < localArguments.length; i++) {
             if (!(localArguments[i] instanceof Screen)) TheFragebogen.logger.error(this.constructor.name + "()", "This argument (index " + i + " is not a Screen: " + localArguments[i] + " and will be ignored.");
         }
         this.screen = [];
@@ -210,7 +211,7 @@ class ScreenController {
         }
 
         let result = [];
-        for (let i in screenIndeces) {
+        for (let i = 0; i < screenIndeces.length; i++) {
             result[i] = [];
             result[i][0] = screenIndeces[i];
             result[i][1] = questionType[i];

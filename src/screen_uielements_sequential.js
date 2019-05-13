@@ -19,11 +19,11 @@ class ScreenUIElementsSequential extends ScreenUIElements {
     }
 
     start() {
-        for (let index in this.uiElements) {
-            if (this.uiElements[index].setOnReadyStateChangedCallback instanceof Function) {
-                this.uiElements[index].setOnReadyStateChangedCallback(() => this._onUIElementReady());
+        for (let i = 0; i < this.uiElements.length; i++) {
+            if (this.uiElements[i].setOnReadyStateChangedCallback instanceof Function) {
+                this.uiElements[i].setOnReadyStateChangedCallback(() => this._onUIElementReady());
             }
-            this.uiElements[index].setEnabled(false);
+            this.uiElements[i].setEnabled(false);
         }
 
         for (let i = 0; i < this.uiElements.length; i++) {

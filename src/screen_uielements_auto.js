@@ -21,21 +21,21 @@ class ScreenUIElementsAuto extends ScreenUIElements {
         this.node = document.createElement("div");
         this.applyCSS();
 
-        for (let index in this.uiElements) {
-            if (!(this.uiElements[index] instanceof UIElement)) {
-                TheFragebogen.logger.warn(this.constructor.name + ".createUI()", "Element[" + index + "] has no 'createUI' method");
+        for (let i = 0; i < this.uiElements.length; i++) {
+            if (!(this.uiElements[i] instanceof UIElement)) {
+                TheFragebogen.logger.warn(this.constructor.name + ".createUI()", "Element[" + i + "] has no 'createUI' method");
                 continue;
             }
 
-            const uiElementNode = this.uiElements[index].createUI();
+            const uiElementNode = this.uiElements[i].createUI();
             if (uiElementNode instanceof HTMLElement) {
                 this.node.appendChild(uiElementNode);
             } else {
-                TheFragebogen.logger.warn(this.constructor.name + ".createUI()", "Element[" + index + "].createUI() did not a HTMLElement.");
+                TheFragebogen.logger.warn(this.constructor.name + ".createUI()", "Element[" + i + "].createUI() did not a HTMLElement.");
             }
 
-            if (this.uiElements[index].setOnReadyStateChangedCallback instanceof Function) {
-                this.uiElements[index].setOnReadyStateChangedCallback(() => this._onUIElementReady());
+            if (this.uiElements[i].setOnReadyStateChangedCallback instanceof Function) {
+                this.uiElements[i].setOnReadyStateChangedCallback(() => this._onUIElementReady());
             }
         }
 
