@@ -4,6 +4,7 @@ Uses mouse simulation to draw a canvas.
 
 Reports answer as base64-coded PNG image.
 ATTENTION: answer is stored on calling releaseUI() and (if UI is created) getAnswer() only.
+ATTENTION: disables context menu (i.e., right click menu).
 
 Supports HDPI.
 
@@ -72,6 +73,11 @@ class QuestionnaireItemWrite extends QuestionnaireItem {
         canvas.addEventListener("mousemove", (event) => this.onWriting(event));
         canvas.addEventListener("mouseup", () => this.onWritingStop());
         canvas.addEventListener("mouseout", () => this.onWritingStop());
+
+        //Disable contextmenu, so right click can be
+        canvas.addEventListener("contextmenu", (event) => {
+            event.preventDefault();
+        }, true);
 
         //BEGIN: EXPERIMENTAL
         //This uses allows us to be HDPI conform!
