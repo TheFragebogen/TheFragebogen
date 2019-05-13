@@ -80,7 +80,7 @@ class ScreenWaitDataUpload extends ScreenWaitData {
         this.request.timeout = this.time;
 
         this.request.addEventListener("timeout", () => this._onTimeout());
-        this.request.addEventListener("onload", () => this._onLoad());
+        this.request.addEventListener("load", () => this._onLoad());
         this.request.addEventListener("error", (event) => this._onError(event));
 
         this.request.send(this.httpParameterName + "=" + data);
