@@ -1,13 +1,6 @@
 /**
-A QuestionnaireItemMediaVideo that adds a repeat button to the video
-NOTE: Useful to capture failure to loads.
-This item reports as an array video playback statistics [url, duration, stallingCount, replayCount, videoStartTimes, videoPlayDurations].
-url corresponds to the array of all sources for this element.
-The duration is the total video length in seconds.
-stallingCount counts how often a stalling event occured.
-replayCount counts how often the video got replayed explicitly by the user.
-videoStartTimes are the points in time, relative to creation of the video, when the video started playing.
-videoPlayDurations are the times in seconds how long the audio played each time.
+A QuestionnaireItemMediaVideo that adds a repeat button to the video.
+For other details see {@link QuestionnaireItemMediaVideo}.
 
 @class QuestionnaireItemMediaVideoRepeatable
 @augments UIElement
@@ -39,7 +32,7 @@ class QuestionnaireItemMediaVideoRepeatable extends QuestionnaireItemMediaVideo 
         var div = document.createElement("div");
         var button = document.createElement("button");
         button.innerHTML = this.buttonCaption;
-        button.onclick = this._onReplayClick.bind(this);
+        button.onclick = () => this._onReplayClick();
 
         div.appendChild(button);
         answerNode.appendChild(div);
