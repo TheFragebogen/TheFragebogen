@@ -58,7 +58,7 @@ class QuestionnaireItemWaitWebsocket extends QuestionnaireItem {
 
     createUI() {
         this.node = document.createElement("div");
-        this.node.className = this.className;
+        this.applyCSS();
         return this.node;
     }
 
@@ -78,7 +78,7 @@ class QuestionnaireItemWaitWebsocket extends QuestionnaireItem {
         if (this.websocketConnection === null) {
             this.websocketConnection = new WebSocket(this.url);
 
-            this.node.className = this.className + "Connecting";
+            this.applyCSS("Connecting");
 
             this.websocketConnection.addEventListener("open", () => this._onConnected());
             this.websocketConnection.addEventListener("message", (event) => this._onMessage(event));
@@ -88,7 +88,7 @@ class QuestionnaireItemWaitWebsocket extends QuestionnaireItem {
     }
 
     _onConnected() {
-        this.node.className = this.className + "Connected";
+        this.applyCSS("Connected");
 
         if (this.messageSend === undefined) {
             TheFragebogen.logger.info(this.constructor.name + ".connection._onConnected()", "Connection opened.");
@@ -106,13 +106,13 @@ class QuestionnaireItemWaitWebsocket extends QuestionnaireItem {
 
         TheFragebogen.logger.info(this.constructor.name + ".connection._onMessage()", "Received correct message.");
         this.setAnswer(new Date().toString());
-        this.node.className = this.className + "Ready";
+        this.applyCSS("Ready");
 
         this._sendReadyStateChanged();
     }
 
     _onWebsocketError(error) {
-        this.node.className = this.className + "Reconnecting";
+        this.applyCSS("Reconnecting");
         TheFragebogen.logger.warn(this.constructor.name + ".connection._onWebsocketError()", error);
         //Reconnect handled by onclose
     }

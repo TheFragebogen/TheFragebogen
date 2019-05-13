@@ -19,8 +19,6 @@ class UIElementButton extends UIElement {
         this.actionCallback = actionCallback;
 
         this.button = null;
-
-        TheFragebogen.logger.debug(this.constructor.name + "()", "className as " + this.className + " and caption as " + this.caption);
     }
 
     createUI() {

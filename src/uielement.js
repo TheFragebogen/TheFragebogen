@@ -41,10 +41,14 @@ class UIElement {
     /**
     Applies the set className.
     Usually called during createUI().
+    @param {string} cssSuffix A suffix to be added to this.className.
     */
-    applyCSS() {
-        if (this.isUIcreated() && this.className !== undefined) {
-            this.node.className = this.className;
+    applyCSS(cssSuffix) {
+        if (this.isUIcreated()) {
+            let newClassName = "";
+            newClassName += this.className !== undefined ? this.className : "";
+            newClassName += cssSuffix !== undefined ? cssSuffix : "";
+            this.node.className = newClassName;
         }
     }
 

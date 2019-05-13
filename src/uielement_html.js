@@ -15,8 +15,6 @@ class UIElementHTML extends UIElement {
         super(className);
 
         this.html = html;
-
-        TheFragebogen.logger.debug(this.constructor.name + "()", "className as " + this.className + " and html as " + this.html);
     }
 
     createUI() {
