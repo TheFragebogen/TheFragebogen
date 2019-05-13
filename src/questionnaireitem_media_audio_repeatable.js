@@ -1,13 +1,6 @@
 /**
 A QuestionnaireItemMediaAudio that adds a repeat button to the audio
-NOTE: Useful to capture failure to loads.
-This item reports as an array audio playback statistics [url, duration, stallingCount, replayCount, audioStartTimes, audioPlayDurations].
-url corresponds to the array of all sources for this element.
-The duration is the total audio length in seconds.
-stallingCount counts how often a stalling event occured.
-replayCount counts how often the audio got replayed explicitly by the user.
-audioStartTimes are the points in time, relative to creation of the audio, when the audio started playing.
-audioPlayDurations are the times in seconds how long the audio played each time.
+For other details see {@link QuestionnaireItemMediaAudio}.
 
 @class QuestionnaireItemMediaAudioRepeatable
 @augments UIElement
@@ -39,7 +32,7 @@ class QuestionnaireItemMediaAudioRepeatable extends QuestionnaireItemMediaAudio 
         var div = document.createElement("div");
         var button = document.createElement("button");
         button.innerHTML = this.buttonCaption;
-        button.onclick = this._onReplayClick.bind(this);
+        button.onclick = () => this._onReplayClick();
 
         div.appendChild(button);
         answerNode.appendChild(div);
