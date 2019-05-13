@@ -105,7 +105,7 @@ class QuestionnaireItemWaitWebsocket extends QuestionnaireItem {
         }
 
         TheFragebogen.logger.info(this.constructor.name + ".connection._onMessage()", "Received correct message.");
-        this.answer = new Date().toString();
+        this.setAnswer(new Date().toString());
         this.node.className = this.className + "Ready";
 
         this._sendReadyStateChanged();

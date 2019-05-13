@@ -3,7 +3,7 @@ A QuestionnaireItem for free-hand input (drawing or writing).
 Uses mouse simulation to draw a canvas.
 
 Reports answer as base64-coded PNG image.
-ATTENTION: answer is stored on calling getAnswer() only.
+ATTENTION: answer is stored on calling releaseUI() and (if UI is created) getAnswer() only.
 
 Supports HDPI.
 
@@ -68,14 +68,6 @@ class QuestionnaireItemWrite extends QuestionnaireItem {
             canvas.style.background = "url('" + this.backgroundImg + "') 50% 50% / contain no-repeat";
         }
 
-        if (this.isAnswered()) {
-            TheFragebogen.logger.debug(this.constructor.name + "_createAnswerNode()", "Already answered; restoring image.");
-
-            const img = new Image();
-            img.addEventListener("load", () => this.context.drawImage(img, 0, 0));
-            img.src = this.getAnswer();
-        }
-
         canvas.addEventListener("mousedown", (event) => this.onWritingStart(event));
         canvas.addEventListener("mousemove", (event) => this.onWriting(event));
         canvas.addEventListener("mouseup", () => this.onWritingStop());
@@ -95,6 +87,24 @@ class QuestionnaireItemWrite extends QuestionnaireItem {
         this.context.scale(this.pixelRatio, this.pixelRatio);
         //END: EXPERIMENTAL
         return answerNode;
+    }
+
+    applyAnswerToUI() {
+        if (this.isAnswered()) {
+            TheFragebogen.logger.debug(this.constructor.name + "_createAnswerNode()", "Already answered; restoring image.");
+
+            this.context.clearRect(0, 0, this.context.canvas.width, this.context.canvas.height);
+            const img = new Image();
+            img.addEventListener("load", () => {
+                const ratio_w = img.width / parseInt(this.context.canvas.style.width);
+                const ratio_h = img.height / parseInt(this.context.canvas.style.height);
+                this.context.scale(1 / ratio_w, 1 / ratio_h);
+                this.context.drawImage(img, 0, 0);
+                this.context.scale(ratio_w, ratio_h);
+            });
+            img.addEventListener("error", () => TheFragebogen.logger.error("Could not restore image from answer."));
+            img.src = this.getAnswer();
+        }
     }
 
     /**
@@ -163,39 +173,10 @@ class QuestionnaireItemWrite extends QuestionnaireItem {
 
     getAnswer() {
         if (this.isUIcreated() && this.isAnswered()) {
-            this.answer = this.context.canvas.toDataURL("image/png");
+            this.setAnswer(this.context.canvas.toDataURL("image/png"));
         }
 
         return super.getAnswer();
-    }
-
-    setAnswer(answer) {
-        if (answer === null) {
-            this.answer = null;
-            if (this.isUIcreated()) {
-                this.context.clearRect(0, 0, this.context.canvas.width, this.context.canvas.height);
-            }
-            return true;
-        }
-        if (typeof(answer) === "string") {
-            this.answer = answer;
-            if (this.isUIcreated()) {
-                this.context.clearRect(0, 0, this.context.canvas.width, this.context.canvas.height);
-                const img = new Image();
-                img.src = answer;
-
-                const ratio_w = img.width / parseInt(this.context.canvas.style.width);
-                const ratio_h = img.height / parseInt(this.context.canvas.style.height);
-
-                this.context.scale(1 / ratio_w, 1 / ratio_h);
-                this.context.drawImage(img, 0, 0);
-                this.context.scale(ratio_w, ratio_h);
-            }
-            this._sendReadyStateChanged();
-            return true;
-        }
-        TheFragebogen.logger.warn(this.constructor.name + ".setAnswer()", "Invalid answer: " + answer + ".");
-        return false;
     }
 
     releaseUI() {
