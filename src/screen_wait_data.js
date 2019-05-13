@@ -13,11 +13,13 @@ class ScreenWaitData extends ScreenWait {
     @param {string} [className=""] CSS class
     @param {number} time Time to wait in seconds
     @param {string} message The message to display (HTML)
+    @param {boolean} [includeAnswerChangelog=false] Should the the changelog of the answer be reported?
     */
-    constructor(className, time, message) {
+    constructor(className, time, message, includeAnswerChangelog) {
         super(className, time, message);
 
         this.data = null;
+        this.includeAnswerChangelog = includeAnswerChangelog;
 
         this.getDataCallback = null;
     }
@@ -34,7 +36,7 @@ class ScreenWaitData extends ScreenWait {
     _sendGetDataCallback() {
         if (this.getDataCallback instanceof Function) {
             TheFragebogen.logger.debug(this.constructor.name + "._sendGetDataCallback()", "called");
-            this.data = this.getDataCallback();
+            this.data = this.getDataCallback(this.includeAnswerChangelog);
         }
     }
 }

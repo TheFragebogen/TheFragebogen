@@ -13,9 +13,12 @@ class ScreenDataPreview extends Screen {
 
     /**
     @param {string} [className] CSS class
+    @param {boolean} [includeAnswerChangelog=false] Should the the changelog of the answer be reported?
     */
-    constructor(className) {
+    constructor(className, includeAnswerChangelog) {
         super(className);
+
+        this.includeAnswerChangelog = includeAnswerChangelog;
 
         this.data = null;
         this.className = className;
@@ -38,7 +41,7 @@ class ScreenDataPreview extends Screen {
         //Request data
         if (this.getDataFromScreencontroller instanceof Function) {
             TheFragebogen.logger.debug(this.constructor.name + "._sendGetDataFromScreencontroller()", "called");
-            this.data = this.getDataFromScreencontroller();
+            this.data = this.getDataFromScreencontroller(this.includeAnswerChangelog);
         }
 
         this.node = document.createElement("div");

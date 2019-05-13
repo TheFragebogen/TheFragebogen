@@ -77,10 +77,10 @@ class ScreenController {
         this.screen.push(screen);
 
         if (screen.setGetDataCallback instanceof Function) {
-            screen.setGetDataCallback(() => this.requestDataCSV());
+            screen.setGetDataCallback((includeAnswerChangelog) => this.requestDataCSV(includeAnswerChangelog));
         }
         if (screen.setGetRawDataCallback instanceof Function) {
-            screen.setGetRawDataCallback(() => this.requestDataArray());
+            screen.setGetRawDataCallback((includeAnswerChangelog) => this.requestDataArray(includeAnswerChangelog));
         }
         if (screen.setPaginateCallback instanceof Function) {
             screen.setPaginateCallback((screen, relativeScreenId) => this.nextScreen(screen, relativeScreenId));
@@ -152,12 +152,13 @@ class ScreenController {
     * Column 2: Class
     * Column 3: Questions
     * Column 4: Answer options
-    * Column 5: Answers
+    * Column 5: JSON.stringify(Answers || Answer changelog)
+    @param {boolean} [includeAnswerChangelog=false] Should the the changelog of the answer be reported?
     @return {string}
     */
-    requestDataCSV() {
+    requestDataCSV(includeAnswerChangelog) {
         TheFragebogen.logger.info(this.constructor.name + ".requestDataCSV()", "called.");
-        const dataArray = this.requestDataArray();
+        const dataArray = this.requestDataArray(includeAnswerChangelog);
 
         let result = "";
         for (let i = 0; i < dataArray.length; i++) {
@@ -165,7 +166,7 @@ class ScreenController {
             result += '","' + dataArray[i][1]; //Type of question
             result += '","' + dataArray[i][2]; //Question
             result += '","' + dataArray[i][3]; //Answer options
-            result += '","' + dataArray[i][4] + '"\n'; //Answer
+            result += '","' + JSON.stringify(dataArray[i][4]) + '"\n'; //Answer
         }
         return result;
     }
@@ -176,10 +177,11 @@ class ScreenController {
     * Column 2: Class
     * Column 3: Questions
     * Column 4: Answer options
-    * Column 5: Answers
+    * Column 5: Answers || Answer changelog
+    @param {boolean} [includeAnswerChangelog=false] Should the the changelog of the answer be reported?
     @return {array}
     */
-    requestDataArray() {
+    requestDataArray(includeAnswerChangelog) {
         TheFragebogen.logger.info(this.constructor.name + ".requestDataArray()", "called.");
 
         let screenIndeces = ["Screen index"];
@@ -189,7 +191,7 @@ class ScreenController {
         let answers = ["Answer"];
 
         for (let i = 0; i <= this.currentScreenIndex; i++) {
-            const currentData = this.screen[i].getData();
+            const currentData = this.screen[i].getData(includeAnswerChangelog);
 
             if (currentData instanceof Array && currentData[0] instanceof Array && currentData[1] instanceof Array && currentData[2] instanceof Array && currentData[3] instanceof Array) {
                 if (currentData[0].length === 0) continue;

@@ -73,7 +73,6 @@
             new QuestionnaireItemSystemURL(),
             new QuestionnaireItemSystemScreenDateTime(),
             new QuestionnaireItemSystemScreenDuration(),
-            new QuestionnaireItemSystemScreenDuration(),
             new QuestionnaireItemSystemFocus(),
             new QuestionnaireItemSystemViewportSize(),
             new QuestionnaireItemSystemConst("Default text", "Some stuff")
@@ -81,10 +80,11 @@
         screens.push(screen4);
 
         //This screen shows a preview of the collected data.
-        screens.push(new ScreenDataPreview("screenPreview"));
+        screens.push(new ScreenDataPreview("screenPreview", false));
 
         //This screen triggers the download all collected data (CSV).
-        screens.push(new ScreenWaitDataDownload(undefined, "The End<br>All data should now be downloaded."));
+        //This includes also the changelog of all QuestionnaireItems.
+        screens.push(new ScreenWaitDataDownload(undefined, "The End<br>All data should now be downloaded (incl. changes of questionnaireItems and their final answers).", "TheFragebogen-basic.csv", true));
 
         //Most important: create the ScreenController
         var screenController = new ScreenController(screens);

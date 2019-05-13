@@ -21,9 +21,10 @@ class ScreenWaitDataUpload extends ScreenWaitData {
     @param {string} [httpParamaterName="data"]
     @param {string} [failMessage="Upload failed. Data will be downloaded to local computer now."]
     @param {boolean} [nextScreenOnFail=true] Continue to next screen if upload failed.
+    @param {boolean} [includeAnswerChangelog=false] Should the the changelog of the answer be reported?
     */
-    constructor(className, url, timeout, message, httpParameterName, failMessage, nextScreenOnFail) {
-        super(className, !isNaN(timeout) ? Math.abs(timeout) : 4, typeof(message) === "string" ? message : "Uploading data. Please wait...");
+    constructor(className, url, timeout, message, httpParameterName, failMessage, nextScreenOnFail, includeAnswerChangelog) {
+        super(className, !isNaN(timeout) ? Math.abs(timeout) : 4, typeof(message) === "string" ? message : "Uploading data. Please wait...", includeAnswerChangelog);
 
         this.failMessage = (typeof(failMessage) === "string" ? failMessage : "Upload failed. Data will be downloaded to local computer now.");
         this.httpParameterName = (typeof(httpParameterName) === "string" ? httpParameterName : "data");
