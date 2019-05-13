@@ -37,7 +37,7 @@ class QuestionnaireItem extends UIElementInteractive {
     }
 
     /**
-    Returns the answer.
+    Returns the answer (most recent set).
     @returns {object} The answer.
     */
     getAnswer() {

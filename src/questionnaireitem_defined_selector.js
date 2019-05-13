@@ -33,7 +33,7 @@ class QuestionnaireItemDefinedSelector extends QuestionnaireItemDefined {
         optionNull.innerHTML = "";
         this.select.appendChild(optionNull);
 
-        for (let i in this.optionList) {
+        for (let i = 0; i < this.optionList.length; i++) {
             const option = document.createElement("option");
             option.value = this.optionList[i];
             option.innerHTML = this.optionList[i];

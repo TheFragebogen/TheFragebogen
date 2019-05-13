@@ -25,7 +25,7 @@ class ScreenUIElements extends Screen {
             localArguments.splice(0, 1);
         }
 
-        for (let i in localArguments) {
+        for (let i = 0; i < localArguments.length; i++) {
             if (!(localArguments[i] instanceof UIElement)) {
                 TheFragebogen.logger.error(this.constructor.name + "()", "This argument (index " + i + " is not an UIElement: " + localArguments[i]);
             }
@@ -52,17 +52,17 @@ class ScreenUIElements extends Screen {
         this.node = document.createElement("div");
         this.applyCSS();
 
-        for (let index in this.uiElements) {
-            if (this.uiElements[index].createUI === undefined) {
-                TheFragebogen.logger.warn(this.constructor.name + ".createUI()", "Element[" + index + "] has no 'createUI' method");
+        for (let i = 0; i < this.uiElements.length; i++) {
+            if (this.uiElements[i].createUI === undefined) {
+                TheFragebogen.logger.warn(this.constructor.name + ".createUI()", "Element[" + i + "] has no 'createUI' method");
                 continue;
             }
 
-            const uiElementNode = this.uiElements[index].createUI();
+            const uiElementNode = this.uiElements[i].createUI();
             if (uiElementNode instanceof HTMLElement) {
                 this.node.appendChild(uiElementNode);
             } else {
-                TheFragebogen.logger.warn(this.constructor.name + ".createUI()", "Element[" + index + "].createUI() did not a HTMLElement.");
+                TheFragebogen.logger.warn(this.constructor.name + ".createUI()", "Element[" + i + "].createUI() did not a HTMLElement.");
             }
         }
 
@@ -76,8 +76,8 @@ class ScreenUIElements extends Screen {
 
     releaseUI() {
         super.releaseUI();
-        for (let index in this.uiElements) {
-            this.uiElements[index].releaseUI();
+        for (let i = 0; i < this.uiElements.length; i++) {
+            this.uiElements[i].releaseUI();
         }
     }
 
@@ -87,8 +87,8 @@ class ScreenUIElements extends Screen {
     start() {
         TheFragebogen.logger.info(this.constructor.name + ".start()", "");
 
-        for (let index in this.uiElements) {
-            this.uiElements[index].setEnabled(true);
+        for (let i = 0; i < this.uiElements.length; i++) {
+            this.uiElements[i].setEnabled(true);
         }
     }
 
@@ -99,12 +99,12 @@ class ScreenUIElements extends Screen {
     isReady() {
         let ready = true;
 
-        for (let index in this.uiElements) {
-            if (this.uiElements[index] instanceof UIElementInteractive) {
-                if (!this.uiElements[index].isReady()) {
+        for (let i = 0; i < this.uiElements.length; i++) {
+            if (this.uiElements[i] instanceof UIElementInteractive) {
+                if (!this.uiElements[i].isReady()) {
                     ready = false;
                 }
-                this.uiElements[index].markRequired();
+                this.uiElements[i].markRequired();
             }
         }
         return ready;
@@ -127,12 +127,12 @@ class ScreenUIElements extends Screen {
             []
         ];
 
-        for (let index in this.uiElements) {
-            if ((this.uiElements[index] instanceof QuestionnaireItem)) {
-                data[0].push(this.uiElements[index].getType());
-                data[1].push(this.uiElements[index].getQuestion());
-                data[2].push(this.uiElements[index].getAnswerOptions());
-                data[3].push(this.uiElements[index].getAnswer());
+        for (let i = 0; i < this.uiElements.length; i++) {
+            if ((this.uiElements[i] instanceof QuestionnaireItem)) {
+                data[0].push(this.uiElements[i].getType());
+                data[1].push(this.uiElements[i].getQuestion());
+                data[2].push(this.uiElements[i].getAnswerOptions());
+                data[3].push(this.uiElements[i].getAnswer());
             }
         }
         return data;
