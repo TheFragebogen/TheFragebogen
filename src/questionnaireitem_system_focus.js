@@ -15,50 +15,45 @@ All event listeners are attached as non-capturing.
 class QuestionnaireItemSystemFocus extends QuestionnaireItemSystem {
 
     constructor() {
-        QuestionnaireItemSystem.call(this, null, "Focus", false);
+        super(null, "Focus", false);
 
-        this.answer = [];
         this.timeOfLastFocusEvent = null;
         this.inFocus = null;
 
-        this.onLostFocus = () => this._onLostFocus();
-        this.onGainedFocus = () => this._onGainedFocus();
+        this.onLostFocus = ["blur", () => this._onFocusChanged(false), false];
+        this.onGainedFocus = ["focus", () => this._onFocusChanged(true), false];
     }
 
     createUI() {
         this.timeOfLastFocusEvent = new Date().getTime();
         this.inFocus = null; // Current state of the focus is unknown
 
-        window.addEventListener("blur", this.onLostFocus, false);
-        window.addEventListener("focus", this.onGainedFocus, false);
+        window.addEventListener(...this.onLostFocus);
+        window.addEventListener(...this.onGainedFocus);
     }
 
     releaseUI() {
-        window.removeEventListener("blur", this.onLostFocus, false);
-        window.removeEventListener("focus", this.onGainedFocus, false);
+        window.removeEventListener(...this.onLostFocus);
+        window.removeEventListener(...this.onGainedFocus);
 
         this.inFocus = this.inFocus === null ? true : this.inFocus; // Focus might have never changed, so it could still be null
-        this.getAnswer().push([this.inFocus, new Date().getTime() - this.timeOfLastFocusEvent]);
+        const newAnswer = this.getAnswer();
+        newAnswer.push([this.inFocus, new Date().getTime() - this.timeOfLastFocusEvent]);
+        this.setAnswer(newAnswer);
     }
 
-    _onLostFocus() {
+    _onFocusChanged(gotFocus) {
         // Blur event can be triggered multiple times in a row
-        if (this.inFocus !== false) {
-            this.getAnswer().push([true, new Date().getTime() - this.timeOfLastFocusEvent]);
-            this.inFocus = false;
+        if (gotFocus !== this.inFocus) {
+            const newAnswer = this.getAnswer();
+            newAnswer.push([gotFocus, new Date().getTime() - this.timeOfLastFocusEvent]);
+            this.setAnswer(newAnswer);
+            this.inFocus = gotFocus;
             this.timeOfLastFocusEvent = new Date().getTime();
         }
     }
 
-    _onGainedFocus() {
-        if (this.inFocus !== true) {
-            this.getAnswer().push([false, new Date().getTime() - this.timeOfLastFocusEvent]);
-            this.inFocus = true;
-            this.timeOfLastFocusEvent = new Date().getTime();
-        }
-    }
-
-    isReady() {
-        return true;
+    getAnswer() {
+        return super.getAnswer() || [];
     }
 }

@@ -12,7 +12,7 @@ No UI is displayed.
 class QuestionnaireItemSystemWait extends QuestionnaireItemSystem {
 
     /**
-    @param {number} waitTime waiting time in seconds
+    @param {number} waitTime waiting time in milliseconds
     */
     constructor(waitTime) {
         super(null, "", true);
@@ -25,7 +25,6 @@ class QuestionnaireItemSystemWait extends QuestionnaireItemSystem {
     }
 
     createUI() {
-        this.setAnswer(null);
         this.timeoutHandle = setTimeout(() => this._waitTimeCallback(), this.waitTime);
     }
 

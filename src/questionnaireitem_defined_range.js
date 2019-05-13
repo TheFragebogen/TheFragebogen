@@ -33,20 +33,14 @@ class QuestionnaireItemDefinedRange extends QuestionnaireItemDefined {
         this.input.type = "range";
         this.input.min = this.min;
         this.input.max = this.max;
-        this.input.addEventListener("change", (event) => this._handleChange(event));
+        this.input.addEventListener("change", () => this.setAnswer(this.input.value));
 
         answerNode.appendChild(this.input);
 
-        this._applyAnswerToUI();
         return answerNode;
     }
 
-    _handleChange(event) {
-        this.answer = this.input.value;
-        this._sendReadyStateChanged();
-    }
-
-    _applyAnswerToUI() {
+    applyAnswerToUI() {
         if (!this.isUIcreated()) {
             return;
         }
@@ -54,23 +48,6 @@ class QuestionnaireItemDefinedRange extends QuestionnaireItemDefined {
         if (this.isAnswered()) {
             this.input.value = this.getAnswer();
         }
-    }
-
-    /**
-    @param {string} answer
-    @returns {boolean}
-    */
-    setAnswer(answer) {
-        if (answer === null) {
-            this.answer = null;
-            this._applyAnswerToUI();
-            return true;
-        }
-
-        this.answer = answer;
-        this._applyAnswerToUI();
-        this._sendReadyStateChanged();
-        return true;
     }
 
     releaseUI() {

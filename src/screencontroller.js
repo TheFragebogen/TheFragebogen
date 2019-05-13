@@ -23,7 +23,7 @@ class ScreenController {
             if (!(localArguments[i] instanceof Screen)) TheFragebogen.logger.error(this.constructor.name + "()", "This argument (index " + i + " is not a Screen: " + localArguments[i] + " and will be ignored.");
         }
         this.screen = [];
-        var screenList = localArguments.filter((element) => element instanceof Screen);
+        const screenList = localArguments.filter((element) => element instanceof Screen);
         for (let i = 0; i < screenList.length; i++) {
             this.addScreen(screenList[i]);
         }
@@ -225,6 +225,7 @@ class ScreenController {
                 return (typeof(cell) === "string") ? cell.replace(/\n/g, '\\n') : cell;
             });
         });
+
         return result;
     }
 

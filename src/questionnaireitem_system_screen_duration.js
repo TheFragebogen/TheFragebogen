@@ -20,11 +20,7 @@ class QuestionnaireItemSystemScreenDuration extends QuestionnaireItemSystem {
         this.startTime = new Date().getTime();
     }
 
-    isReady() {
-        return true;
-    }
-
     releaseUI() {
-        this.answer = new Date().getTime() - this.startTime;
+        this.setAnswer(new Date().getTime() - this.startTime);
     }
 }

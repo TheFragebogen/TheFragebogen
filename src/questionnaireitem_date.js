@@ -41,20 +41,14 @@ class QuestionnaireItemDate extends QuestionnaireItem {
         this.input.min = this.min;
         this.input.max = this.max;
         this.input.pattern = this.pattern;
-        this.input.addEventListener("change", (event) => this._handleChange(event));
+        this.input.addEventListener("change", () => this.setAnswer(this.input.value === "" ? null : this.input.value));
 
         answerNode.appendChild(this.input);
 
-        this._applyAnswerToUI();
         return answerNode;
     }
 
-    _handleChange(event) {
-        this.answer = this.input.value;
-        this._sendReadyStateChanged();
-    }
-
-    _applyAnswerToUI() {
+    applyAnswerToUI() {
         if (!this.isUIcreated()) {
             return;
         }
@@ -62,13 +56,6 @@ class QuestionnaireItemDate extends QuestionnaireItem {
         if (this.isAnswered()) {
             this.input.value = this.getAnswer();
         }
-    }
-
-    setAnswer(answer) {
-        this.answer = answer;
-        this._applyAnswerToUI();
-        this._sendReadyStateChanged();
-        return true;
     }
 
     releaseUI() {

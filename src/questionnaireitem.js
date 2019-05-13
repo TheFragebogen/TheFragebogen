@@ -23,7 +23,7 @@ class QuestionnaireItem extends UIElementInteractive {
 
         this.question = question;
         this.required = required;
-        this.answer = null;
+        this.answerLog = []; //will store [[Date, answer]...]
 
         TheFragebogen.logger.debug(this.constructor.name + "()", "Set: className as " + this.className + ", question as " + this.question + " and required as " + this.required);
     }
@@ -38,21 +38,24 @@ class QuestionnaireItem extends UIElementInteractive {
 
     /**
     Returns the answer.
-    @returns {string} The answer.
+    @returns {object} The answer.
     */
     getAnswer() {
-        return this.answer;
+        if (this.answerLog.length === 0) {
+            return null;
+        }
+        return this.answerLog[this.answerLog.length - 1][1];
     }
 
     /**
-    Sets the answer.
-    DEVELOPER: If the answer is accepted, the method `this._sendReadyStateChanged()` must be called.
+    Sets the answer and adds it to this.answerLog.
     @param {object} answer The answer to be set.
-    @abstract
+    @returns {boolean} Success or failure.
     */
     setAnswer(answer) {
+        this.answerLog.push([new Date(), answer]);
         this._sendReadyStateChanged();
-        TheFragebogen.logger.debug(this.constructor.name + ".setAnswer()", "This method might need to be overridden.");
+        return true;
     }
 
     /**
@@ -60,7 +63,7 @@ class QuestionnaireItem extends UIElementInteractive {
     @returns {boolean}
     */
     isAnswered() {
-        return this.answer !== null;
+        return this.answerLog.length > 0 && this.answerLog[this.answerLog.length - 1][1] !== null;
     }
 
     /**
@@ -76,8 +79,8 @@ class QuestionnaireItem extends UIElementInteractive {
     Adjust the UI if the answer was changed using `setAnswer()`.
     @abstract
     */
-    _applyAnswerToUI() {
-        TheFragebogen.logger.debug(this.constructor.name + "._applyAnswerToUI()", "This method might need to be overridden.");
+    applyAnswerToUI() {
+        TheFragebogen.logger.debug(this.constructor.name + ".applyAnswerToUI()", "This method might need to be overridden.");
     }
 
     setEnabled(enable) {
@@ -124,6 +127,8 @@ class QuestionnaireItem extends UIElementInteractive {
 
         this.node.appendChild(this._createQuestionNode());
         this.node.appendChild(this._createAnswerNode());
+
+        this.applyAnswerToUI();
 
         return this.node;
     }

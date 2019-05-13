@@ -11,6 +11,7 @@ A QuestionnaireItem that stores the current URL of the web browser.
 class QuestionnaireItemSystemURL extends QuestionnaireItemSystem {
 
     constructor() {
-        super("URL", window.location.href);
+        super(undefined, "URL", "");
+        this.setAnswer(window.location.href);
     }
 }

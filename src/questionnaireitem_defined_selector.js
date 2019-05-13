@@ -24,7 +24,7 @@ class QuestionnaireItemDefinedSelector extends QuestionnaireItemDefined {
         const answerNode = document.createElement("div");
 
         this.select = document.createElement("select");
-        this.select.addEventListener("change", (event) => this._handleChange(event));
+        this.select.addEventListener("change", () => this.setAnswer(this.select.value === "" ? null : this.select.value));
 
         const optionNull = document.createElement("option");
         optionNull.value = "";
@@ -42,16 +42,10 @@ class QuestionnaireItemDefinedSelector extends QuestionnaireItemDefined {
 
         answerNode.appendChild(this.select);
 
-        this._applyAnswerToUI();
         return answerNode;
     }
 
-    _handleChange(event) {
-        this.answer = this.select.value === "" ? null : this.select.value;
-        this._sendReadyStateChanged();
-    }
-
-    _applyAnswerToUI() {
+    applyAnswerToUI() {
         if (!this.isUIcreated()) {
             return;
         }
@@ -59,26 +53,6 @@ class QuestionnaireItemDefinedSelector extends QuestionnaireItemDefined {
         if (this.isAnswered()) {
             this.select.value = this.getAnswer();
         }
-    }
-
-    setAnswer(answer) {
-        if (answer === null) {
-            this.answer = null;
-            this._applyAnswerToUI();
-            return true;
-        }
-
-        const answerIndex = this.optionList.indexOf(answer);
-        if (answerIndex === -1) {
-            TheFragebogen.logger.error(this.constructor.name + ".setAnswer()", "Provided answer is not an option " + answer + ".");
-            return false;
-        }
-
-        this.answer = this.optionList[answerIndex];
-        this._applyAnswerToUI();
-
-        this._sendReadyStateChanged();
-        return true;
     }
 
     releaseUI() {

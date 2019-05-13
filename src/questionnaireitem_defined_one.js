@@ -37,7 +37,7 @@ class QuestionnaireItemDefinedOne extends QuestionnaireItemDefined {
                 this.input[i].checked = true;
             }
 
-            this.input[i].addEventListener("change", (event) => this._handleChange(event));
+            this.input[i].addEventListener("change", (event) => this.setAnswer(this.optionList[event.target.value]));
 
             const label = document.createElement("label");
             label.setAttribute("for", this.identifier + i);
@@ -63,47 +63,23 @@ class QuestionnaireItemDefinedOne extends QuestionnaireItemDefined {
         return table;
     }
 
-    _handleChange(event) {
-        this.answer = this.optionList[event.target.value];
-        this.markRequired();
-        this._sendReadyStateChanged();
-        TheFragebogen.logger.info(this.constructor.name + "._handleChange()", this.answer);
-    }
-
-    _applyAnswerToUI() {
+    applyAnswerToUI() {
         if (!this.isUIcreated()) {
             return;
         }
 
-        for (let i = 0; i < this.answer.length; i++) {
-            if (this.input[i] !== undefined) {
-                this.input[i].checked = this.answer[i] || false;
-            }
-        }
-    }
-
-    /**
-    @param {string} answer answer
-    @returns {boolean}
-    */
-    setAnswer(answer) {
-        if (answer === null) {
-            this.answer = null;
-            this._applyAnswerToUI();
-            return true;
+        if (this.getAnswer() === null) {
+            this.input.map((input) => input.checked = false);
+            return;
         }
 
-        const answerIndex = this.optionList.indexOf(answer);
-        if (answerIndex === -1) {
-            TheFragebogen.logger.error(this.constructor.name + ".setAnswer()", "Provided answer is not an option " + answer + ".");
-            return false;
+        const selectedOption = this.optionList.indexOf(this.getAnswer());
+        if (selectedOption === -1) {
+            TheFragebogen.logger.warn(this.constructor.name, "applyAnswerToUI(): option unknown; cannot restore to UI. " + this.getAnswer());
+            return;
         }
 
-        this.answer = this.optionList[answerIndex];
-        this._applyAnswerToUI();
-
-        this._sendReadyStateChanged();
-        return true;
+        this.input[optionList].checked = true;
     }
 
     releaseUI() {

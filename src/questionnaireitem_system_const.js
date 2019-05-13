@@ -16,7 +16,7 @@ class QuestionnaireItemSystemConst extends QuestionnaireItemSystem {
     */
     constructor(question, answer) {
         super(null, question, false);
-        this.answer = answer;
+        this.setAnswer(answer);
     }
 
     createUI() {}

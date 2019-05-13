@@ -52,7 +52,7 @@ class QuestionnaireItemSVG extends QuestionnaireItem {
         super(className, question, required);
 
         this.scaleImage = null;
-        this.answerMap = null;
+        this.answerMap = {};
         this.crossImage = null;
     }
 
@@ -66,14 +66,13 @@ class QuestionnaireItemSVG extends QuestionnaireItem {
         //Problem identified here by the tests while using Safari 7.0.6 --- this.crossImage === null
         if (this.crossImage === null) {
             answerNode.innerHTML = '"QuestionnaireItemSVG" feature not available in this browser or SVG is not compatible.';
-            this.answer = "unavailable"; //sets answer, so the item will be ready even if it was required.
-            return node;
+            this.setAnswer("Browser did not support SVG.");
+            return answerNode;
         }
 
         this.crossImage.setAttributeNS(null, "opacity", 0);
 
         //Attach event listener to clickable areas.
-        this.answerMap = {};
         const answerElements = this._getAnswerElements();
 
         for (let i = 0; i < answerElements.length; i++) {
@@ -82,11 +81,10 @@ class QuestionnaireItemSVG extends QuestionnaireItem {
             }
 
             this.answerMap[answerElements[i].id] = answerElements[i];
-            answerElements[i].addEventListener("click", (event) => this._handleChange(event));
-        }
-
-        if (this.answer !== null) {
-            this._updateUI();
+            answerElements[i].addEventListener("click", (event) => {
+                this.setAnswer(event.target.id);
+                this.applyAnswerToUI();
+            });
         }
 
         answerNode.appendChild(this.scaleImage);
@@ -112,28 +110,17 @@ class QuestionnaireItemSVG extends QuestionnaireItem {
         return [];
     }
 
-    _handleChange(event) {
-        if (!this.isEnabled()) {
-            return;
-        }
-
-        this.setAnswer(event.target.id);
-
-        this.markRequired();
-        this._sendReadyStateChanged();
-    }
-
-    _updateUI() {
+    applyAnswerToUI() {
         if (!this.isUIcreated()) {
             return;
         }
 
-        if (this.answer === null) {
+        if (this.getAnswer() === null) {
             this.crossImage.setAttributeNS(null, "opacity", 0);
             return;
         }
         if (this.answerMap[this.getAnswer()] === undefined) {
-            TheFragebogen.logger.error(this.constructor.name + "._updateUI()", "Invalid answer provided: " + this.getAnswer());
+            TheFragebogen.logger.error(this.constructor.name + ".applyAnswerToUI()", "Invalid answer provided: " + this.getAnswer());
             return false;
         }
 
@@ -144,43 +131,27 @@ class QuestionnaireItemSVG extends QuestionnaireItem {
         this.crossImage.setAttributeNS(null, "transform", "translate(0,0)");
 
         //Move to new position.
-        const answer = this.answerMap[this.answer];
+        const answer = this.answerMap[this.getAnswer()];
         const crossBBox = this.crossImage.getBBox();
         const answerBBox = answer.getBBox();
 
         const transform = answer.getScreenCTM().inverse().multiply(this.crossImage.getScreenCTM());
         const translateX = -transform.e + Math.abs(answerBBox.x - crossBBox.x) - crossBBox.width / 2 + answerBBox.width / 2;
 
-        TheFragebogen.logger.debug(this.constructor.name + "._updateUI()", translateX);
+        TheFragebogen.logger.debug(this.constructor.name + ".applyAnswerToUI()", translateX);
         this.crossImage.setAttributeNS(null, "transform", "translate(" + translateX + ",0)");
-    }
-
-    setAnswer(answer) {
-        if (answer === null) {
-            this.answer = null;
-            this._updateUI();
-            return true;
-        }
-
-        TheFragebogen.logger.info(this.constructor.name + ".setAnswer()", answer);
-        this.answer = answer;
-
-        this.markRequired();
-        this._sendReadyStateChanged();
-
-        this._updateUI();
-        return true;
     }
 
     releaseUI() {
         super.releaseUI();
 
         this.scaleImage = null;
-        this.answerMap = null;
+        this.answerMap = {};
         this.crossImage = null;
     }
 
     getAnswerOptions() {
         TheFragebogen.logger.warn(this.constructor.name + ".getAnswerOptions()", "Should be overriden.");
+        return super.getAnswerOptions();
     }
 }

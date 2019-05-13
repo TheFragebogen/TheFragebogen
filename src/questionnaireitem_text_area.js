@@ -36,25 +36,14 @@ class QuestionnaireItemTextArea extends QuestionnaireItem {
         this.textarea.rows = this.rows;
         this.textarea.cols = this.cols;
         this.textarea.placeholder = this.placeholder;
-        this.textarea.addEventListener("change", (event) => this._handleChange(event));
+        this.textarea.addEventListener("change", () => this.setAnswer(this.textarea.value === "" ? null : this.textarea.value));
 
         answerNode.appendChild(this.textarea);
 
-        this._applyAnswerToUI();
         return answerNode;
     }
 
-    _handleChange(event) {
-        if (this.textarea.value === "") {
-            this.setAnswer(null);
-        } else {
-            this.setAnswer(this.textarea.value);
-        }
-
-        TheFragebogen.logger.info("QuestionnaireItemTextArea._handleChange()", this.getAnswer() + ".");
-    }
-
-    _applyAnswerToUI() {
+    applyAnswerToUI() {
         if (!this.isUIcreated()) {
             return;
         }
@@ -62,23 +51,6 @@ class QuestionnaireItemTextArea extends QuestionnaireItem {
         if (this.isAnswered()) {
             this.textarea.value = this.getAnswer();
         }
-    }
-
-    /**
-    @param {string} answer
-    @returns {boolean}
-    */
-    setAnswer(answer) {
-        if (answer === null) {
-            this.answer = null;
-            this._applyAnswerToUI();
-            return true;
-        }
-
-        this.answer = answer;
-        this._applyAnswerToUI();
-        this._sendReadyStateChanged();
-        return true;
     }
 
     releaseUI() {
