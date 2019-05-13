@@ -119,7 +119,7 @@ class ScreenUIElements extends Screen {
      4. QuestionnaireItem.getAnswer()
      @returns {array}
      */
-    getDataCSV() {
+    getData() {
         const data = [
             [],
             [],

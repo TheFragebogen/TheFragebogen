@@ -188,7 +188,7 @@ class ScreenController {
         let answers = ["Answer"];
 
         for (let i = 0; i <= this.currentScreenIndex; i++) {
-            const currentData = this.screen[i].getDataCSV();
+            const currentData = this.screen[i].getData();
 
             if (currentData instanceof Array && currentData[0] instanceof Array && currentData[1] instanceof Array && currentData[2] instanceof Array && currentData[3] instanceof Array) {
                 if (currentData[0].length === 0) continue;
