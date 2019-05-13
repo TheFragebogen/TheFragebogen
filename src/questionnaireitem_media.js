@@ -3,6 +3,8 @@ A QuestionnaireItemMedia is the base class for QuestionnaireItems that present m
 
 Playable media start playing automatically if loaded (canplaythrough=true) and `setEnabled(true)`.
 
+ATTENTION: answer is stored on calling releaseUI() and (if UI is created) getAnswer() only.
+
 @abstract
 @class QuestionnaireItemMedia
 @augments UIElement
@@ -51,10 +53,6 @@ class QuestionnaireItemMedia extends QuestionnaireItem {
         return this.url;
     }
 
-    getStallingCount() {
-        return this.stallingCount;
-    }
-
     setEnabled(enabled) {
         if (!this.isUIcreated()) {
             TheFragebogen.logger.warn(this.constructor.name + ".setEnabled()", "Cannot start playback on setEnabled without createUI().");
@@ -67,6 +65,19 @@ class QuestionnaireItemMedia extends QuestionnaireItem {
         } else {
             this._pause();
         }
+    }
+
+    releaseUI() {
+        super.releaseUI();
+        this._updateAnswer();
+    }
+
+    getAnswer() {
+        if (this.isUIcreated()) {
+            this._updateAnswer();
+        }
+
+        return super.getAnswer();
     }
 
     preload() {
@@ -116,7 +127,6 @@ class QuestionnaireItemMedia extends QuestionnaireItem {
 
     _onStalled(event) {
         this.stallingCount += 1;
-        this._updateAnswer();
         this._sendOnPreloadedCallback();
 
         TheFragebogen.logger.warn(this.constructor.name + "._onstalled()", "Stalling occured (" + this.stallingCount + ") for " + this.getURL());
@@ -124,7 +134,6 @@ class QuestionnaireItemMedia extends QuestionnaireItem {
 
     _onError(event) {
         this.stallingCount += 1;
-        this._updateAnswer();
         this._sendOnPreloadedCallback();
 
         TheFragebogen.logger.error(this.constructor.name + "._onerror()", "Stalling occured (" + this.stallingCount + ") for " + this.getURL());
@@ -138,20 +147,15 @@ class QuestionnaireItemMedia extends QuestionnaireItem {
         TheFragebogen.logger.info(this.constructor.name + "._onended", "Playback finished.");
 
         this.wasSuccessfullyPlayed = true;
-        this._updateAnswer();
 
         this._sendReadyStateChanged();
         this.markRequired();
-    }
-
-    setAnswer(answer) {
-        this.answer = answer;
     }
 
     /**
     Overwrite this method to add additional data to be reported.
     */
     _updateAnswer() {
-        this.answer = [this.url, this.time];
+        this.setAnswer([this.url, this.time]);
     }
 }

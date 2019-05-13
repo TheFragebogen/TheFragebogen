@@ -58,10 +58,8 @@ class QuestionnaireItemMediaAudio extends QuestionnaireItemMedia {
     }
 
     releaseUI() {
-        super.releaseUI();
-
         this.audioPlayDurations.push(this.audioNode.currentTime);
-        this._updateAnswer();
+        super.releaseUI();
 
         this.audioNode = null;
         this.progressbar = null;
@@ -134,6 +132,6 @@ class QuestionnaireItemMediaAudio extends QuestionnaireItemMedia {
     }
 
     _updateAnswer() {
-        this.answer = [this.url, this.audioNode.duration, this.stallingCount, this.replayCount, this.audioStartTimes, this.audioPlayDurations];
+        this.setAnswer([this.url, this.audioNode.duration, this.stallingCount, this.replayCount, this.audioStartTimes, this.audioPlayDurations]);
     }
 }

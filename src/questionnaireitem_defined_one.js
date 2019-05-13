@@ -33,7 +33,7 @@ class QuestionnaireItemDefinedOne extends QuestionnaireItemDefined {
             this.input[i].name = this.identifier;
             this.input[i].type = "radio";
 
-            if (this.answer === this.optionList[i]) {
+            if (this.getAnswer() === this.optionList[i]) {
                 this.input[i].checked = true;
             }
 

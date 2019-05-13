@@ -56,10 +56,8 @@ class QuestionnaireItemMediaVideo extends QuestionnaireItemMedia {
     }
 
     releaseUI() {
-        super.releaseUI();
-
         this.videoPlayDurations.push(this.videoNode.currentTime);
-        this._updateAnswer();
+        super.releaseUI();
 
         this.videoNode = null;
     }
@@ -132,10 +130,9 @@ class QuestionnaireItemMediaVideo extends QuestionnaireItemMedia {
 
     _onPlay() {
         this.videoStartTimes.push((new Date().getTime() - this.videoCreationTime) / 1000);
-        this._updateAnswer();
     }
 
     _updateAnswer() {
-        this.answer = [this.url, this.videoNode.duration, this.stallingCount, this.replayCount, this.videoStartTimes, this.videoPlayDurations];
+        this.setAnswer([this.url, this.videoNode.duration, this.stallingCount, this.replayCount, this.videoStartTimes, this.videoPlayDurations]);
     }
 }
