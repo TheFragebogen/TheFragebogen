@@ -63,7 +63,7 @@ class TheAudiometerScreen extends Screen {
         this._beepGenerator.start();
     }
 
-    getDataCSV() {
+    getData() {
         return [
             [this.constructor.name, this.constructor.name, this.constructor.name, this.constructor.name, this.constructor.name],
             ['frequency', 'channel', 'initialHearinglevel', 'duration', 'measurement (JSON array)'],

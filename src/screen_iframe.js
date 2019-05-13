@@ -77,7 +77,7 @@ class ScreenIFrame extends Screen {
         this.startTime = null;
     }
 
-    getDataCSV() {
+    getData() {
         return [
             ["url", "finalURL", "duration"],
             ["url", "finalURL", "duration"],

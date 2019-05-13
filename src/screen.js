@@ -59,10 +59,11 @@ class Screen {
     }
 
     /**
-    Returns the stored data in CSV format.
+    Returns the stored data.
     @abstract
+    @returns {array<array>}
     */
-    getDataCSV() {}
+    getData() {}
 
     /**
     Set the callback for ready-state changed.
