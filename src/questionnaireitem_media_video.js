@@ -42,6 +42,7 @@ class QuestionnaireItemMediaVideo extends QuestionnaireItemMedia {
         const answerNode = document.createElement("div");
 
         this._createMediaNode();
+        this.videoCreationTime = new Date().getTime(); // Before play event listener gets set
 
         answerNode.appendChild(this.videoNode);
 
@@ -51,7 +52,6 @@ class QuestionnaireItemMediaVideo extends QuestionnaireItemMedia {
         this.videoNode.addEventListener("stalled", () => this._onStalled());
         this.videoNode.addEventListener("play", this._onPlay());
 
-        this.videoCreationTime = new Date().getTime();
         return answerNode;
     }
 
@@ -87,7 +87,7 @@ class QuestionnaireItemMediaVideo extends QuestionnaireItemMedia {
             this.videoNode.appendChild(videoSource);
         }
 
-        pTag = document.createElement("p");
+        let pTag = document.createElement("p");
         pTag.innerHTML = "This is a fallback content. Your browser does not support the provided video formats.";
         this.videoNode.appendChild(pTag);
     }

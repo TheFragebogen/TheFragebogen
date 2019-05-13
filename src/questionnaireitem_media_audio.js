@@ -41,6 +41,7 @@ class QuestionnaireItemMediaAudio extends QuestionnaireItemMedia {
         const answerNode = document.createElement("div");
 
         this._createMediaNode();
+        this.audioCreationTime = new Date().getTime(); // Before play event listener gets set
 
         this.progressbar = document.createElement("progress");
         answerNode.appendChild(this.progressbar);
@@ -53,7 +54,6 @@ class QuestionnaireItemMediaAudio extends QuestionnaireItemMedia {
         this.audioNode.addEventListener("stalled", () => this._onStalled());
         this.audioNode.addEventListener("play", () => this._onPlay());
 
-        this.audioCreationTime = new Date().getTime();
         return answerNode;
     }
 
@@ -86,7 +86,7 @@ class QuestionnaireItemMediaAudio extends QuestionnaireItemMedia {
             this.audioNode.appendChild(audioSource);
         }
 
-        pTag = document.createElement("p");
+        let pTag = document.createElement("p");
         pTag.innerHTML = "This is a fallback content. Your browser does not support the provided audio formats.";
         this.audioNode.appendChild(pTag);
     }
