@@ -6,11 +6,8 @@
 * [ ] Maintenance (eg., documentation, code cleanup)
 
 ## General information
-<!--- Please fill out the table: -->
-|Developed and tested on:                                         |
-|--------------------------------|--------------------------------|
-|Web browser incl. exact version |                                |
-|Operating system                |                                |
+* Web browser incl. exact version: _TODO_
+* Operating system (optional): _TODO_
 
 <!--- Is the change specific for a platform or web browser? -->
 * [ ] Web browser/platform specific

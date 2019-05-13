@@ -5,11 +5,11 @@
 * [ ] Maintenance / code cleanup
 
 ### General information
-<!--- Please fill out the table: -->
-|--------------------------------|--------------------------------|
-|TheFragebogen's commit ID       |                                |
-|Web browser incl. exact version |                                |
-|Operating system                |                                |
+<!--- Please fill out: -->
+
+* TheFragebogen's commit ID: _TODO_
+* Web browser incl. exact version: _TODO_
+* Operating system (optional): _TODO_ 
 
 ### Steps to reproduce
 
