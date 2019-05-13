@@ -95,11 +95,13 @@ class QuestionnaireItemMediaVideo extends QuestionnaireItemMedia {
     replay() {
         this.videoPlayDurations.push(this.videoNode.currentTime);
         this.replayCount += 1;
-        this._updateAnswer();
 
         this.videoNode.pause();
         this.videoNode.currentTime = 0.0;
+        this.videoStartTimes.push((new Date().getTime() - this.videoCreationTime) / 1000);
         this.videoNode.play();
+
+        this._updateAnswer();
     }
 
     _play() {
