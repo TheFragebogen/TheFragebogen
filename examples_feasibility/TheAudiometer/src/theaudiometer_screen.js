@@ -30,8 +30,6 @@ class TheAudiometerScreen extends Screen {
 
         this._decreaseHearinglevel = false; //True: decrease volume; false: increase decrease volume
         this._data = [];
-
-        this.node = null;
     }
 
     createUI() {
@@ -49,7 +47,7 @@ class TheAudiometerScreen extends Screen {
     }
 
     releaseUI() {
-        this.node = null;
+        super.releaseUI();
         if (!this._beepGenerator.isStopped()) {
             this._stop();
         }
