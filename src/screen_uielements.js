@@ -111,15 +111,16 @@ class ScreenUIElements extends Screen {
     }
 
     /**
-     Returns the data of QuestionnaireItem (UIElementInteractive are omitted) in CSV format.
+     Returns the data of QuestionnaireItem (UIElementInteractive are omitted) as an two-dimensional array.
      The data of each questionnaire item is subdivided in 4 columns:
      1. QuestionnaireItem.getType()
      2. QuestionnaireItem.getQuestion()
      3. QuestionnaireItem.getAnswerOptions()
-     4. QuestionnaireItem.getAnswer()
+     4. QuestionnaireItem.getAnswer() || QuestionnaireItem.getAnswerChangelog()
+     @param {boolean} includeAnswerChangelog Should the the changelog of the answer be reported?
      @returns {array}
      */
-    getData() {
+    getData(includeAnswerChangelog) {
         const data = [
             [],
             [],
@@ -132,7 +133,11 @@ class ScreenUIElements extends Screen {
                 data[0].push(this.uiElements[i].getType());
                 data[1].push(this.uiElements[i].getQuestion());
                 data[2].push(this.uiElements[i].getAnswerOptions());
-                data[3].push(this.uiElements[i].getAnswer());
+                if (includeAnswerChangelog) {
+                    data[3].push(this.uiElements[i].getAnswerChangelog());
+                } else {
+                    data[3].push(this.uiElements[i].getAnswer());
+                }
             }
         }
         return data;

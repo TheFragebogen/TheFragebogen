@@ -14,9 +14,10 @@ class ScreenWaitDataDownload extends ScreenWaitData {
     @param {string} [className] CSS class
     @param {string} [message="Downloading data"] Message to be displayed.
     @param {string} [filename="TheFragebogen.csv"] Name of the file to be downloaded
+    @param {boolean} [includeAnswerChangelog=false] Should the the changelog of the answer be reported?
     */
-    constructor(className, message, filename) {
-        super(className, 300, typeof(message) === "string" ? message : "Downloading data");
+    constructor(className, message, filename, includeAnswerChangelog) {
+        super(className, 300, typeof(message) === "string" ? message : "Downloading data", includeAnswerChangelog);
 
         this.filename = (typeof(filename) === "string" ? filename : "TheFragebogen.csv");
 
