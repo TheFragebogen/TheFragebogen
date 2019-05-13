@@ -36,15 +36,11 @@
         screens.push(
             new ScreenUIElements(
                 new UIElementHTML(undefined, "Presenting a video incl. audio."),
-                new QuestionnaireItemMediaVideo(undefined, "The Big Buck Bunny trailer:", false, "http://download.blender.org/peach/trailer/trailer_480p.mov")
+                new QuestionnaireItemMediaVideoRepeatable(undefined, "The Big Buck Bunny trailer:", false, "http://download.blender.org/peach/trailer/trailer_480p.mov", true, "Restart playback")
             )
         );
 
-        screens.push(
-            new ScreenUIElements(
-                new UIElementHTML(undefined, "The End.")
-            )
-        );
+        screens.push(new ScreenWaitDataDownload(undefined, "The End<br>All data should now be downloaded.", "TheFragebogen-basic.csv", false));
 
         var screenController = new ScreenController(screens);
 
