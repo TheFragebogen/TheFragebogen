@@ -17,10 +17,12 @@ class QuestionnaireItemSystemScreenDuration extends QuestionnaireItemSystem {
     }
 
     createUI() {
+        super.createUI();
         this.startTime = new Date().getTime();
     }
 
     releaseUI() {
+        super.releaseUI();
         this.setAnswer(new Date().getTime() - this.startTime);
     }
 }

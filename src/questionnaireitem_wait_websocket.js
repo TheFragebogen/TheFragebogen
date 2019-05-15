@@ -63,9 +63,9 @@ class QuestionnaireItemWaitWebsocket extends QuestionnaireItem {
     }
 
     setEnabled(enabled) {
-        this.enabled = enabled;
+        super.setEnabled(enabled);
 
-        if (this.enabled) { //Let's connect (and start timer)!
+        if (this.isEnabled()) { //Let's connect (and start timer)!
             this._handleConnect();
 
             if (this.timeout !== 0) {

@@ -91,21 +91,6 @@ class QuestionnaireItem extends UIElementInteractive {
         TheFragebogen.logger.debug(this.constructor.name + ".applyAnswerToUI()", "This method might need to be overridden.");
     }
 
-    setEnabled(enable) {
-        this.enabled = this.isUIcreated() ? enable : false;
-
-        if (this.node !== null) {
-            const elements = this.node.getElementsByTagName("*");
-            for (let i = 0; i < elements.length; i++) {
-                elements[i].disabled = !this.enabled;
-            }
-        }
-    }
-
-    setVisible(visible) {
-        this.node.style.visibility = visible ? "visible" : "hidden";
-    }
-
     /**
     Is this QuestionnaireItem ready, i.e., answered if required?
     @returns {boolean}
@@ -123,11 +108,6 @@ class QuestionnaireItem extends UIElementInteractive {
     }
 
     createUI() {
-        if (this.isUIcreated()) {
-            return this.node;
-        }
-
-        this.enabled = false;
         this.uiCreated = true;
 
         this.node = document.createElement("div");

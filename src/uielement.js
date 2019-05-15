@@ -70,11 +70,21 @@ class UIElement {
 
     /**
     Set UI enabled state.
-    @abstract
+    By default disables all childs of this.node.
     @param {boolean} enabled
     */
-    setEnabled(enabled) {
-        TheFragebogen.logger.warn(this.constructor.name + ".setEnabled()", "This method must be overridden.");
+    setEnabled(enable) {
+        if (!this.isUIcreated()) {
+            return;
+        }
+        this.enabled = enable;
+
+        if (this.node !== null) {
+            const elements = this.node.getElementsByTagName("*");
+            for (let i = 0; i < elements.length; i++) {
+                elements[i].disabled = !this.enabled;
+            }
+        }
     }
 
     /**
@@ -86,12 +96,15 @@ class UIElement {
 
     /**
     Set UI visible state.
-    @abstract
     @param {boolean} visible
     */
     setVisible(visible) {
-        TheFragebogen.logger.warn(this.constructor.name + ".setVisible()", "This method must be overridden.");
+        if (!this.isUIcreated()) return;
+
+        this.visible = visible;
+        this.node.style.visibility = visible ? "visible" : "hidden";
     }
+
 
     /**
     @returns {string} The type of this class usually the name of the class.

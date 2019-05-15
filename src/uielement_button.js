@@ -23,6 +23,7 @@ class UIElementButton extends UIElement {
 
     createUI() {
         this.node = document.createElement("div");
+        this.uiCreated = true;
         this.applyCSS();
 
         this.button = document.createElement("button");
@@ -30,6 +31,7 @@ class UIElementButton extends UIElement {
         this.button.addEventListener("click", () => this._onClick());
 
         this.node.appendChild(this.button);
+
         return this.node;
     }
 
@@ -38,19 +40,17 @@ class UIElementButton extends UIElement {
         this.button = null;
     }
 
-    setEnabled(enabled) {
-        this.enabled = enabled;
-        this.button.disabled = !this.enabled;
+    setEnabled(enable) {
+        super.setEnabled(enable);
+
+        if (this.isUIcreated()) {
+            this.button.disabled = !this.enabled;
+        }
     }
 
     _onClick() {
         if (this.actionCallback) {
             this.actionCallback();
         }
-    }
-
-    setVisible(visible) {
-        this.visible = visible;
-        this.node.hidden = this.visible ? "" : "hidden";
     }
 }

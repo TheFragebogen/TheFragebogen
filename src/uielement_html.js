@@ -20,21 +20,10 @@ class UIElementHTML extends UIElement {
     createUI() {
         this.node = document.createElement("div");
         this.node.innerHTML = this.html;
+        this.uiCreated = true;
+
         this.applyCSS();
 
         return this.node;
-    }
-
-    releaseUI() {
-        super.releaseUI();
-    }
-
-    setEnabled(enabled) {
-        //NOPE
-    }
-
-    setVisible(visible) {
-        this.visible = visible;
-        this.node.hidden = this.visible ? "" : "hidden";
     }
 }
