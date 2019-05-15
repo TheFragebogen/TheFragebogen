@@ -11,7 +11,7 @@ These will be answered automatically and should not provide a UI.
 class QuestionnaireItemSystem extends QuestionnaireItem {
 
     constructor() {
-        super(arguments);
+        super(...arguments);
     }
 
     createUI() {
