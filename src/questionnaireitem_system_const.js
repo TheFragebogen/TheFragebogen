@@ -12,10 +12,15 @@ class QuestionnaireItemSystemConst extends QuestionnaireItemSystem {
 
     /**
     @param {string} question First slot for information.
-    @param {string} answer Second slot for information.
+    @param {string} content Second slot for information.
     */
-    constructor(question, answer) {
+    constructor(question, content) {
         super(null, question, false);
-        this.setAnswer(answer);
+        this.content = content;
+    }
+
+    createUI() {
+        super.createUI();
+        this.setAnswer(this.content);
     }
 }
