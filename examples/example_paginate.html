@@ -51,10 +51,6 @@
         </script>
 
         <script>
-        document.oncontextmenu = function() {
-            return false;
-        }; //Disable context menu (right click)
-
         //Having the start()-function in an extra script-tag makes sure that it will be executed even if there are errors in the script-tag configuring TheFragebogen.
         function start() {
             document.body.innerHTML += "TheFragebogen loaded.";
