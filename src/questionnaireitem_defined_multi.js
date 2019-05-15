@@ -46,7 +46,7 @@ class QuestionnaireItemDefinedMulti extends QuestionnaireItemDefined {
     }
 
     _handleChange(event) {
-        let selectedOptions = this.getAnswer();
+        let selectedOptions = this._getAnswer();
         const currentIndex = selectedOptions.indexOf(event.target.value);
 
         if (event.target.checked && currentIndex === -1) {
@@ -64,18 +64,22 @@ class QuestionnaireItemDefinedMulti extends QuestionnaireItemDefined {
             return;
         }
 
-        const selectedOptionList = this.getAnswer();
+        const selectedOptionList = this._getAnswer();
         for (let i = 0; i < this.input.length; i++) {
             this.input[i].checked = selectedOptionList.indexOf(this.optionList[i]) !== -1;
         }
     }
 
     getAnswer() {
-        return super.getAnswer() || [];
+        return super.getAnswer();
+    }
+
+    _getAnswer() {
+        return this.getAnswer() || [];
     }
 
     isAnswered() {
-        return this.getAnswer().length > 0;
+        return this._getAnswer().length > 0;
     }
 
     releaseUI() {
