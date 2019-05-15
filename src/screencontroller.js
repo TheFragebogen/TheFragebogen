@@ -166,7 +166,7 @@ class ScreenController {
             result += '","' + dataArray[i][1]; //Type of question
             result += '","' + dataArray[i][2]; //Question
             result += '","' + dataArray[i][3]; //Answer options
-            result += '","' + JSON.stringify(dataArray[i][4]) + '"\n'; //Answer
+            result += '",' + JSON.stringify(dataArray[i][4]) + '\n'; //Answer
         }
         return result;
     }
