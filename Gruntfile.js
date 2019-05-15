@@ -68,7 +68,7 @@ module.exports = function(grunt) {
             }
         },
         jshint: {
-            all: ['src/*.js', 'examples/*.js', 'examples-feasibility/*/src/*.js', 'Gruntfile.js', 'package.json'],
+            all: ['src/*.js', 'examples/*.js', 'examples-feasibility/*/src/*.js', 'tests/*.js', 'Gruntfile.js', 'package.json'],
             options: {
                 esversion: 6
             }

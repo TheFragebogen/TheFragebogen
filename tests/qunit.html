@@ -14,21 +14,21 @@
         <script src="../thefragebogen.js">
         </script>
 
+        <script>
+        QUnit.test("Is the TheFragebogen.js correctly loaded?", function(assert) {
+            assert.ok(TheFragebogen !== undefined);
+        });
+        QUnit.test("Is TheFragebogen.logger available?", function(assert) {
+            TheFragebogen.logger.info("test", "This is just a message to test the logger.")
+            assert.ok(true);
+        });
+
+        </script>
+
         <script src="qunit_screen.js">
         </script>
 
         <script src="qunit_questionnaireitem.js">
-        </script>
-
-        <script>
-        QUnit.test("Checking thefragebogen could be loaded succesfully.", function(assert) {
-            assert.ok(TheFragebogen !== undefined);
-        });
-        QUnit.test("Testing if internal logger is available.", function(assert) {
-            TheFragebogen.logger.info("testCSS", "This is just a message to test the logger.")
-            assert.expect(0);
-        });
-
         </script>
     </head>
 
