@@ -2,8 +2,8 @@
 <html>
 
     <head>
-        <meta charset="UTF-8">
-        <title></title>
+        <meta charset="utf-8">
+        <title>TheFragebogen: delayed loading example</title>
         <link rel="stylesheet" type="text/css" href="example.css">
 
         <style>
@@ -65,7 +65,10 @@
 
         screens.push(
             new ScreenUIElements(
-                new UIElementHTML(undefined, "Welcome to the demo version of TheFragebogen!<br><br>This demo shows UI components that simulate load delay for images.<br>When you are ready, please press 'Next'."),
+                new UIElementHTML(undefined, "<h1>TheFragebogen</h1>"),
+                new UIElementHTML(undefined, "This demo shows UI components that simulate load delay for images."),
+                new UIElementHTML(undefined, "When you are ready, please press 'Next'."),
+
                 new UIElementHTML(undefined, "This demo uses icons from <a href='https://creativecommons.org/about/downloads/'>Creative Commons</a>.<br>These icons are encoded as Data URI in this example.")
             ));
 
@@ -114,7 +117,7 @@
         function start() {
             document.body.innerHTML += "TheFragebogen loaded.";
             if (typeof(screenController) === "undefined") {
-                document.body.innerHTML += "<br><i>Something went wrong:<\/i> Please check that thefragebogen.js was loaded and that the configuration is ok.";
+                document.body.innerHTML += "<br><i>Something went wrong:</i> Please check that thefragebogen.js was loaded and that the configuration is ok.";
                 return;
             }
             screenController.init(document.body);

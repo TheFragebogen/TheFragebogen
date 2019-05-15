@@ -3,7 +3,7 @@
 
     <head>
         <meta charset="utf-8">
-        <title></title>
+        <title>TheFragebogen: developer template</title>
         <link rel="stylesheet" type="text/css" href="example.css">
 
         <script src="../src/helper_download.js"></script>
@@ -101,8 +101,10 @@
         <script>
         var screenController = new ScreenController(
             new ScreenUIElements(
-                new UIElementHTML(undefined, "Welcome!<br><br>This is a developer template without functionality.<br>It does import all JavaScript source files directly instead of TheFragebogen.js"),
-                new UIElementHTML(undefined, "<i>Attention:</i>In this environment the SVG do not work as the preprocessing is conducted while compiling TheFragebogen.js")
+                new UIElementHTML(undefined, "<h1>TheFragebogen: developer template</h1>"),
+                new UIElementHTML(undefined, "This is a developer template without functionality."),
+                new UIElementHTML(undefined, "It imports all JavaScript source files directly instead of 'TheFragebogen.js'."),
+                new UIElementHTML(undefined, "<i>Attention:</i>In this environment the QuestionnaireItemSVG* do not work, as preprocessing is conducted while compiling TheFragebogen.js")
             )
         );
 
@@ -112,12 +114,11 @@
         function start() {
             document.body.innerHTML += "TheFragebogen loaded.";
             if (typeof(screenController) === "undefined") {
-                document.body.innerHTML += "<br><i>Something went wrong:<\/i> Please check the configuration.";
+                document.body.innerHTML += "<br><i>Something went wrong:</i> Please check the configuration.";
                 return;
             }
 
             screenController.init(document.body);
-
             screenController.start();
         }
 

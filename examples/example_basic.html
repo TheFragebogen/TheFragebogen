@@ -3,13 +3,25 @@
 
     <head>
         <meta charset="utf-8">
-        <title></title>
+        <title>TheFragebogen: basic example</title>
         <link rel="stylesheet" type="text/css" href="example.css">
 
         <style>
-        .Required {
+        .questionnaireItem {
+            width: 40em;
+            margin-left: auto;
+            margin-right: auto;
+
+            border-style: inset;
+            background-color: Snow;
+            padding: 0.5em;
+        }
+
+        .Required,
+        .questionnaireItemRequired {
             outline: none;
             border-color: red;
+            ;
             box-shadow: 0 0 1em red;
         }
 
@@ -40,6 +52,22 @@
             background-color: #EAF2D3;
         }
 
+        .iframe {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+
+            margin: 0;
+            padding: 0;
+
+            left: 0;
+            right: 0;
+            top: 0;
+            bottom: 0;
+
+            overflow: hidden;
+        }
+
         </style>
 
         <script src="../thefragebogen.js"></script>
@@ -50,34 +78,99 @@
 
         //The welcome screen of this questionnaire with some text and a standard question.
         var screen1 = new ScreenUIElements(
-            new UIElementHTML(undefined, "Welcome to the demo version of TheFragebogen!<br><br>This demo gives you an overview of the available features.<br>When you are ready, please press 'Next'."),
-            new QuestionnaireItemDefinedOne(undefined, "Are you ready?", true, ["Yes"])
+            new UIElementHTML(undefined, "<h1>TheFragebogen</h1>"),
+            new UIElementHTML(undefined, "This demo gives an overview of the available features."),
+            new UIElementHTML(undefined, "When you are ready, please press 'Next'."),
+            new QuestionnaireItemDefinedOne("questionnaireItem", "Are you ready?", true, ["Yes"])
         );
         screens.push(screen1);
 
         //This screen shows some questions.
         var screen2 = new ScreenUIElements(
-            new UIElementHTML(undefined, "Just some basic questions.<br>The 2nd must be answered."),
-            new QuestionnaireItemDefinedOne(undefined, "QuestionnaireItemDefinedOne: Question with a defined set of options, where only one option can be selected.", false, ["Option 1", "Option 2", "Option 3"]),
-            new QuestionnaireItemDefinedMulti(undefined, "QuestionnaireItemDefinedMulti: Question with a defined set of options, where multiple options can be selected.", true, ["Option 1", "Option 2", "Option 3"])
+            new UIElementHTML(undefined, "<h1>ScreenUIElements</h1>"),
+            new UIElementHTML(undefined, "<h2>Just some basic questions.</h2>"),
+
+            new QuestionnaireItemDefinedOne("questionnaireItem", "QuestionnaireItemDefinedOne:<br>Question with a defined set of options, where only one option can be selected.", false, ["Option 1", "Option 2", "Option 3"]),
+            new QuestionnaireItemDefinedMulti("questionnaireItem", "QuestionnaireItemDefinedMulti:<br>Question with a defined set of options, where multiple options can be selected.", true, ["Option 1", "Option 2", "Option 3"]),
         );
         screens.push(screen2);
 
-        //This screen that just waits for a defined time (in seconds).
-        var screen3 = new ScreenWait(undefined, 3, 'Just wait 3 seconds.');
+        var screen3 = new ScreenUIElements(
+            new UIElementHTML(undefined, "<h1>ScreenUIElements</h1>"),
+            new UIElementHTML(undefined, "<h2>Some fancy questions.</h2>"),
+
+            new QuestionnaireItemSVGVisualAnalogueScale("max-width", "The <a href='https://en.wikipedia.org/wiki/Visual_analogue_scale'>Visual analogue scale</a><br>Labels can be configured.", false, "Label left", "Label right"),
+            new QuestionnaireItemSVGNASATLX("max-width", "The <a href='https://en.wikipedia.org/wiki/NASA-TLX'>NASA-TLX scale</a><br>Labels can be configured.", false, "very low", "very high"),
+            new QuestionnaireItemSVGQuality7pt("max-width", "Continuous scale for subjective quality assessment (cf. <a href='https://www.itu.int/rec/T-REC-P.851-200311-I/en'>ITU-T P.851</a>)<br>Labels can be configured.", false),
+        );
         screens.push(screen3);
 
-        //This screen "shows" questions that are answered automatically (and are not visible to the user).
         var screen4 = new ScreenUIElements(
-            new UIElementHTML(undefined, "This screen stores data like the current data, the duration the screen was shown and the URL."),
+            new UIElementHTML(undefined, "<h1>ScreenUIElements</h1>"),
+            new UIElementHTML(undefined, "<h2>Freehand input.</h2>"),
+
+            new QuestionnaireItemWrite("write-border", "Free hand input<br>Left mouse-button: draw<br>Right mouse-button: draw<br>The drawn image is exported as <a href='https://en.wikipedia.org/wiki/Portable_Network_Graphics'>PNG</a> in <a href='https://en.wikipedia.org/wiki/Base64'>Base64</a><br> It supports a background image.", false)
+        );
+        screens.push(screen4);
+
+        //This screen "shows" questions that are answered automatically (and are not visible to the user).
+        var screen5 = new ScreenUIElements(
+            new UIElementHTML(undefined, "<h1>ScreenUIElements</h1>"),
+            new UIElementHTML(undefined, "<h2>Measuring stuff and storing data.</h2>"),
+            new UIElementHTML(undefined, "This screen stores data such as the current date of execution, the duration the screen was shown and the URL."),
+            new QuestionnaireItemSystemFocus(),
             new QuestionnaireItemSystemURL(),
             new QuestionnaireItemSystemScreenDateTime(),
             new QuestionnaireItemSystemScreenDuration(),
-            new QuestionnaireItemSystemFocus(),
             new QuestionnaireItemSystemViewportSize(),
             new QuestionnaireItemSystemConst("Default text", "Some stuff")
         );
-        screens.push(screen4);
+        screens.push(screen5);
+
+        var screen6 = new ScreenUIElementsSequential(
+            new UIElementHTML(undefined, "<h1>ScreenUIElementsSequential</h1>"),
+            new UIElementHTML(undefined, "Here, questions need to be answered from top to bottom."),
+            new UIElementHTML(undefined, "Answers cannot be changed afterwards."),
+
+            new QuestionnaireItemDate("questionnaireItem", "QuestionnaireItemDate: Question asking for a date.", false),
+            new QuestionnaireItemDefinedMulti("questionnaireItem", "QuestionnaireItemDefinedMulti:<br>Question with a defined set of options, where multiple options can be selected.", true, ["Option 1", "Option 2", "Option 3"])
+        );
+        screens.push(screen6);
+
+        var screen7 = new ScreenUIElementsAuto(
+            new UIElementHTML(undefined, "<h1>ScreenUIElementsAuto</h1>"),
+            new UIElementHTML(undefined, "On answering the following question, the questionnaire will automatically continue."),
+            new UIElementHTML(undefined, "NOTE: only questions that are marked as REQUIRED need to be answered."),
+            new QuestionnaireItemDefinedOne("questionnaireItem", "QuestionnaireItemDefinedOne:<br>Question with a defined set of options, where only one option can be selected.", true, ["Option 1", "Option 2", "Option 3"]),
+        );
+        screens.push(screen7);
+
+        var screen8 = new ScreenUIElements(
+            new UIElementHTML(undefined, "<h1>ScreenIFrame</h1>"),
+            new UIElementHTML(undefined, "On the following screen, it is shown how another web page could be embedded into a questionnaire."),
+            new UIElementHTML(undefined, "The web page of TheFragebogen (<i>www.TheFragebogen.de</i>) is presented in full screen."),
+            new UIElementHTML(undefined, "The questionnaire is configured to close when the URL is <i>first</i> changed (i.e., you click on a link)."),
+            new UIElementHTML(undefined, "When you are ready, please press 'Next'.")
+        );
+        screens.push(screen8);
+
+        //This screen another webpage using an iframe.
+        screens.push(new ScreenIFrame("iframe", "http://www.TheFragebogen.de", 1));
+
+        var screen9 = new ScreenUIElements(
+            new UIElementHTML(undefined, "<h1>TheFragebogen</h1>"),
+            new UIElementHTML(undefined, "Welcome back from the iFrame-demo	&mdash; this is the questionnaire again.")
+        );
+        screens.push(screen9);
+
+        var screen10 = new ScreenUIElements(
+            new UIElementHTML(undefined, "<h1>Pagination</h1>"),
+            new UIElementHTML(undefined, "This screen shows how to configure pagination (i.e., moving to a different screen than the next one)."),
+            new UIElementHTML(undefined, "If you go back to a screen that was already answered, it's data is restored."),
+
+        );
+        screen10.setPaginateUI(new PaginateUIButton(undefined, -2, 1, "Back to iFrame", "Next"));
+        screens.push(screen10);
 
         //This screen shows a preview of the collected data.
         screens.push(new ScreenDataPreview("screenPreview", false));
@@ -96,7 +189,7 @@
         function start() {
             document.body.innerHTML += "TheFragebogen loaded.";
             if (typeof(screenController) === "undefined") {
-                document.body.innerHTML += "<br><i>Something went wrong:<\/i> Please check that thefragebogen.js was loaded and that the configuration is ok.";
+                document.body.innerHTML += "<br><i>Something went wrong:</i> Please check that thefragebogen.js was loaded and that the configuration is ok.";
                 return;
             }
             screenController.init(document.body);
