@@ -20,10 +20,13 @@ class ScreenUIElementsSequential extends ScreenUIElements {
 
     start() {
         for (let i = 0; i < this.uiElements.length; i++) {
-            if (this.uiElements[i].setOnReadyStateChangedCallback instanceof Function) {
-                this.uiElements[i].setOnReadyStateChangedCallback(() => this._onUIElementReady());
+            if (this.uiElements[i] instanceof UIElementInteractive) {
+                this.uiElements[i].setOnReadyStateChangedCallback(null);
             }
             this.uiElements[i].setEnabled(false);
+            if (this.uiElements[i] instanceof UIElementInteractive) {
+                this.uiElements[i].setOnReadyStateChangedCallback(() => this._onUIElementReady());
+            }
         }
 
         for (let i = 0; i < this.uiElements.length; i++) {
@@ -46,14 +49,14 @@ class ScreenUIElementsSequential extends ScreenUIElements {
 
         let nextElementIndex = -1;
         for (let i = this.currentElementIndex + 1; i < this.uiElements.length; i++) {
-            this.uiElements[i].setEnabled(true);
             if (this.uiElements[i] instanceof UIElementInteractive) {
                 nextElementIndex = i;
                 break;
             }
+            this.uiElements[i].setEnabled(true);
         }
 
-        if (nextElementIndex == -1) {
+        if (nextElementIndex === -1) {
             TheFragebogen.logger.warn(this.constructor.name + "._onUIElementReady()", "There is no next UIElement to enable left.");
             return;
         }
