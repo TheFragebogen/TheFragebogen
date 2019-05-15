@@ -67,7 +67,7 @@ class ScreenUIElements extends Screen {
         }
 
         if (this.paginateUI != null) {
-            this.paginateUI.setPaginateCallback(() => this._sendPaginateCallback());
+            this.paginateUI.setPaginateCallback((relativeScreenId) => this._sendPaginateCallback(relativeScreenId));
             this.node.appendChild(this.paginateUI.createUI());
         }
 
