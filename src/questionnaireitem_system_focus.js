@@ -40,7 +40,7 @@ class QuestionnaireItemSystemFocus extends QuestionnaireItemSystem {
         window.removeEventListener(...this.onGainedFocus);
 
         this.inFocus = this.inFocus === null ? true : this.inFocus; // Focus might have never changed, so it could still be null
-        const newAnswer = this.getAnswer();
+        const newAnswer = this._getAnswer();
         newAnswer.push([this.inFocus, new Date().getTime() - this.timeOfLastFocusEvent]);
         this.setAnswer(newAnswer);
     }
@@ -48,7 +48,7 @@ class QuestionnaireItemSystemFocus extends QuestionnaireItemSystem {
     _onFocusChanged(gotFocus) {
         // Blur event can be triggered multiple times in a row
         if (gotFocus !== this.inFocus) {
-            const newAnswer = this.getAnswer();
+            const newAnswer = this._getAnswer();
             newAnswer.push([gotFocus, new Date().getTime() - this.timeOfLastFocusEvent]);
             this.setAnswer(newAnswer);
             this.inFocus = gotFocus;
@@ -57,6 +57,10 @@ class QuestionnaireItemSystemFocus extends QuestionnaireItemSystem {
     }
 
     getAnswer() {
-        return super.getAnswer() || [];
+        return super.getAnswer();
+    }
+
+    _getAnswer() {
+        return this.getAnswer() || [];
     }
 }

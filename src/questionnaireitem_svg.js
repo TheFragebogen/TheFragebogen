@@ -121,7 +121,7 @@ class QuestionnaireItemSVG extends QuestionnaireItem {
         }
         if (this.answerMap[this.getAnswer()] === undefined) {
             TheFragebogen.logger.error(this.constructor.name + ".applyAnswerToUI()", "Invalid answer provided: " + this.getAnswer());
-            return false;
+            return;
         }
 
         //Displays cross

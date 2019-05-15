@@ -12,6 +12,10 @@ class QuestionnaireItemSystemURL extends QuestionnaireItemSystem {
 
     constructor() {
         super(undefined, "URL", false);
+    }
+
+    createUI() {
+        super.createUI();
         this.setAnswer(window.location.href);
     }
 }
