@@ -18,8 +18,4 @@ class QuestionnaireItemSystemConst extends QuestionnaireItemSystem {
         super(null, question, false);
         this.setAnswer(answer);
     }
-
-    createUI() {}
-
-    releaseUI() {}
 }

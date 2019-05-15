@@ -15,7 +15,7 @@ class QuestionnaireItemSystem extends QuestionnaireItem {
     }
 
     createUI() {
-        //NOPE
+        this.uiCreated = true;
     }
 
     setVisible(visible) {

@@ -17,8 +17,7 @@ class QuestionnaireItemSystemViewportSize extends QuestionnaireItemSystem {
     }
 
     createUI() {
+        super.createUI();
         this.setAnswer([document.documentElement.clientWidth, document.documentElement.clientHeight]);
     }
-
-    releaseUI() {}
 }

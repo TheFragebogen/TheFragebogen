@@ -15,6 +15,7 @@ class QuestionnaireItemSystemScreenDateTime extends QuestionnaireItemSystem {
     }
 
     createUI() {
+        super.createUI();
         this.setAnswer(new Date());
     }
 }

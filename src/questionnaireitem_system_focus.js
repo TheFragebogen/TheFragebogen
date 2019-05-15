@@ -25,6 +25,7 @@ class QuestionnaireItemSystemFocus extends QuestionnaireItemSystem {
     }
 
     createUI() {
+        super.createUI();
         this.timeOfLastFocusEvent = new Date().getTime();
         this.inFocus = null; // Current state of the focus is unknown
 
@@ -33,6 +34,8 @@ class QuestionnaireItemSystemFocus extends QuestionnaireItemSystem {
     }
 
     releaseUI() {
+        super.releaseUI();
+
         window.removeEventListener(...this.onLostFocus);
         window.removeEventListener(...this.onGainedFocus);
 

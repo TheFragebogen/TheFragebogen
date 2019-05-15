@@ -67,6 +67,10 @@ class QuestionnaireItemMedia extends QuestionnaireItem {
         }
     }
 
+    applyAnswerToUI() {
+        //NOPE
+    }
+
     releaseUI() {
         super.releaseUI();
         this._updateAnswer();

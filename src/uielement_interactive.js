@@ -16,11 +16,6 @@ class UIElementInteractive extends UIElement {
         this.onReadyStateChanged = null;
     }
 
-    setEnabled(enabled) {
-        this.enabled = enabled;
-        TheFragebogen.logger.debug(this.constructor.name + ".setEnabled()", "This method might need to be overridden.");
-    }
-
     setOnReadyStateChangedCallback(onReadyStateChanged) {
         if (onReadyStateChanged instanceof Function) {
             TheFragebogen.logger.debug(this.constructor.name + ".setOnReadyStateChangedCallback()", "called");
