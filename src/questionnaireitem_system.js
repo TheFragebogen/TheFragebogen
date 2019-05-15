@@ -18,6 +18,13 @@ class QuestionnaireItemSystem extends QuestionnaireItem {
         this.uiCreated = true;
     }
 
+    setEnabled(enable) {
+        super.setEnabled(enable);
+        if (this.isUIcreated() && this.isEnabled()) {
+            this._sendReadyStateChanged();
+        }
+    }
+
     setVisible(visible) {
         //NOPE
     }

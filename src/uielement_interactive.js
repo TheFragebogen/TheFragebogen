@@ -20,6 +20,8 @@ class UIElementInteractive extends UIElement {
         if (onReadyStateChanged instanceof Function) {
             TheFragebogen.logger.debug(this.constructor.name + ".setOnReadyStateChangedCallback()", "called");
             this.onReadyStateChanged = onReadyStateChanged;
+        } else {
+            this.onReadyStateChanged = null;
         }
     }
 
