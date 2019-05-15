@@ -1,5 +1,5 @@
 /**
-A QuestionnaireItem that waits for a defined number of seconds before setting itself ready.
+A QuestionnaireItemSystem that waits for a defined number of seconds before setting itself ready.
 
 No UI is displayed.
 
@@ -18,7 +18,6 @@ class QuestionnaireItemSystemWait extends QuestionnaireItemSystem {
         super(null, "", true);
         this.waitTime = waitTime;
 
-        this.required = true;
         this.timeoutHandle = null;
 
         TheFragebogen.logger.debug(this.constructor.name + "()", "Set: waitTime as " + this.waitTime);
