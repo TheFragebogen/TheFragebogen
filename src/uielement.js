@@ -44,7 +44,7 @@ class UIElement {
     @param {string} cssSuffix A suffix to be added to this.className.
     */
     applyCSS(cssSuffix) {
-        if (this.isUIcreated()) {
+        if (this.isUIcreated() && (this.className !== undefined || cssSuffix !== undefined)) {
             let newClassName = "";
             newClassName += this.className !== undefined ? this.className : "";
             newClassName += cssSuffix !== undefined ? cssSuffix : "";
@@ -69,7 +69,7 @@ class UIElement {
     }
 
     /**
-    Set UI enabled state.
+    Setting a component to be enabled incl. UI components.
     By default disables all childs of this.node.
     @param {boolean} enabled
     */
