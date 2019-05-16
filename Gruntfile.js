@@ -74,7 +74,8 @@ module.exports = function(grunt) {
             }
         },
         qunit: {
-            all: ['tests/qunit*.html'],
+            dev: ['tests/qunit.html'],
+            es5: ['tests/qunit_es5.html'],
             options: {
                 puppeteer: {
                     headless: true,
@@ -135,9 +136,9 @@ module.exports = function(grunt) {
     grunt.registerTask('default', ['includereplace', 'revision', 'concat_in_order']);
 
     grunt.registerTask('doc', ['jsdoc']);
-    grunt.registerTask('dist', ['default', 'babel', 'uglify', 'doc']);
+    grunt.registerTask('dist', ['default', 'babel', 'uglify', 'doc', 'qunit:es5']);
     grunt.registerTask('format', ['jsbeautifier']);
     grunt.registerTask('help', ['run:help']);
     grunt.registerTask('lint', ['jshint']);
-    grunt.registerTask('test', ['default', 'qunit']);
+    grunt.registerTask('test', ['default', 'qunit:dev']);
 };
