@@ -58,6 +58,8 @@ class QuestionnaireItemWaitWebsocket extends QuestionnaireItem {
 
     createUI() {
         this.node = document.createElement("div");
+        this.uiCreated = true;
+
         this.applyCSS();
         return this.node;
     }
