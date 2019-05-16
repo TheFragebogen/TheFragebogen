@@ -73,6 +73,6 @@ class LogConsole {
  Defines the accessor for the logger.
  Can be redefined later if desired.
 */
-TheFragebogen = {
+const TheFragebogen = {
     logger: new LogConsole()
 };
