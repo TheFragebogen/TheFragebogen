@@ -1,4 +1,45 @@
-QUnit.test("ScreenController:", function(assert) {
+QUnit.test("ScreenController: test custom pagination", function(assert) {
+    //Prepare tests
+    const screen1 = new ScreenUIElements(new UIElementHTML(undefined, "Message"));
+    const screen1paginate = new PaginateUIButton(undefined, 2, 2, 'Back', 'Next');
+    screen1.setPaginateUI(screen1paginate);
+
+    const screen2 = new ScreenDataPreview(new UIElementHTML(undefined, "Message"));
+    const screen2paginate = new PaginateUIButton(undefined, 2, 2, 'Back', 'Next');
+    screen2.setPaginateUI(screen2paginate);
+
+    const screen3 = new ScreenUIElements(new UIElementHTML(undefined, "Message"));
+    const screen4 = new ScreenUIElements(new UIElementHTML(undefined, "Message"));
+
+    //Prepare screenController
+    const htmlElement = document.createElement("div");
+    const screenController = new ScreenController([screen1, screen2, screen3, screen4]);
+    screenController.init(htmlElement);
+
+    //Test Screen._sendPaginationCallback()
+    screen1._sendPaginateCallback(1);
+    assert.ok(screenController.getCurrentScreenIndex() === 1, screenController.constructor.name + ": getCurrentScreenIndex() should return 1.");
+    screen2._sendPaginateCallback(1);
+    assert.ok(screenController.getCurrentScreenIndex() === 2, screenController.constructor.name + ": getCurrentScreenIndex() should return 2");
+    screen3._sendPaginateCallback(-2);
+    assert.ok(screenController.getCurrentScreenIndex() === 0, screenController.constructor.name + ": getCurrentScreenIndex() should return 0.");
+    screen1._sendPaginateCallback(2);
+    assert.ok(screenController.getCurrentScreenIndex() === 2, screenController.constructor.name + ": getCurrentScreenIndex() should return 2.");
+
+    //Test interaction with PaginateUIButton
+    screen3._sendPaginateCallback(-2);
+    screen1paginate._sendPaginateCallback(screen1paginate.relativeIdNext);
+    assert.ok(screenController.getCurrentScreenIndex() === 2, screenController.constructor.name + ": getCurrentScreenIndex() should return 2.");
+    screen3._sendPaginateCallback(-1);
+
+    screen2paginate._sendPaginateCallback(screen2paginate.relativeIdBack);
+    assert.ok(screenController.getCurrentScreenIndex() === 3, screenController.constructor.name + ": getCurrentScreenIndex() should return 4.");
+
+    //Test screenController only accepts pagination from current screen.
+    assert.throws(screen1._sendPaginateCallback(1));
+});
+
+QUnit.test("ScreenController: test lifecycle", function(assert) {
     //Prepare tests
     const q1 = new QuestionnaireItemDefinedMulti(undefined, "Message", true, ["Option 1", "Option 2", "Option 3"]);
     const screen1 = new ScreenUIElements(
