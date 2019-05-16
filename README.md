@@ -51,9 +51,8 @@ Getting started
 
 ### Build the documentation:
 
-1. Install [JSdoc](usejsdoc.org): `npm install -g jsdoc`.
-2. Build documentation: `grunt doc`.
-3. Open documentation in your favorite web browser [`doc/index.html`](doc/index.html).
+1. Build documentation: `grunt doc`.
+2. Open documentation in your favorite web browser [`doc/index.html`](doc/index.html).
 
 The Concept
 ---
