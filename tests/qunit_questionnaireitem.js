@@ -66,6 +66,12 @@ QUnit.test("UIElements: test lifecycle", function(assert) {
     uiElements.map((uiElement) => test(uiElement));
 });
 
+QUnit.test("UIElements: className undefined", function(assert) {
+    const uiElement = new UIElementHTML(undefined, "Message");
+    uiElement.createUI();
+    assert.ok(uiElement.node.className === "", uiElement.constructor.name + " testing application of CSS class.");
+});
+
 QUnit.test("QuestionnaireItems: test lifecycle (scales)", function(assert) {
     function test(uiElement, answer) {
         uiElement.setOnReadyStateChangedCallback(function() {
