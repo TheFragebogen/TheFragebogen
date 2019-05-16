@@ -17,8 +17,6 @@ class UIElementButton extends UIElement {
 
         this.caption = caption;
         this.actionCallback = actionCallback;
-
-        this.button = null;
     }
 
     createUI() {
@@ -26,26 +24,13 @@ class UIElementButton extends UIElement {
         this.uiCreated = true;
         this.applyCSS();
 
-        this.button = document.createElement("button");
-        this.button.innerHTML = this.caption;
-        this.button.addEventListener("click", () => this._onClick());
+        const button = document.createElement("button");
+        button.innerHTML = this.caption;
+        button.addEventListener("click", () => this._onClick());
 
-        this.node.appendChild(this.button);
+        this.node.appendChild(button);
 
         return this.node;
-    }
-
-    releaseUI() {
-        super.releaseUI();
-        this.button = null;
-    }
-
-    setEnabled(enable) {
-        super.setEnabled(enable);
-
-        if (this.isUIcreated()) {
-            this.button.disabled = !this.enabled;
-        }
     }
 
     _onClick() {
