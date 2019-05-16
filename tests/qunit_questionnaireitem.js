@@ -34,6 +34,7 @@ QUnit.test("UIElements: test lifecycle", function(assert) {
     const uiElements = [
         new UIElementHTML("CSS", "Message"),
         new UIElementButton("CSS", "Message"),
+        new UIElementInteractiveDelayedImageSelectable("CSS"),
 
         new QuestionnaireItemDate("CSS", "Message", false),
 

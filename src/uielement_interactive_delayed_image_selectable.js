@@ -36,6 +36,7 @@ class UIElementInteractiveDelayedImageSelectable extends UIElementInteractive {
 
     createUI() {
         this.node = document.createElement("span");
+        this.uiCreated = true;
         this.applyCSS();
 
         this.checkbox = document.createElement("input");
