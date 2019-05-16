@@ -62,7 +62,7 @@ QUnit.test("ScreenController: test lifecycle", function(assert) {
     );
 
     const screen4 = new ScreenIFrame(undefined, "http://www.TheFragebogen.de", 1);
-    const screen5 = new ScreenWaitDataDownload(undefined, "Message");
+    const screen5 = new ScreenUIElements(new UIElementHTML(undefined, "Message"));
 
     //Prepare screenController
     const htmlElement = document.createElement("div");
@@ -120,4 +120,12 @@ QUnit.test("ScreenController: test lifecycle", function(assert) {
 
     const dataExported = screenController.requestDataCSV();
     assert.ok(dataExported.slice(0, -2) === dataExpected.slice(0, -2), screenController.constructor.name + ": requestDataCSV() returned expected data.");
+});
+
+QUnit.test("ScreenController: test local download", function(assert) {
+    const htmlElement = document.createElement("div");
+    const screenController = new ScreenController(new ScreenWaitDataDownload());
+    screenController.init(htmlElement);
+
+    assert.ok(true);
 });
