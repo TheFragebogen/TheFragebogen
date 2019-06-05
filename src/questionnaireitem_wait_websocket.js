@@ -31,8 +31,8 @@ class QuestionnaireItemWaitWebsocket extends QuestionnaireItem {
     @param {string} [className] CSS class
 
     @param {string} url The websocket URL, eg., ws://localhost:8080/someLocation.
-    @param {string} [messageReceive=undefined]
-    @param {string} [messageSend=undefined]
+    @param {string} [messageReceive=undefined] The message to be waiting for. `undefined`: don't wait.
+    @param {string} [messageSend=undefined] The message to be sent. `undefined`: don't send anything.
     @param {number} [reconnectAttempts=-1] Number of attempts to reconnect; negative number: forever.
     @param {number} [timeout=0] Timeout in seconds.
     */
@@ -94,10 +94,18 @@ class QuestionnaireItemWaitWebsocket extends QuestionnaireItem {
 
         if (this.messageSend === undefined) {
             TheFragebogen.logger.info(this.constructor.name + ".connection._onConnected()", "Connection opened.");
+        } else {
+            this.websocketConnection.send(this.messageSend);
+            TheFragebogen.logger.info(this.constructor.name + ".connection._onConnected()", "Connection opened and message <<" + this.messageSend + ">> delivered.");
         }
 
-        this.websocketConnection.send(this.messageSend);
-        TheFragebogen.logger.info(this.constructor.name + ".connection._onConnected()", "Connection opened and message <<" + this.messageSend + ">> delivered.");
+        if (this.messageReceive === undefined) {
+            TheFragebogen.logger.info(this.constructor.name + ".connection._onConnected()", "Connection opened.");
+            this.setAnswer(new Date().toString());
+            this.applyCSS("Ready");
+
+            this._sendReadyStateChanged();
+        }
     }
 
     _onMessage(event) {
