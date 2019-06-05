@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <meta charset="utf-8">
+        <title>TheFragebogen: basic example</title>
+        <link rel="stylesheet" type="text/css" href="example.css">
+
+        <style>
+        .questionnaireItem {
+            width: 40em;
+            margin-left: auto;
+            margin-right: auto;
+
+            border-style: inset;
+            background-color: Snow;
+            padding: 0.5em;
+        }
+
+        .Required,
+        .questionnaireItemRequired {
+            outline: none;
+            border-color: red;
+            box-shadow: 0 0 1em red;
+        }
+
+        </style>
+
+        <script src="../thefragebogen.js"></script>
+
+        <script>
+        var screens = [];
+
+        var screen1 = new ScreenUIElements(
+            new UIElementHTML(undefined, "<h1>TheFragebogen</h1>"),
+            new UIElementHTML(undefined, "<h2>Demo: WebSocket coordination demonstration (1st instance)</h2>"),
+            new UIElementHTML(undefined, "This demo presents how to coordinate two instances of TheFragebogen."),
+
+            new UIElementHTML(undefined, "Please start the 2nd instance of TheFragebogen now: <a href='example_websocket_coordination_2nd_instance.html' target='_blank'>2nd instance</a>"),
+
+            new UIElementHTML(undefined, "<i>Important:</i> The websocket relay server must be running on localhost:8080."),
+            new UIElementHTML(undefined, "Please start the server <code>nodejs examples/example_websockets_nodejs_server_relay.js</code>."),
+            new UIElementHTML(undefined, "NOTE: Server requires <code>npm install ws</code>."),
+
+            new UIElementHTML(undefined, "When you are ready, please press 'Next'."),
+        );
+        screens.push(screen1);
+
+        var screen2 = new ScreenUIElements(
+            new UIElementHTML(undefined, "<h1>TheFragebogen</h1>"),
+            new UIElementHTML(undefined, "<h2>Demo: WebSocket coordination demonstration (1st instance)</h2>"),
+            new UIElementHTML(undefined, "This demo presents how to coordinate two instances of TheFragebogen."),
+
+            new UIElementHTML(undefined, ""),
+
+            new UIElementHTML(undefined, "When you are ready, please press 'Next'."),
+
+        );
+        screens.push(screen2);
+
+        var screen3 = new ScreenUIElementsAuto(
+            new UIElementHTML(undefined, "<h1>TheFragebogen</h1>"),
+            new UIElementHTML(undefined, "<h2>Demo: WebSocket coordination demonstration (1st instance)</h2>"),
+            new UIElementHTML(undefined, "Inform the 2nd TheFragebogen to start."),
+            new QuestionnaireItemWaitWebsocket("websocket", "ws://localhost:8080", "Start", undefined)
+        );
+        screens.push(screen3);
+
+        var screen4 = new ScreenUIElementsAuto(
+            new UIElementHTML(undefined, "<h1>TheFragebogen</h1>"),
+            new UIElementHTML(undefined, "<h2>Demo: WebSocket coordination demonstration (1st instance)</h2>"),
+            new UIElementHTML(undefined, "Waiting until the 2nd TheFragebogen is done."),
+            new QuestionnaireItemWaitWebsocket("websocket", "ws://localhost:8080", undefined, "Done")
+        );
+        screens.push(screen4);
+
+        var screen5 = new ScreenUIElements(
+            new UIElementHTML(undefined, "<h1>TheFragebogen</h1>"),
+            new UIElementHTML(undefined, "<h2>Demo: WebSocket coordination demonstration (1st instance)</h2>"),
+            new UIElementHTML(undefined, "The End."),
+            new UIElementHTML(undefined, "The WebSocket coordination demo finished.")
+        );
+        screen5.setPaginateUI(new PaginateUIButton(undefined, -3, undefined, "Restart demo", undefined));
+        screens.push(screen5);
+
+        var screenController = new ScreenController(screens);
+
+        </script>
+
+        <script>
+        //Having the start()-function in an extra script-tag makes sure that it will be executed even if there are errors in the script-tag configuring TheFragebogen.
+        function start() {
+            document.body.innerHTML += "TheFragebogen loaded.";
+            if (typeof(screenController) === "undefined") {
+                document.body.innerHTML += "<br><i>Something went wrong:</i> Please check that thefragebogen.js was loaded and that the configuration is ok.";
+                return;
+            }
+            screenController.init(document.body);
+            screenController.start();
+        }
+
+        </script>
+    </head>
+
+    <body onload="start()">
+        <p>
+            TheFragebogen will be shown here.<br> If something fails while starting, an error message will be shown here.
+        </p>
+    </body>
+
+</html>
