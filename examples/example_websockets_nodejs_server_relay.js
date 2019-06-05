@@ -16,7 +16,7 @@ npm install ws
 Start with:
 
 ```bash
-nodejs example_websockets_nodejs_server_relay.js
+node example_websockets_nodejs_server_relay.js
 ```
 
 */
