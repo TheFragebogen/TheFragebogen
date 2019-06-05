@@ -84,6 +84,11 @@ class QuestionnaireItemMedia extends QuestionnaireItem {
         return super.getAnswer();
     }
 
+    setAnswer(answer) {
+        //NOTE: Omit calling super.setAnswer() as getAnswer() also triggers setAnswer() leading to recursion.
+        this.answer = answer;
+    }
+
     preload() {
         TheFragebogen.logger.debug(this.constructor.name + ".preload()", "Start preloading.");
 
