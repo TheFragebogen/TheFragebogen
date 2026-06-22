@@ -9,7 +9,7 @@
         "test": "tests"
     },
     "dependencies": {
-        "ws": "^7.5.10"
+        "ws": "^7.5.11"
     },
     "devDependencies": {
         "@babel/core": "^7.9.0",
